@@ -1,0 +1,8 @@
+export { home } from "./home" 
+export { reconciliatie } from "./reconciliaties"
+export { betalingen } from "./betalingen"
+export { bedrijf } from "./bedrijf"
+export { ebn } from "./ebn"
+export { ubo } from "./ubo"
+export { licences } from "./licences"
+export { economy } from "./economy"

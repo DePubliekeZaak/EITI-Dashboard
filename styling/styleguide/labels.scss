@@ -1,0 +1,31 @@
+.small-label {
+
+    font-size: .8rem;
+  
+  
+    &.white {
+  
+      fill:  white;
+  
+    }
+  }
+  
+  .smallest-label {
+  
+    font-family: RO Sans Regular, Calibri,sans-serif;
+    font-size: .66rem;
+  
+  
+    &.white {
+  
+      fill:  white;
+  
+    }
+  }
+  
+  text {
+  
+    &.blue {
+      fill: $blue;
+    }
+  }

@@ -1,0 +1,26 @@
+.card {
+
+    border: 2px solid rgb(230, 230, 230);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+
+
+
+    > div {
+
+        padding: .75rem;
+
+        h4 { 
+            margin: .5rem 0 .5rem 0;
+        }
+
+        a {
+            display: inline-block;
+            color: $blue;
+            text-decoration: none;
+            border-bottom: 1px solid $blue;
+            margin-top: .5rem;
+        }
+
+    }
+}

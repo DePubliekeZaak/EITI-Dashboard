@@ -1,0 +1,21 @@
+button, a.button {
+
+    display: block;
+    line-height: 2.4rem;
+    padding: 0 1rem 0 1rem;
+    height: 2.4rem;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 5px;
+    background-color: buttonface;
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+        background: black;
+        color: white;
+    }
+}
+
+select ~ button {
+    margin-left: 2rem;
+}

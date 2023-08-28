@@ -1,0 +1,29 @@
+.functionality_list {
+    position: relative;
+    
+    width: calc(100% - 0px);
+    margin-bottom: 3rem;
+    
+    ul {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        // border: 1px solid rgb(230, 230, 230);
+        width: auto;
+
+
+        li {
+            line-height: 2rem;
+            margin: 0 .5rem;
+            padding: 0 .5rem;
+            // border-right: 1px solid rgb(230, 230, 230);
+
+            &:first-child {
+                margin-left: 0;
+                // border-left: 1px solid rgb(230, 230, 230);
+            }
+        }
+    }
+}

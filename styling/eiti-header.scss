@@ -1,0 +1,45 @@
+header {
+    position: relative;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    > div:first-child {
+
+        height: calc(200px - 3rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        > img {
+            // align-self: center;
+        }
+    }
+
+    > div:last-child {
+        background: $orange;
+        width: 100%
+    }
+
+
+    ul#nav {
+        
+        height: 3rem;
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+
+        li {
+            color: white;
+        }
+    }
+
+
+}

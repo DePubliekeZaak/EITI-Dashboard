@@ -1,0 +1,79 @@
+.graph-grid-container {
+    display:  flex;
+    width: calc(100% - 2rem);
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width : $breakpoint-sm) {
+
+        display:  grid;
+        width: 100%;
+        grid-template-columns: repeat(12, 1fr);
+        column-gap : 1rem;
+        row-gap: 1rem;
+        align-items: normal;
+    }
+
+    .popup_link {
+        display: none;
+    }
+
+    .graph-container {
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    .number_circle {
+        margin-bottom: 0;
+    }
+}
+
+
+
+@for $i from 1 through 12 {
+    
+    .graph-grid-column-start-#{$i} {
+        grid-column-start: $i;
+    }
+
+    .graph-grid-column-end-#{$i} {
+        grid-column-end: $i;
+    }
+
+    .graph-grid-row-start-#{$i} {
+        grid-row-start: $i;
+    }
+
+    .graph-grid-row-end-#{$i} {
+        grid-row-end: $i;
+    }
+
+    .graph-grid-width-#{$i} {
+        grid-column-end: span $i;
+    }
+
+    .graph-grid-height-#{$i} {
+        grid-row-end: span $i;
+    }
+}
+
+@media (max-width : $breakpoint-lg) {
+
+    @for $i from 1 through 12 {
+
+        .graph-grid-tablet-width-#{$i} {
+            grid-column-end: span $i;
+        }
+
+        .graph-grid-tablet-column-start-#{$i} {
+            grid-column-start: $i;
+        }
+
+        .graph-grid-tablet-row-start-#{$i} {
+            grid-row-start: $i;
+        }
+
+
+    }
+
+}

@@ -1,0 +1,50 @@
+ul.dashboard_nav {
+
+    li {
+
+        padding: 0 0 0 0.75rem;
+
+
+        &:not([data-slug="bedrijf"]):hover {
+
+            background: $blue;
+            color: white;
+        }
+
+        &.active {
+            background: $lightBlue-light;
+            color: $blue;
+        }
+
+    
+        
+    }
+
+   > li {
+
+        font-family: RO Sans Bold, sans-serif;
+        font-size: 1rem;
+        line-height: 1.3;
+        font-weight: normal;
+        padding: .5rem 0.75rem;
+        margin-bottom: .5rem;
+
+        > ul {
+
+            li {
+                
+                font-family: RO Sans Regular, sans-serif;
+                font-size: 1rem;
+                line-height: 1.3;
+                font-weight: normal;
+                padding: .125rem 0.75rem;
+
+                &:first-child {
+                    margin-top: 1rem;
+                }
+            }
+
+        }
+    }
+
+}

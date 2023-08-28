@@ -1,0 +1,10 @@
+node_modules
+dist
+public
+*.log
+.DS_Store
+.idea
+package-lock.json
+bundle.js
+deploy.sh
+.npmignore 
