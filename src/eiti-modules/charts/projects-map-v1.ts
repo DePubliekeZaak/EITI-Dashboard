@@ -7,6 +7,7 @@ import { slugify } from "@local/d3-services";
 import { EitiData, GraphData, IGraphMapping } from "@local/d3_types";
 import { GraphControllerV2 } from "@local/d3_graphs";
 import { filterUnique } from "@local/eiti-services";
+import { breakpoints } from "@local/styleguide";
 // import { flattenColumn } from "@local/img-services"
 
 
@@ -81,15 +82,16 @@ export class ProjectMapV1 extends GraphControllerV2 {
         container.style.alignItems = 'flex-start';
         container.style.width = "100%";
         container.style.height = "400px";
-        container.style.marginLeft= "-20%";
-        container.style.marginTop= "30%";
-        container.style.marginBottom= "-25%";
-        container.id = svgId;
+        container.style.marginLeft= window.innerWidth < breakpoints.sm ?  "-10%" : "-20%";
+        container.style.marginTop= window.innerWidth < breakpoints.sm ?  "40%" : "30%";
+        container.style.marginBottom = window.innerWidth < breakpoints.sm ? "0" : "-25%";
+        container.id = svgId; 
         wrapper.appendChild(container);
 
         super._svg(container);
 
         this.description = document.createElement("div");
+        this.description.style.marginBottom = "1.5rem";
         wrapper.appendChild(this.description);
      
         this.chartMap = new ChartMapV2(this);

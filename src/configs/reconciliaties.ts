@@ -40,7 +40,7 @@ export const reconciliatie : IGraphMapping[] = [
                 <p>In het reconciliatieproces vergelijkt de accountant de gerapporteerde bedragen van bedrijven en overheden, om te bepalen of er verschillen tussen de twee bronnen bestaan. Zijn er verschillen, dan wordt contact opgenomen met de overheidsinstanties en de bedrijven, om deze verschillen te kunnen verklaren. Verschillen hebben vaak te maken met het tijdstip waarop de betalingen worden geregistreerd, als betalingen plaatsvinden aan het einde van een jaar (betaling in jaar t, registratie jaar t + 1). Als de accountant het een verklaarbaar verschil vindt, wordt dit aangepast in de uitkomst. Zie hiervoor het verschil tussen rapportage en uitkomst, de eerst twee bolletjes. Zie daarnaast het staafdiagram waarin de relatieve afwijking van de rapportages wordt afgezet tegen de uitkomst overheid.</p>
                 <p>De verschillen die in de afgelopen jaren niet konden worden verklaard waren verwaarloosbaar. Ze vallen ruim binnen de acceptabele foutmarge voor resterende reconciliatieverschillen, die is vastgesteld op 1% van de totale inkomsten uit delfstofwinning, zoals die is gerapporteerd door de overheidsinstanties. Zie hiervoor het verschil tussen uitkomst overheid en uitkomst bedrijf, het derde bolletje.</p>
         `,
-        "functionality": [],
+        "functionality": ["tableView","download"],
         "endpoint": "reconciliatie",
         "segment": "",
         "elementClasslist": ['graph-container','graph-container-12']
@@ -98,7 +98,7 @@ export const reconciliatie : IGraphMapping[] = [
         "header": "Grootste verklaarbare verschillen",
         "multiGraph": true,
         "description": "In dit overzicht vindt u de grootste absolute/relatieve verklaarbare verschillen tussen de gerapporteerde bedragen of tussen het gerapporteerde bedrag en de uitkomst van de reconciliatie." ,
-        "functionality": ['mappingSelect'],
+        "functionality": ['mappingSelect',"tableView","download"],
         "endpoint": "reconciliatie",
         "segment": "difference_in_reported_absolute",
         "elementClasslist": ['graph-container','graph-container-12']

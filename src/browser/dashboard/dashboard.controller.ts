@@ -4,7 +4,7 @@ import { IParamService, ParamService } from './param.service';
 import { screenSize } from './screen.factory';
 import { styleParentElement, createSideBar, createNav, createMobileNav, createPopupElement, pageHeader, companyTitle} from './html.factory';
 import { DataService, IDataService } from '@local/eiti-services';
-import { switchTopic } from './interaction.factory';
+import { switchTopic, toggleSubMenu } from './interaction.factory';
 import { navItems } from './nav.factory';
 
 export interface IDashboardController {
@@ -16,6 +16,7 @@ export interface IDashboardController {
     _reloadHtml: () => void;
     call(pageConfig: IGraphMapping[], segment: string, update: boolean);
     switch: (topic: string, segment: string) => void;
+    _toggleSubMenu: () => void
     _screenListener: () => void
 
 }
@@ -46,8 +47,17 @@ export class DashboardController implements IDashboardController {
         pageConfig = this.params.matchConfig();
 
         this._reloadHtml();
+ 
         await this.call(pageConfig, segment, false);
+
         this._reloadHtml();
+
+        console.log('opnieuw');
+
+        if (this.params.topic == 'bedrijf') {
+            this._toggleSubMenu();
+        }
+
         this._screenListener();
     }
 
@@ -67,9 +77,21 @@ export class DashboardController implements IDashboardController {
 
     switch(paramKey: string, paramValue: string) : void {
 
+        console.log('switch');
+
         switchTopic(this,paramKey,paramValue);
         companyTitle(this);
+
+        if (this.params.topic === 'bedrijf') {
+            this._toggleSubMenu();
+        }
     }
+
+    _toggleSubMenu() : void {
+        toggleSubMenu();
+    }
+
+
 
     _reloadHtml(): void {
 

@@ -13,7 +13,7 @@ const graphHeight = 480;
 // can this be a wrapper for multiple graphcontrollers?
 export  class EbnCirclesV1 extends GraphControllerV2  {
 
-    circles;
+
     circleGroups;
     simulation = {};
 
@@ -188,7 +188,7 @@ export  class EbnCirclesV1 extends GraphControllerV2  {
         for (let year of data.graph) {
 
             this.simulation[year.label] = new BallenbakSimulation(this);
-       //     this.simulation[year.label].supply(year.group, data.graph.length)
+            this.simulation[year.label].supply(year.group.filter( g => g.label != 'netto'), "circleGroups", null)
         }
         
         if (!this.mapping.multiGraph && this.mapping.functionality.indexOf('tableView') > -1) {

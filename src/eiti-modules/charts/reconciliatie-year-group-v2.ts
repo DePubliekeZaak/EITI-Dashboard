@@ -1,10 +1,10 @@
 import { TCtrlrs } from '@local/d3_types';
 import { IGraphMapping } from '@local/d3_types';
-import { HtmlFunctionality, HtmlHeader, HTMLYear } from '@local/elements';
+import { HtmlFunctionality, HtmlHeader, HTMLTable, HTMLYear } from '@local/elements';
 import { charts }  from '@local/charts';
 import { EitiData, EitiReport } from '@local/d3_types/data';
 import { filterUnique, formatReconData, reconParameterList } from '@local/eiti-services';
-import { bePositive } from '@local/d3-services/_helpers';
+import { bePositive, convertToCurrencyInTable } from '@local/d3-services/_helpers';
 
 
 // can this be a wrapper for multiple graphcontrollers?
@@ -15,6 +15,7 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
     scatter;
     htmlHeader;
     yearSelector;
+    table;
 
     constructor(
         public main: any,
@@ -49,8 +50,13 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
 
         const data = this.prepareData(this.data);
 
+        if (this.mapping.functionality.indexOf('tableView') > -1) {
+            this.table = new HTMLTable(this,this.element);
+            this.table.draw(data.table);
+        }
+
         let i = 0;
-        for (const year of data) {
+        for (const year of data.grouped) {
 
             // how to sort when its an object ? 
             const slug = year[0].year;
@@ -107,9 +113,34 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
 
            grouped.push(reports.slice(0,4));
         }
+
+        // table
+
+        const rows = [];
+
+        for (let c of data[dataGroup]) {
+
+            rows.push([
+                c.entity_name, 
+                c.year, 
+                convertToCurrencyInTable(c.payments_companies_reported) + "M", 
+                convertToCurrencyInTable(c.payments_government_reported) + "M", 
+                convertToCurrencyInTable(c.payments_companies) + "M", 
+                convertToCurrencyInTable(c.payments_government) + "M"
+            ])
+        }
+
+        const table = {
+
+            headers:  ["Bedrijf","Jaar","Rapportage bedrijf","Rapportage overheid","Uitkomst bedrijf","Uitkomst overheid"],
+            rows
+        };
        
 
-       return grouped
+       return {
+            grouped,
+            table
+        }
     }
 
     
@@ -123,7 +154,7 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
 
             for (let [slug, graph] of Object.entries(this.ctrlrs)) {
 
-                const yearData = data.find( g => g[0].year === slug);
+                const yearData = data.grouped.find( g => g[0].year === slug);
             
                 if(yearData != undefined) {
                     graph.update(yearData,segment,update,null)

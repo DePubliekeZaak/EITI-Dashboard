@@ -41,13 +41,19 @@ export const switchTopic = (ctrlr: IDashboardController, paramKey: string, param
     }
 }
 
-const openMenu = (): void => {
+export const openMenu = (): void => {
     document.querySelector('.mobile_nav_v2').classList.add('is-open');
 }
 
-const closeMenu = (): void => {
+export const closeMenu = (): void => {
     document.querySelector('.mobile_nav_v2').classList.remove('is-open');
 }
+
+export const toggleSubMenu = (): void => {
+    document.querySelector('ul.dashboard_nav_companies').classList.toggle('is_open')
+}
+
+
 
 const _updateMenuList = (topic: string): void => {
 

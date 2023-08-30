@@ -99,7 +99,6 @@ export class CompanySankeyV1 extends GraphControllerV2  {
 
         this.sankey = new ChartSankey(this,"payments_companies","gray");
 
-
         await this.update(this.data,this.segment, false);
 
         if (!this.mapping.multiGraph && this.mapping.functionality && this.mapping.functionality.length > 0) {
@@ -188,7 +187,7 @@ export class CompanySankeyV1 extends GraphControllerV2  {
        // console.log(data.government_revenues);
        data.payments = data.payments.filter( p => p.origin == this.main.params.company)
 
-        const filteredData: EitiPayments[] = data.payments.filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies > 0);
+        let filteredData: EitiPayments[] = data.payments.filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies > 0);
         const filteredData_n: EitiPayments[] = data.payments.filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies < 0);
         const uniqueOrigins = [];
         const uniqueRecipients = [];
@@ -196,7 +195,7 @@ export class CompanySankeyV1 extends GraphControllerV2  {
         const uniqueOrigins_n = [];
         const uniqueRecipients_n = [];
         const uniqueStreams_n = [];
-        const uniqueProjects = [];
+        let uniqueProjects = [];
 
         for (const report of filteredData) {
             if(uniqueOrigins.indexOf(report.origin) < 0) {
@@ -213,7 +212,9 @@ export class CompanySankeyV1 extends GraphControllerV2  {
             }
         }
 
+        uniqueProjects = uniqueProjects.filter ( p => p != null);
         uniqueProjects.sort((a: string,b: string) =>  a.localeCompare(b));
+     
 
         for (const report of filteredData_n) {
             if(uniqueOrigins_n.indexOf(report.origin) < 0) {
@@ -229,6 +230,7 @@ export class CompanySankeyV1 extends GraphControllerV2  {
 
 
         const nodes: SankeyNode[] = [];
+        const links: SankeyLink[] = []
 
         for (const origin of uniqueOrigins) {
             nodes.push({
@@ -306,8 +308,9 @@ export class CompanySankeyV1 extends GraphControllerV2  {
             //  }
           }
     
-        const links: SankeyLink[] = []
 
+
+        filteredData = filteredData.filter( d => d.project != null);
         filteredData.sort((a: any,b: any) =>  a.project.localeCompare(b.project));
 
         for (const stream of filteredData) {
@@ -368,15 +371,20 @@ export class CompanySankeyV1 extends GraphControllerV2  {
                     "meta" : stream
                 })
 
-                links.push({
-                    "source": nodes.find( n => n.name == stream.payment_stream).node,
-                    "target": nodes.filter( n => n.name == stream.recipient)[1].node,
-                    "value": this.scales.l.fn(value),
-                    "amount": stream.payments_companies,
-                    "label" : stream.name_nl,
-                    "type" : "end-reverse",
-                    "meta" : stream
-                })
+                const targets = nodes.filter( n => n.name == stream.recipient);
+
+                if (targets[1] != undefined) {
+
+                    links.push({
+                        "source": nodes.find( n => n.name == stream.payment_stream).node,
+                        "target": targets[1].node,
+                        "value": this.scales.l.fn(value),
+                        "amount": stream.payments_companies,
+                        "label" : stream.name_nl,
+                        "type" : "end-reverse",
+                        "meta" : stream
+                    })
+                }
 
             }
             
@@ -394,8 +402,9 @@ export class CompanySankeyV1 extends GraphControllerV2  {
     async draw(data: any) {
 
         
-
-        this.sankey.draw(data);
+        if (data.nodes.length > 0) {
+         this.sankey.draw(data);
+        }
         
         // if (!this.mapping.multiGraph) {
         //     this.table.draw(data.readyForLines);
@@ -416,7 +425,9 @@ export class CompanySankeyV1 extends GraphControllerV2  {
 
         
         // redraw data
-        this.sankey.redraw(data,this.dimensions);
+        if (data.nodes.length > 0) {
+            this.sankey.redraw(data,this.dimensions);
+        }
     }
 
     

@@ -10,11 +10,6 @@ export const navItems = [
         title: 'Reconciliatie'
     },
     {
-        slug: 'bedrijf',
-        label: 'Bedrijven',
-        title: 'Bedrijven'
-    },
-    {
         slug: 'ebn',
         label: 'Energie Beheer Nederland',
         title: 'Energie Beheer Nederland'
@@ -28,6 +23,11 @@ export const navItems = [
         slug: 'ubo',
         label: 'UBO gegevens',
         title: 'UBO gegevens'
+    },
+    {
+        slug: 'bedrijf',
+        label: 'Bedrijven',
+        title: 'Bedrijven'
     },
     {
         slug: 'opendata',

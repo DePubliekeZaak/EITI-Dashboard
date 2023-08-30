@@ -1,6 +1,6 @@
 import { GraphControllerV2  } from '@local/d3_graphs';
 
-import { ChartBarBells  } from '@local/elements';
+import { AxisArrow, ChartBarBells  } from '@local/elements';
 import { IGraphMapping } from '@local/d3_types';
 import { breakpoints } from '@local/styleguide';
 import { Bars, EitiData } from '@local/d3_types/data';
@@ -14,9 +14,7 @@ export  class ReconciliatieIntroBellsV1 extends GraphControllerV2 {
     chartAxis;
     chartBar;
     bell;
-
-
-
+ 
     zeroLine;
 
     grid;
@@ -24,6 +22,9 @@ export  class ReconciliatieIntroBellsV1 extends GraphControllerV2 {
     xScale;
     bottomAxis;
     leftAxis;
+
+    arrowX;
+    arrowY;
 
     constructor(
         public main: any,
@@ -58,6 +59,7 @@ export  class ReconciliatieIntroBellsV1 extends GraphControllerV2 {
         const container = document.createElement('section');
         container.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight + "px" : graphHeight + "px";
         container.classList.add("graph-container-6")
+        container.style.marginBottom = '60px';
         container.id = svgId;
         this.element.appendChild(container);
 
@@ -67,6 +69,9 @@ export  class ReconciliatieIntroBellsV1 extends GraphControllerV2 {
         // this.config.paddingOuter = 0.125;
 
         this.bell = new ChartBarBells(this);
+
+        this.arrowX = new AxisArrow(this,'x','afwijking in percentage van som');
+        this.arrowY = new AxisArrow(this,'y','som betalingen');
 
         if (this.data == undefined ) return;
 
@@ -112,6 +117,9 @@ export  class ReconciliatieIntroBellsV1 extends GraphControllerV2 {
         await super.redraw(data);
 
         await this.bell.redraw(data)
+
+        await this.arrowX.redraw();
+        await this.arrowY.redraw();
 
 
     }

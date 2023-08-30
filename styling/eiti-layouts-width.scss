@@ -23,6 +23,8 @@
   position: relative;
   justify-content: space-between;
   align-items: flex-start;
+
+  overflow: scroll;
 }
 
 .graph-container {
@@ -135,5 +137,10 @@
   
   .graph-container-12 {
     width: 100%;
+
+      &.table-view {
+        max-height: 800px;
+        overflow: scroll;
+      }
   }
   

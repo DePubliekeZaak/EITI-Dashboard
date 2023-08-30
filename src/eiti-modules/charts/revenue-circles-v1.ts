@@ -7,6 +7,7 @@ import { EitiData, EitiPayments } from '@local/d3_types';
 import { BallenbakSimulation, filterUnique } from '@local/eiti-services';
 import { IntData } from '@local/d3_types/data';
 import { convertToCurrencyInTable } from '@local/d3-services/_helpers';
+import { forEach } from 'lodash';
 
 const graphHeight = 480;
 
@@ -74,7 +75,7 @@ export  class RevenueCirclesV1 extends GraphControllerV2  {
         await super._svg(container);
 
         this.config.minRadius = 32;
-        this.config.radiusFactor = this.ctrlr.params.isCompanyPage() ? .4 : .6;
+        this.config.radiusFactor = window.innerWidth < breakpoints.sm ? .9 : .6;
 
         this.circles = new ChartCircles(this);
         this.simulation = new BallenbakSimulation(this);
@@ -129,26 +130,35 @@ export  class RevenueCirclesV1 extends GraphControllerV2  {
         /// TABLE DATA 
 
         const rows = [];
-        const uniqueYears = filterUnique(data[dataGroup],"year");
+        const uniqueYears  = filterUnique(data[dataGroup],"year");
         uniqueYears.sort( (a:any,b: any) => parseInt(a) - parseInt(b));
 
-        for (const ustream of filterUnique(data[dataGroup],"payment_stream")) {
+        const payments = data[dataGroup].filter( p => p.name_nl != undefined);
+
+
+        for (const ustream of filterUnique(payments, "payment_stream")) {
 
             const row = [];
             row.push(data[dataGroup].find( (s) => s.payment_stream === ustream).name_nl);
 
-            for (const year of [this.segment]) { 
+            for (const year of uniqueYears) { 
 
-                const item = data[dataGroup].find( (s) => s.payment_stream === ustream && s.year == parseInt(year));
+                const item = data[dataGroup].find( (s) => s.payment_stream === ustream && s.year == parseInt(year.toString()));
+
                 row.push(item != undefined ?  convertToCurrencyInTable(item.payments_companies) : "-")
             }
 
             rows.push(row);
         }
 
+        const strings  = []
+        for (let year of uniqueYears) {
+            strings.push(year.toString());
+        }
+
         const table = {
 
-            headers:  ["Betaalstroom"].concat([this.segment]),
+            headers:  ["Betaalstroom"].concat(strings),
             rows
         };
 
@@ -163,7 +173,7 @@ export  class RevenueCirclesV1 extends GraphControllerV2  {
 
         this.scales.r.set(data.graph.map( l => l.value));
         this.circles.draw(data.graph);
-        this.simulation.supply(data.graph)
+        this.simulation.supply(data.graph,"circles")
         
         if (!this.mapping.multiGraph && this.mapping.functionality.indexOf('tableView') > -1) {
             this.table.draw(data.table);

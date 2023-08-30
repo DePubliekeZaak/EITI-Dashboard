@@ -104,7 +104,7 @@ export class ProjectsMapGroupV1 implements IGraphGroupControllerV2 {
        const filteredData = this.data[dataGroup]
         .filter( p => !p["aggregated"] 
                 && p.year == parseInt(this.segment)
-                && p.geometry != null
+                // && p.geometry != null
         );
 
        let rowData = this.data[dataGroup]
@@ -121,6 +121,7 @@ export class ProjectsMapGroupV1 implements IGraphGroupControllerV2 {
 
         // unique project
 
+
        for (const r of rowArray) {
 
             const item = filteredData.find( p => p.project == r );
@@ -132,9 +133,9 @@ export class ProjectsMapGroupV1 implements IGraphGroupControllerV2 {
             const row = [];
             row.push(item.origin_name);
             row.push(r);
-            row.push(royalties != undefined ? royalties['payments_companies'] : "-");
-            row.push(surface_rental != undefined ? surface_rental['payments_companies'] : "-");
-            row.push(retributions != undefined ? retributions['payments_companies'] : "-");
+            row.push(royalties != undefined ?  convertToCurrencyInTable(royalties['payments_companies']) : "-");
+            row.push(surface_rental != undefined ? convertToCurrencyInTable(surface_rental['payments_companies']) : "-");
+            row.push(retributions != undefined ? convertToCurrencyInTable(retributions['payments_companies']) : "-");
 
 
         //     row.push(data[dataGroup].find( (s) => s[rowSlug] === r)[rowName]);

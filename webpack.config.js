@@ -21,7 +21,7 @@ const config = (env) =>  {
       },
     },
     devServer: {
-      open:false,
+      open:true,
       port: 3333,
       hot: true,
       client: {

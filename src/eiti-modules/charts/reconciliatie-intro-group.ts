@@ -1,11 +1,12 @@
 import { TCtrlrs } from '@local/d3_types';
 import { IGraphMapping } from '@local/d3_types';
-import { HtmlFunctionality, HtmlHeader, HTMLYear } from '@local/elements';
+import { HtmlFunctionality, HtmlHeader, HTMLTable, HTMLYear } from '@local/elements';
 import { EitiData } from '@local/d3_types/data';
 import { filterUnique, formatReconData } from '@local/eiti-services';
 import { ReconciliatieIntroBarsV1 } from './reconciliatie-intro-bars-v1';
 import { ReconciliatieIntroBellsV1 } from './reconciliatie-bell-curve-v1';
 import { standardDeviation } from '@local/d3-services';
+import { convertToCurrencyInTable } from '@local/d3-services/_helpers';
 
 
 // can this be a wrapper for multiple graphcontrollers?
@@ -17,6 +18,7 @@ export class ReconciliatieIntroGroupV1 { //extends GraphControllerV2 {
     funcList;
     ctrlrs: TCtrlrs = {};
     scatter;
+    table;
 
     htmlHeader;
     yearSelector;
@@ -56,6 +58,11 @@ export class ReconciliatieIntroGroupV1 { //extends GraphControllerV2 {
         this.uniqueYears = filterUnique(this.data[dataGroup],"year").concat("all")
 
         const data = this.prepareData(this.data);
+
+        if (this.mapping.functionality.indexOf('tableView') > -1) {
+            this.table = new HTMLTable(this,this.element);
+            this.table.draw(data.table);
+        }
 
         for (const year of this.uniqueYears.reverse().slice()) {
 
@@ -148,10 +155,6 @@ export class ReconciliatieIntroGroupV1 { //extends GraphControllerV2 {
             // console.log(bands);
 
             distributions.push(bands);
-
-
-
-           
         }
 
         let totalTotal = {
@@ -211,9 +214,35 @@ export class ReconciliatieIntroGroupV1 { //extends GraphControllerV2 {
 
         distributions.push(totalDistributionBands);
 
+
+
+        // table
+
+        const rows = [];
+
+        for (let total of totals.filter( t => t.year != 'all').reverse()) {
+
+            rows.push([
+                "Totaal", 
+                total.year, 
+                convertToCurrencyInTable(total.payments_companies_reported) + "M", 
+                convertToCurrencyInTable(total.payments_government_reported) + "M", 
+                convertToCurrencyInTable(total.payments_companies) + "M", 
+                convertToCurrencyInTable(total.payments_government) + "M"
+            ])
+        }
+
+        const table = {
+
+            headers:  ["Bedrijf","Jaar"].concat(this.mapping.parameters[0].map( p => p.label)),
+            rows
+        };
+
+
         return {
             distributions,
-            totals
+            totals,
+            table
         }
     }
 

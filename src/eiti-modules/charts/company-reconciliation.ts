@@ -7,7 +7,7 @@ import { breakpoints, colours } from '@local/styleguide';
 import { HTMLCompany } from '@local/elements';
 import { Bars, EitiCompanies, EitiData, EitiReport } from '@local/d3_types/data';
 import * as d3 from 'd3';
-import { formatReconData } from '@local/eiti-services/reconciliation.data';
+import { formatReconData } from '@local/eiti-services';
 
 // const graphHeight = 600;
 // const companyWidth = 160;

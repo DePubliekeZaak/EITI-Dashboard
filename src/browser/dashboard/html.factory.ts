@@ -51,6 +51,8 @@ export const createNav = (ctrlr: IDashboardController): HTMLElement => {
 
         if( i.slug == 'bedrijf') {
 
+            li.onclick = () => ctrlr._toggleSubMenu() 
+
             let ul_bedrijven = document.createElement('ul');
             ul_bedrijven.style.flexDirection = 'column';
             ul_bedrijven.classList.add('dashboard_nav_companies');

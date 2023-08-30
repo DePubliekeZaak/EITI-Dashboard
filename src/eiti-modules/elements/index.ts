@@ -51,5 +51,7 @@ export { HtmlLegendCustom } from "./html/html-legend-custom"
 
 export { HtmlCardsV1 } from "./html/html-cards"
 
+export { AxisArrow } from "./svg/axis-arrow"
+
 
 

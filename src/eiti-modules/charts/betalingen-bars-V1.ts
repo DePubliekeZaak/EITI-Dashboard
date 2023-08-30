@@ -75,6 +75,7 @@ export  class BetalingenBarsV1 extends GraphControllerV2  {
 
         this.element.classList.remove("graph-container");
         this.element.classList.add("graph-wrapper");
+        this.element.style.minWidth = "600px";
 
         this.uniqueCompanies = filterUnique(this.data['reconciliation'],"origin")
 

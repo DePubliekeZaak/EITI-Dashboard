@@ -60,7 +60,7 @@ export class RevenueIntroGroupV1 implements IGraphGroupControllerV2 {
 
         const data = this.prepareData(this.data);
 
-        this.circleGroup = new RevenueCirclesV1(this,data[0],wrapper,this.mapping,this.segment);
+        this.circleGroup = new RevenueCirclesV1(this.main,data[0],wrapper,this.mapping,this.segment);
         this.barProgression = new RevenueBarsV1(this,data[0],wrapper,this.mapping,this.segment);
         this.circleGroup.init();
         this.barProgression.init();

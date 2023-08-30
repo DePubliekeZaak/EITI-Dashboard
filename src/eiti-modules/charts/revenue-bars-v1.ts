@@ -159,9 +159,12 @@ export  class RevenueBarsV1 extends GraphControllerV2  {
             }  
         }
 
-        for (const ustream of filterUnique(data[dataGroup],"payment_stream")) {
+        const payments = data[dataGroup].filter( p => p.name_nl != undefined);
+
+        for (const ustream of filterUnique(payments,"payment_stream")) {
 
             const row = [];
+
             row.push(data[dataGroup].find( (s) => s.payment_stream === ustream).name_nl);
 
             for (const year of uniqueYears) { 

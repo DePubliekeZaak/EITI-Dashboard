@@ -49,8 +49,8 @@ export class ChartBarProgression   {
 
         let self = this;
 
-        console.log(this.ctrlr.scales.y.range());
-        console.log(this.ctrlr.scales.y.domain());
+        // console.log(this.ctrlr.scales.y.range());
+        // console.log(this.ctrlr.scales.y.domain());
 
         this.bars
             .attr("x", (d)  => self.ctrlr.scales.x.fn(d.year))

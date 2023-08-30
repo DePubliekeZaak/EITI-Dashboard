@@ -52,12 +52,10 @@ export  class PaymentsGroupV1 { //extends GraphControllerV2 {
             this.funcList = new HtmlFunctionality(this,this.element,this.mapping,this.segment);
         }
 
-       
-
-
         const wrapper = document.createElement('section');
         wrapper.classList.add('graph-container-12');
         wrapper.classList.add('graph-wrapper');
+  
         this.element.appendChild(wrapper);
 
         const data = this.prepareData(this.data);

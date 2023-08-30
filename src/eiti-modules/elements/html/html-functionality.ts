@@ -6,6 +6,7 @@ import { tableToCSV } from "@local/eiti-services";
 import { HtmlMappingSelector } from "./mapping-selector";
 import { HtmlYearSelector } from "./year-selector";
 import { HtmlCustomSelector } from "./html-custom-selector";
+import { breakpoints } from "@local/styleguide";
 
 export class HtmlFunctionality {
 
@@ -147,32 +148,38 @@ export class HtmlFunctionality {
 
                 case 'download':
 
-                    const blob = new Blob(
-                        [tableToCSV(this.element)],
-                        { type: 'text/csv' }
-                      );
-          
-                    const url = URL.createObjectURL(blob);
+                    if (window.innerWidth > breakpoints.sm) {
 
-                    this.downloadButton = this.ctrlr.main.window.document.createElement('a');
-                    this.downloadButton.classList.add("button");
-                    this.downloadButton.innerText = 'download csv bestand';
-                    this.downloadButton.title = 'download csv bestand';
-                    this.downloadButton.download =  'EITI-NL_' + this.mapping.slug + '.csv' || 'download';
-                    this.downloadButton.href = url;
-                    li.appendChild(this.downloadButton);
+                        const blob = new Blob(
+                            [tableToCSV(this.element)],
+                            { type: 'text/csv' }
+                        );
+            
+                        const url = URL.createObjectURL(blob);
 
-                    const clickHandler = () => {
-                        setTimeout(() => {
-                          URL.revokeObjectURL(url);
-                          removeEventListener('click', clickHandler);
-                        }, 150);
-                      };
-                    
+                        this.downloadButton = this.ctrlr.main.window.document.createElement('a');
+                        this.downloadButton.classList.add("button");
+                        this.downloadButton.innerText = 'download';
+                        this.downloadButton.title = 'download csv bestand';
+                        this.downloadButton.download =  'EITI-NL_' + this.mapping.slug + '.csv' || 'download';
+                        this.downloadButton.href = url;
+                        li.appendChild(this.downloadButton);
 
-                    this.downloadButton.addEventListener('click', clickHandler, false);
+                        const clickHandler = () => {
+                            setTimeout(() => {
+                            URL.revokeObjectURL(url);
+                            removeEventListener('click', clickHandler);
+                            }, 150);
+                        };
+                        
+
+                        this.downloadButton.addEventListener('click', clickHandler, false);
+
+                    }
 
                     break;
+
+
 
             }
 

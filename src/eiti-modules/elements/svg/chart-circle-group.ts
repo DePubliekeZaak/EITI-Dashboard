@@ -34,6 +34,8 @@ export class ChartCircleGroupsV1 {
 
     draw(groupedData) {
 
+        console.log(groupedData);
+
 
         let self = this;
 
@@ -74,15 +76,15 @@ export class ChartCircleGroupsV1 {
             .style("stroke-dasharray", "2 4")
             .style('stroke', '#ccc');
         //
-        this.balanceGroups = this.headerGroup
-            .selectAll(".balanceGroup")
-            .data( d => d.groups)
-            .join("g")
-            .attr("class","balanceGroup");
+        // this.balanceGroups = this.headerGroup
+        //     .selectAll(".balanceGroup")
+        //     .data( d => d.group)
+        //     .join("g")
+        //     .attr("class","balanceGroup");
 
-        this.circleGroups = this.balanceGroups
+        this.circleGroups = this.group
             .selectAll(".circleGroup")
-            .data( d => d)
+            .data( d => d.group)
             .join("g")
             .attr("class","circleGroup");
 
@@ -145,16 +147,17 @@ export class ChartCircleGroupsV1 {
                 }
             });
 
-        this.balanceGroups
-            .attr("transform", (d,i) => {
+        this.group 
+            .attr("transform", (d) => {
 
-                if(i % 2 == 0) {
+                if(direction === 'horizontal') {
 
-                    return "translate(" + -40 + "," + 0 + ")"
+                    return "translate(" + self.ctrlr.scales.x.scale(d.label.toString()) + "," + 0 + ")"
                 } else {
-                    return "translate(" + 40 + "," + 0 + ")"
+                    return "translate(" + (this.ctrlr.dimensions.width / 2) + "," + (self.ctrlr.scales.x.scale(d.label) - 100) + ")"
                 }
             });
+            
 
         this.headers_lines
             .attr('height', (d,i) => {
@@ -169,43 +172,35 @@ export class ChartCircleGroupsV1 {
                 return (i % 2 == 0) ? 10 : 10;  // - (rScale(d.value) + 50);
             });
 
-            // this.circleGroups
-            //     .attr("transform", (d,i) => {
-            //         const x = i%2 ? -20 : 20;
-            //         const y = i%2 ? 100 : 200;
-            //        return "translate(" + x + "," + y + ")"
-                    
-            //     })
-
             this.circles
                 .attr("r", (d) => this.ctrlr.scales.r.fn(d.value))
                 
-                .on("mouseover", function(event: any, d: any) {
+                // .on("mouseover", function(event: any, d: any) {
 
-                    self.circles
-                        .style("fill", (dd: any) => colours[dd.colour][1]);
+                //     self.circles
+                //         .style("fill", (dd: any) => colours[dd.colour][1]);
 
-                    d3.select(event.target)
-                        .style("fill", (dd: any) => colours[dd.colour][0]);
+                //     d3.select(event.target)
+                //         .style("fill", (dd: any) => colours[dd.colour][0]);
 
-                    self.tooltip
-                        .html(popup(d))
-                        .style("left", (event.pageX) + "px")
-                        .style("top", (event.pageY) + "px")
-                        .transition()
-                        .duration(250)
-                        .style("opacity", 1);
-                })
-                .on("mouseout", function(d) {
+                //     self.tooltip
+                //         .html(popup(d))
+                //         .style("left", (event.pageX) + "px")
+                //         .style("top", (event.pageY) + "px")
+                //         .transition()
+                //         .duration(250)
+                //         .style("opacity", 1);
+                // })
+                // .on("mouseout", function(d) {
 
-                    self.circles
-                        .style("fill", (dd: any) => colours[dd.colour][1]);
+                //     self.circles
+                //         .style("fill", (dd: any) => colours[dd.colour][1]);
 
-                    self.tooltip
-                        .transition()
-                        .duration(250)
-                        .style("opacity", 0);
-                })
+                //     self.tooltip
+                //         .transition()
+                //         .duration(250)
+                //         .style("opacity", 0);
+                // })
             ;
 
         this.circlesText
@@ -221,7 +216,7 @@ export class ChartCircleGroupsV1 {
             .style("font-size","1rem")
             .style("font-family","RO Sans Bold")
             .style("letter-spacing","1px")
-            .attr("transform","translate(-20,100)")
+            .attr("transform","translate(0,260)")
     }
 
     forceDirect() {

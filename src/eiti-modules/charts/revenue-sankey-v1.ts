@@ -72,19 +72,29 @@ export  class RevenueTypeSankeyV1 extends GraphControllerV2  {
 
         this.element.classList.remove("graph-container");
         this.element.classList.add("graph-wrapper");
+        // this.element.style.minWidth = "600px";
 
         const container = document.createElement('section');
         container.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight.toString() + "px" : graphHeight.toString() + "px";
         container.classList.add("graph-container-12")
-        container.classList.add("graph-view")
-        container.style.marginBottom = "2rem"
+        container.classList.add("graph-view");
+        container.style.overflow = "scroll";
+        container.style.marginBottom = "2rem";
         this.element.appendChild(container);
+
+        const scrollingContainer = document.createElement('section');
+        scrollingContainer.classList.add("graph-container-12")
+        scrollingContainer.classList.add("graph-view")
+        scrollingContainer.style.height = "100%";
+        scrollingContainer.style.minWidth = "600px";
+
+        container.appendChild(scrollingContainer);
 
         if (!this.mapping.multiGraph) {
             this.table = new HTMLTable(this,this.element);
         }
 
-        await super._svg(container);
+        await super._svg(scrollingContainer);
 
         this.config.nodeWidth = 0;
         this.config.nodePadding = 50;
@@ -180,6 +190,8 @@ export  class RevenueTypeSankeyV1 extends GraphControllerV2  {
 
     prepareData(data: EitiData) : IntData {
 
+
+
         this.data = data;
         const dataGroup = "payments";
 
@@ -220,6 +232,7 @@ export  class RevenueTypeSankeyV1 extends GraphControllerV2  {
 
 
         const nodes: SankeyNode[] = [];
+        const links: SankeyLink[] = [];
 
         for (const origin of uniqueOrigins) {
             nodes.push({
@@ -259,94 +272,98 @@ export  class RevenueTypeSankeyV1 extends GraphControllerV2  {
             })
         }
 
-        for (const stream of uniqueStreams) {
+        console.log(nodes);
+        if (nodes.length > 1) {
 
-          // if (stream.payments_companies > 0) {
+           
 
-                nodes.push({
-                    "node": nodes.length,
-                    "name": stream,
-                    "label": filteredData.find ( (s) => s.payment_stream == stream).name_nl,
-                    "type": "stream"
-                })
-          //  }
-        }
-
-        for (const stream of uniqueStreams_n) {
+            for (const stream of uniqueStreams) {
 
             // if (stream.payments_companies > 0) {
-  
-                  nodes.push({
-                      "node": nodes.length,
-                      "name": stream,
-                      "label": filteredData_n.find ( (s) => s.payment_stream == stream).name_nl,
-                      "type": "stream"
-                  })
+
+                    nodes.push({
+                        "node": nodes.length,
+                        "name": stream,
+                        "label": filteredData.find ( (s) => s.payment_stream == stream).name_nl,
+                        "type": "stream"
+                    })
             //  }
-          }
+            }
+
+            for (const stream of uniqueStreams_n) {
+
+                // if (stream.payments_companies > 0) {
     
-        const links: SankeyLink[] = []
+                    nodes.push({
+                        "node": nodes.length,
+                        "name": stream,
+                        "label": filteredData_n.find ( (s) => s.payment_stream == stream).name_nl,
+                        "type": "stream"
+                    })
+                //  }
+            }
+        
+            for (const stream of filteredData) {
 
-        for (const stream of filteredData) {
+                if (stream.payments_companies > 0) {
 
-            if (stream.payments_companies > 0) {
+                    const value = (stream.payments_companies < 1) ? 1 : stream.payments_companies;
 
-                const value = (stream.payments_companies < 1) ? 1 : stream.payments_companies;
+                    links.push({
+                        "source": nodes.find( n => n.name == stream.origin).node,
+                        "target": nodes.find( n => n.name == stream.payment_stream).node,
+                        "value": this.scales.l.fn(value),
+                        "amount": stream.payments_companies,
+                        "label" : stream.name_nl,
+                        "type" : "start",
+                        "meta" : stream
+                    })
 
-                links.push({
-                    "source": nodes.find( n => n.name == stream.origin).node,
-                    "target": nodes.find( n => n.name == stream.payment_stream).node,
-                    "value": this.scales.l.fn(value),
-                    "amount": stream.payments_companies,
-                    "label" : stream.name_nl,
-                    "type" : "start",
-                    "meta" : stream
-                })
+                    links.push({
+                        "source": nodes.find( n => n.name == stream.payment_stream).node,
+                        "target": nodes.find( n => n.name == stream.recipient).node,
+                        "value": this.scales.l.fn(value),
+                        "amount": stream.payments_companies,
+                        "label" : stream.name_nl,
+                        "type" : "end",
+                        "meta" : stream
+                    })
 
-                links.push({
-                    "source": nodes.find( n => n.name == stream.payment_stream).node,
-                    "target": nodes.find( n => n.name == stream.recipient).node,
-                    "value": this.scales.l.fn(value),
-                    "amount": stream.payments_companies,
-                    "label" : stream.name_nl,
-                    "type" : "end",
-                    "meta" : stream
-                })
+                }
 
             }
 
-        }
+            for (const stream of filteredData_n) {
 
-        for (const stream of filteredData_n) {
+                if (stream.payments_companies < 0) {
 
-            if (stream.payments_companies < 0) {
+                    console.log("has_negative_streams");
 
-                console.log("has_negative_streams");
+                    const value = (stream.payments_companies > -1) ? 1 : -stream.payments_companies;
 
-                const value = (stream.payments_companies > -1) ? 1 : -stream.payments_companies;
+                    links.push({
+                        "source": nodes.filter( n => n.name == stream.origin)[1].node,
+                        "target": nodes.find( n => n.name == stream.payment_stream).node,
+                        "value": this.scales.l.fn(value),
+                        "amount": stream.payments_companies,
+                        "label" : stream.name_nl,
+                        "type" : "start-reverse",
+                        "meta" : stream
+                    })
 
-                links.push({
-                    "source": nodes.filter( n => n.name == stream.origin)[1].node,
-                    "target": nodes.find( n => n.name == stream.payment_stream).node,
-                    "value": this.scales.l.fn(value),
-                    "amount": stream.payments_companies,
-                    "label" : stream.name_nl,
-                    "type" : "start-reverse",
-                    "meta" : stream
-                })
+                    links.push({
+                        "source": nodes.find( n => n.name == stream.payment_stream).node,
+                        "target": nodes.filter( n => n.name == stream.recipient)[1].node,
+                        "value": this.scales.l.fn(value),
+                        "amount": stream.payments_companies,
+                        "label" : stream.name_nl,
+                        "type" : "end-reverse",
+                        "meta" : stream
+                    })
 
-                links.push({
-                    "source": nodes.find( n => n.name == stream.payment_stream).node,
-                    "target": nodes.filter( n => n.name == stream.recipient)[1].node,
-                    "value": this.scales.l.fn(value),
-                    "amount": stream.payments_companies,
-                    "label" : stream.name_nl,
-                    "type" : "end-reverse",
-                    "meta" : stream
-                })
-
+                }
+                
             }
-            
         }
 
         // FOR TABLE
