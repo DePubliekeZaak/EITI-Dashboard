@@ -29,7 +29,8 @@ header {
     ul#nav {
         
         height: 3rem;
-        width: 100%;
+        width: calc(100% - 1rem);
+        padding: 0 .5rem;
         position: relative;
         display: flex;
         flex-direction: row;
