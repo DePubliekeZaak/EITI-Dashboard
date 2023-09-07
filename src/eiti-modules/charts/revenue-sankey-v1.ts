@@ -272,10 +272,7 @@ export  class RevenueTypeSankeyV1 extends GraphControllerV2  {
             })
         }
 
-        console.log(nodes);
         if (nodes.length > 1) {
-
-           
 
             for (const stream of uniqueStreams) {
 

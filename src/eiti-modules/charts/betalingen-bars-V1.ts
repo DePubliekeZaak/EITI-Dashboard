@@ -97,9 +97,6 @@ export  class BetalingenBarsV1 extends GraphControllerV2  {
         
         this.chartBar = new ChartBars(this);
 
-       
-
-
         await this.update(this.data,this.segment, false);
 
         if (!this.mapping.multiGraph && this.mapping.functionality && this.mapping.functionality.length > 0) {
@@ -117,15 +114,11 @@ export  class BetalingenBarsV1 extends GraphControllerV2  {
 
         const dataGroup = "reconciliation";
 
-        this.data = data;
-
-        // console.log(data);
-
         const uniqueCompanies = [];
         const groupedbyCompany = [];
         const readyForBars: Bars = [];
 
-        for (const report of data[dataGroup]) {
+        for (const report of this.data[dataGroup]) {
             const slug = report.origin;
             if (uniqueCompanies.indexOf(slug) < 0) {
                 uniqueCompanies.push(slug); 
@@ -133,17 +126,8 @@ export  class BetalingenBarsV1 extends GraphControllerV2  {
         }
 
         for (let company of uniqueCompanies) {
-
             groupedbyCompany.push(data[dataGroup].filter( report => report.origin == company));
-
-            // wat te doen met lege jaren? 
         }
-
-    
-
-        // bovenstaande toch naar start tillen? 
-        // want anders steeds weer doen .. bij selecteren jaar
-
 
         const report = data[dataGroup].find( (d: any) => d.year == parseInt(this.segment));
 
@@ -171,23 +155,14 @@ export  class BetalingenBarsV1 extends GraphControllerV2  {
             return a.value - b.value;
         })  
 
-
         return {
-            
             groupedbyCompany,
             readyForBars
         }
     }
 
     async draw(data: any) {
-
-        
-        
         this.chartBar.draw(data.readyForBars);
-        //this.finalRevenueLine.draw(data.finalLines);
-        // this.zeroLine.draw(data.readyForBars);
-
-        // this.table.draw(data.groupedbyCompany);
     }
 
 
@@ -200,9 +175,6 @@ export  class BetalingenBarsV1 extends GraphControllerV2  {
         await super.redraw(data);
         // redraw data
         this.chartBar.redraw(data.readyForBars);
-
-        // this.finalRevenueLine.redraw();
-        // this.zeroLine.redraw();
 
         this.svg.body.selectAll("g.y-axis path")
             .style("display","none")
@@ -225,6 +197,6 @@ export  class BetalingenBarsV1 extends GraphControllerV2  {
     
     async update(data: EitiData, segment: string, update: boolean, range?: number[]) {
 
-       await super._update(data,segment,update, range);
+       await super._update(this.data,segment,update, range);
     } 
 }

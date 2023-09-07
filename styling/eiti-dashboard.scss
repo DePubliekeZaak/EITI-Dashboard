@@ -55,15 +55,35 @@ main {
   
   
   aside {
+
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 11.5rem;
+    width: 100vw;
+    height: calc(100vh - 11.5rem);
+
+
+    &.is_open {
+      display: block;
+      color: #fff;
+    }
+
+
+    @media(min-width: $breakpoint-sm) {
+
+      display: block;
+      position: relative;
+    }
   
     &.selectors {
   
-      position: relative;
-      background: #fff;
+      
       padding: 2rem 1rem 2rem 1rem;
       order: 1;
       width: calc(100% - 0rem);
-      background: #64a7c6;
+      background: $blue;
+     
       margin: auto;
   
       margin-top: 1rem;

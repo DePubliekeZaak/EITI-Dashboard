@@ -42,12 +42,16 @@ export const switchTopic = (ctrlr: IDashboardController, paramKey: string, param
 }
 
 export const openMenu = (): void => {
-    document.querySelector('.mobile_nav_v2').classList.add('is-open');
+    document.getElementsByTagName('aside')[0].classList.add('is_open');
 }
 
 export const closeMenu = (): void => {
-    document.querySelector('.mobile_nav_v2').classList.remove('is-open');
+    document.getElementsByTagName('aside')[0].classList.remove('is_open');
 }
+
+// export const closeMenu = (): void => {
+//     document.getElementsByTagName('aside')[0].classList.remove('is_open');
+// }
 
 export const toggleSubMenu = (): void => {
     document.querySelector('ul.dashboard_nav_companies').classList.toggle('is_open')

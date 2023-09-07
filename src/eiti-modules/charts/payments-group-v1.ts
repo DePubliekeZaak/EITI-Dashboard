@@ -156,14 +156,10 @@ export  class PaymentsGroupV1 { //extends GraphControllerV2 {
 
         this.segment = segment;
 
-       
-
         if(update) {
 
             data = this.prepareData(data);
-
-            
-
+                   
             for (let [slug, graph] of Object.entries(this.ctrlrs)) {
 
                 const sectorData = data.grouped.find( g => slugify(g[0].sector) === slug);

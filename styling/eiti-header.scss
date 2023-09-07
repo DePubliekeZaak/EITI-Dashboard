@@ -37,6 +37,20 @@ header {
         justify-content: flex-end;
         align-items: center;
 
+        li#mobile-menu-item-close {
+            display: none;
+        }
+
+        li#mobile-menu-item-open, li#mobile-menu-item-close {
+            margin-right: auto;
+            margin-top: .5rem;
+            margin-left: .75rem;
+
+            @media(min-width: $breakpoint-sm) {
+                display: none;
+            }
+        }
+
         li {
             color: white;
         }

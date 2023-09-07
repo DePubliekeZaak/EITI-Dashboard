@@ -4,7 +4,7 @@ import { IParamService, ParamService } from './param.service';
 import { screenSize } from './screen.factory';
 import { styleParentElement, createSideBar, createNav, createMobileNav, createPopupElement, pageHeader, companyTitle} from './html.factory';
 import { DataService, IDataService } from '@local/eiti-services';
-import { switchTopic, toggleSubMenu } from './interaction.factory';
+import { switchTopic, toggleSubMenu, openMenu, closeMenu } from './interaction.factory';
 import { navItems } from './nav.factory';
 
 export interface IDashboardController {
@@ -13,6 +13,8 @@ export interface IDashboardController {
     params: IParamService;
     data: IDataService,
     htmlContainer: HTMLScriptElement,
+    close_btn: HTMLElement,
+    open_btn: HTMLElement,
     _reloadHtml: () => void;
     call(pageConfig: IGraphMapping[], segment: string, update: boolean);
     switch: (topic: string, segment: string) => void;
@@ -27,6 +29,8 @@ export class DashboardController implements IDashboardController {
     data;
     htmlContainer;
     window;
+    close_btn;
+    open_btn;
 
     constructor() {
 
@@ -52,13 +56,14 @@ export class DashboardController implements IDashboardController {
 
         this._reloadHtml();
 
-        console.log('opnieuw');
-
         if (this.params.topic == 'bedrijf') {
+            
             this._toggleSubMenu();
         }
-
+        this._armMenuButton();
         this._screenListener();
+
+
     }
 
     async call(pageConfig: IGraphMapping[], segment: string, update: boolean ): Promise<void> {
@@ -77,14 +82,16 @@ export class DashboardController implements IDashboardController {
 
     switch(paramKey: string, paramValue: string) : void {
 
-        console.log('switch');
-
+        closeMenu();
         switchTopic(this,paramKey,paramValue);
         companyTitle(this);
+
 
         if (this.params.topic === 'bedrijf') {
             this._toggleSubMenu();
         }
+
+        this._closeMenu();
     }
 
     _toggleSubMenu() : void {
@@ -100,14 +107,14 @@ export class DashboardController implements IDashboardController {
         [].slice.call(document.getElementsByTagName("aside")).forEach( (a) => a.remove());
         [].slice.call(document.getElementsByTagName("nav")).forEach( (a) => a.remove());
     
-        if (window.innerWidth >= breakpoints.bax) {
+
     
             let aside = createSideBar(this.htmlContainer);
             aside.insertBefore(createNav(this), aside.childNodes[0]);
       
-        } else {
-            let mobileNavTop = createMobileNav();
-        }
+        // } else {
+        //     let mobileNavTop = createMobileNav();
+        // }
 
         companyTitle(this);
     
@@ -131,6 +138,34 @@ export class DashboardController implements IDashboardController {
             }
     
         }, false);
+    }
+
+    _armMenuButton() {
+
+        this.close_btn = document.getElementById('mobile-menu-item-close')
+        this.open_btn = document.getElementById('mobile-menu-item-open')
+
+        this.open_btn.addEventListener( ("click"), () =>  {
+            this._openMenu();
+        })
+
+        this.close_btn.addEventListener( ("click"), () =>  {
+            this._closeMenu();
+        })
+    }
+
+    _closeMenu() {
+
+        closeMenu();
+        this.close_btn.style.display = 'none';
+        this.open_btn.style.display = 'block';
+    }
+
+    _openMenu() {
+
+        openMenu();
+        this.close_btn.style.display = 'block';
+        this.open_btn.style.display = 'none';
     }
 
 }

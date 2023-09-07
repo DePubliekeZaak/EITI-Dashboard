@@ -24,7 +24,9 @@
   justify-content: space-between;
   align-items: flex-start;
 
-  overflow: scroll;
+  @media (max-width : $breakpoint-sm) {
+    overflow: scroll;
+  }
 }
 
 .graph-container {
