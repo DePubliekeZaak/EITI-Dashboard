@@ -1,6 +1,7 @@
 node_modules
 dist
-public
+public/scripts
+public/styles
 *.log
 .DS_Store
 .idea
