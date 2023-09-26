@@ -1,6 +1,6 @@
 import { GraphControllerV2  } from '@local/d3_graphs';
 
-import { ChartBarProgression, ChartLine, HtmlFunctionality, HtmlHeader, HTMLTable } from '@local/elements';
+import { ChartBarProgression, ChartLine, HtmlFunctionality, HtmlHeader, HtmlLegendCustom, HTMLTable } from '@local/elements';
 import { Bar, TCtrlrs } from '@local/d3_types';
 import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colourArray, colours, paymentTypes } from '@local/styleguide';
@@ -38,6 +38,8 @@ export  class RevenueBarsV1 extends GraphControllerV2  {
     bottomAxis;
     leftAxis;
 
+    legend;
+
     constructor(
         public main: any,
         public data : EitiData,
@@ -51,7 +53,7 @@ export  class RevenueBarsV1 extends GraphControllerV2  {
 
     pre() {
 
-        this._addMargin(0,100,0,0);
+        this._addMargin(60,100,0,0);
         this._addPadding(0,0,60,0);
 
         this._addScale('x','band','horizontal','year');
@@ -83,6 +85,8 @@ export  class RevenueBarsV1 extends GraphControllerV2  {
         container.classList.add("graph-view")
         container.id = svgId;
         this.element.appendChild(container);
+
+        this.legend = new HtmlLegendCustom(container);
 
         if (!this.mapping.multiGraph && this.mapping.functionality.indexOf('tableView') > -1) {
             this.table = new HTMLTable(this,this.element);
@@ -196,6 +200,65 @@ export  class RevenueBarsV1 extends GraphControllerV2  {
         if (!this.mapping.multiGraph && this.mapping.functionality.indexOf('tableView') > -1) {
             this.table.draw(data.table);
         }
+
+        if (this.mapping.slug == 'betalingen_bedrijven') {
+
+            this.legend.draw([
+                {
+                    label: "Cijns",
+                    colour: "purple"
+                },
+                {
+                    label: "Oppervlakterecht",
+                    colour: "lightBlue"
+                },
+
+                {
+                    label: "Retributies",
+                    colour: "gray"
+                }
+        
+            ])
+
+        } else {
+
+        this.legend.draw([
+            {
+                label: "Dividenden",
+                colour: "green"
+            },
+            {
+                label: "Meeropbrengstregeling",
+                colour: "violet"
+            },
+            {
+                label: "Vennootschapsbelasting",
+                colour: "blue"
+            },
+            {
+                label: "Winstaandeel",
+                colour: "orange"
+            },
+            {
+                label: "Cijns",
+                colour: "purple"
+            },
+            {
+                label: "Oppervlakterecht",
+                colour: "lightBlue"
+            },
+            {
+                label: "Staatsaandeel",
+                colour: "brown"
+            },
+            {
+                label: "Retributies",
+                colour: "gray"
+            }
+    
+        ])
+
+    }
     }
 
 

@@ -12,6 +12,9 @@ import { ReconciliatieIntroGroupV1} from './reconciliatie-intro-group';
 import { ReconciliatieIntroBarsV1 } from './reconciliatie-intro-bars-v1';
 import { ReconciliatieIntroBellsV1 } from './reconciliatie-bell-curve-v1';
 
+import { EconomyEmploymentGroupV1 } from "./economy-employment-group-v1";
+import { EconomyEmploymentV1 } from "./economy-employment-v1";
+
 import { RevenueIntroGroupV1 } from "./revenue-intro-group-v1";
 
 import { BetalingenBarsV1 } from "./betalingen-bars-V1";
@@ -49,6 +52,14 @@ import { EconomySocialGroupV1} from './economy-social-group-v1';
 import { EconomySocialV1 } from './economy-social-v1';
 import { UboCardsV1 } from './ubo-cards-v1'; 
 
+import { ReconciliationCompanyV2 } from './reconciliation-company-v2';
+import { ReconciliationCompanyV3 } from './reconciliation-company-v3';
+
+import { EbnBarGroupV1 } from './ebn-bar-group-v1'
+import { EbnProgressionBarsV1 } from './ebn_progression_bars-v1';
+import { EbnSimpleBarsInGroupV1 } from './ebn-simple-bars-in-group-v1';
+import { EbnProgressionBarsInGroupV1 } from './ebn-progression-bars-in-group-v1';
+ 
 export const charts = {
 
     PaymentsGroupV1,
@@ -94,5 +105,12 @@ export const charts = {
     EconomyProdGroupV1,
     EconomySharesV1,
     EconomySocialV1,
-    UboCardsV1
+    UboCardsV1,
+    EconomyEmploymentGroupV1,
+    ReconciliationCompanyV2,
+    ReconciliationCompanyV3,
+    EbnProgressionBarsV1,
+    EbnBarGroupV1,
+    EbnSimpleBarsInGroupV1,
+    EbnProgressionBarsInGroupV1
 }

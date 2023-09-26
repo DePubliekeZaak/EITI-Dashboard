@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { colours } from '@local/styleguide';
 import { Dimensions, DataPart, GraphData, Lines} from "@local/d3_types";
 import { slugify } from '@local/d3-services/_helpers';
@@ -58,12 +58,12 @@ export class ChartLines {
 
      //   const yParameter = this.ctrlr.parameters[this.yParameter] != undefined ? this.ctrlr.parameters[this.yParameter] : this.yParameter;
 
-        return d3.line()
+        return window.d3.line()
             .x(d => this.ctrlr.scales.x.scale(d['time']  ))
             .y((d, i) => { 
                 return this.ctrlr.scales.y.scale(d['value'])
             }) 
-            .curve(d3.curveLinear);
+            .curve(window.d3.curveLinear);
     }
 
     redraw(dimensions: Dimensions) {
@@ -99,14 +99,14 @@ export class ChartLines {
         this.lines
             .on("mouseover", function (event: any, d: any) {
 
-                const sel = d3.select(event.target);
+                const sel = window.d3.select(event.target);
                 sel.raise();
 
                 sel
                     .style("stroke", d => { return colours.orange[0] })
                     // .attr("stroke-width", 3);
 
-                const l = d3.select('.lineLabel.' + slugify(d[0].label))
+                const l = window.d3.select('.lineLabel.' + slugify(d[0].label))
                 
                 l.raise();
                 l.style("stroke",colours["orange"][0]);

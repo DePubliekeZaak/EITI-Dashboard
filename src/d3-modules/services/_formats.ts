@@ -1,13 +1,13 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 
-const localCurrency = d3.formatDefaultLocale({
+const localCurrency = window.d3.formatDefaultLocale({
     "decimal": ",",
     "thousands": ".",
     "grouping": [3],
     "currency": ["€",""],
 });
 
-const localTime = d3.timeFormatLocale({
+const localTime = window.d3.timeFormatLocale({
     "dateTime": "%a %e %B %Y %T",
     "date": "%d-%m-%Y",
     "time": "%H:%M:%S",

@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import { colours } from '@local/styleguide'
 
 export class ChartPies {
@@ -15,7 +15,7 @@ export class ChartPies {
 
         let self = this;
 
-        let pie = d3.pie()
+        let pie = window.d3.pie()
             .sort(null)
             .value((d) => d['value']);
 
@@ -133,7 +133,7 @@ export class ChartPies {
 
         function arcTween(a) {
 
-            var i = d3.interpolate(this._current, a);
+            var i = window.d3.interpolate(this._current, a);
             this._current = i(0);
             return function(t) {
                 return arc(i(t));

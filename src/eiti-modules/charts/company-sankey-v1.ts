@@ -4,7 +4,7 @@ import { ChartSankey, HtmlFunctionality, HtmlHeader, HTMLTable } from '@local/el
 import { Sankey, TCtrlrs } from '@local/d3_types';
 import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colours } from '@local/styleguide';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { Line, Lines, EitiData } from '@local/d3_types';
 import { filterUnique, formatLines } from '@local/eiti-services';
 import { EitiPayments, SankeyLink, SankeyNode } from '@local/d3_types/data';

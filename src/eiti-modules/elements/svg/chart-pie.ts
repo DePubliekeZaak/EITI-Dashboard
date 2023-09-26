@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import { colours } from '@local/styleguide'
 
 export class ChartPie {
@@ -16,7 +16,7 @@ export class ChartPie {
         let self = this;
         self.data = data;
 
-        let pie = d3.pie()
+        let pie = window.d3.pie()
             .sort(null)
             .value((d) => d['value']);
 
@@ -33,10 +33,10 @@ export class ChartPie {
                 self.ctrlr.svg.arcs
                     .attr("fill", (dd: any) => colours[dd.data.colour][1]);
 
-                d3.select(event.target)
+                window.d3.select(event.target)
                     .attr("fill", (dd: any) => colours[dd.data.colour][0]);
                  
-                d3.select('.tooltip')
+                window.d3.select('.tooltip')
                     .html((dd: any) => {
         
                         let value =  d['value'];
@@ -54,7 +54,7 @@ export class ChartPie {
                 self.ctrlr.svg.arcs
                     .attr("fill", (dd:any) => colours[dd.data.colour][1]);
 
-                d3.select('.tooltip')
+                window.d3.select('.tooltip')
                     .transition()
                     .duration(250)
                     .style("opacity", 0);
@@ -71,11 +71,11 @@ export class ChartPie {
         this.ctrlr.svg.layers.data
             .attr("transform","translate(" + this.ctrlr.dimensions.width / 2 + ", "  + this.ctrlr.dimensions.height   + ")");
        
-        labelArc = d3.arc()
+        labelArc = window.d3.arc()
             .outerRadius(radius)
             .innerRadius(0);
 
-        arc = d3.arc()
+        arc = window.d3.arc()
             .outerRadius(radius)
             .innerRadius(0)
             .padAngle(4)
@@ -84,7 +84,7 @@ export class ChartPie {
 
         function arcTween(a) {
 
-            var i = d3.interpolate(this._current, a);
+            var i = window.d3.interpolate(this._current, a);
             this._current = i(0);
             return (t) => {
                 return arc(i(t));

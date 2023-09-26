@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { colours } from '@local/styleguide';
 import { Dimensions, DataPart, GraphData} from "@local/d3_types";
 
@@ -31,7 +31,7 @@ export class ChartLine {
 
         // console.log(yParameter)
 
-        return d3.line()
+        return window.d3.line()
             .x(d => this.ctrlr.scales.x.scale(d['value']  ))
             .y((d, i) => { 
 
@@ -41,7 +41,7 @@ export class ChartLine {
                     return this.ctrlr.scales.y.scale(d['label'])  - 20
                 }
             }) 
-            .curve(d3.curveBasis);
+            .curve(window.d3.curveBasis);
     }
 
     redraw() {

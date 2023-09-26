@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import { ChartObject, ISvgService, SvgService, ChartDimensions, ScaleService, AxesService, IChartDimensions } from './index';
 import { Dimensions, DataPart, IGraphMapping, IMappingOption, IGraphConfig, IParameterMapping } from '@local/d3_types';
 import { getParameter } from '@local/d3-services';
@@ -57,7 +57,7 @@ export class GraphControllerV2 implements IGraphControllerV2  {
         public mapping: IGraphMapping,
         public segment: string
     ) {
-        this.element = d3.select(element).node();
+        this.element = window.d3.select(element).node();
         this.firstMapping = this.mapping.parameters[0] && this.mapping.parameters[0][0] ? getParameter(this.mapping,0) : false;
         this.parameters = {};
         this.scales = {};
@@ -106,7 +106,7 @@ export class GraphControllerV2 implements IGraphControllerV2  {
 
     async _svg(svgWrapper?: HTMLElement) {
         // with elementID we can create a child element as svg container with a fixed height. 
-        this.element = d3.select(svgWrapper ? svgWrapper : this.element).node();
+        this.element = window.d3.select(svgWrapper ? svgWrapper : this.element).node();
         this.chartDimensions = new ChartDimensions(this.element, this.config);
         this.dimensions = this.chartDimensions.measure(this.dimensions);
 

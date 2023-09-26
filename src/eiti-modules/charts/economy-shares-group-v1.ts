@@ -106,13 +106,13 @@ export class EconomySharesGroupV1 implements IGraphGroupControllerV2 {
 
                     switch(this.segment) {
 
-                        case 'percentage': 
+                        case 'aandeel mijnbouwsector': 
                             value = 100 * mining / total;
                             break;
                         case 'mijnbouwsector':
                             value = miljarden(mining);
                             break;
-                        case 'totaal':
+                        case 'totaal Nederland':
                             value = miljarden(total);
                             break;
                     }
@@ -122,15 +122,15 @@ export class EconomySharesGroupV1 implements IGraphGroupControllerV2 {
                         label: params[0].label,
                         colour: params[0].colour,
                         year,
-                        format: this.segment == 'percentage' ? 'percentage' : 'miljard',
+                        format: this.segment == 'aandeel mijnbouwsector' ? 'percentage' : 'miljard',
                     })
                 }
                 graphs.push(year_arr);
         }
 
-        graphs[3].forEach( (d) => {
-            d.format = "fte"
-        });
+        // graphs[3].forEach( (d) => {
+        //     d.format = "fte"
+        // });
 
         // FOR TABLE
        const rows = []

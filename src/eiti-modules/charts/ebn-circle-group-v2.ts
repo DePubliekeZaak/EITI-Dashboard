@@ -8,8 +8,8 @@ import { HTMLCompany, HtmlFunctionality, HtmlHeader, HtmlLegend, HTMLSector, HTM
 import { groupBy, slugify } from '@local/d3-services';
 import { charts }  from '@local/charts';
 import { EitiCompanies, EitiData, EitiPayments, EitiReport } from '@local/d3_types/data';
-import *  as d3 from 'd3';
-import { group } from 'd3';
+// import *  as d3 from 'd3';
+// import { group } from 'd3';
 import { filterUnique, parseEBN } from '@local/eiti-services';
 import { bePositive, convertToCurrencyInTable } from '@local/d3-services/_helpers';
 
@@ -61,8 +61,6 @@ export  class EbnCircleGroupV2 { //extends GraphControllerV2 {
         wrapper.classList.add('graph-wrapper');
         wrapper.style.marginTop = "3rem";
         this.element.appendChild(wrapper);
-
-       
 
         const data = this.prepareData(this.data);
 
@@ -120,7 +118,12 @@ export  class EbnCircleGroupV2 { //extends GraphControllerV2 {
             values = values.concat(items.map( p => 1000 * 1000 * bePositive(p.payments_companies) ))
        }
 
-       const range = [0,0,d3.min(values),d3.max(values)]
+
+
+
+       const range = [0,0,window.d3.min(values),window.d3.max(values)];
+
+
 
        // FOR TABLE
 
@@ -132,35 +135,52 @@ export  class EbnCircleGroupV2 { //extends GraphControllerV2 {
        const rowArray = filterUnique(this.data[dataGroup],"origin");
  
        const labels = this.mapping.parameters[0].map( p => p.label);
-       const firstRow = [""];
-       const headers = [];
 
-       labels.forEach( (l,i) => {
-            headers.push(l);
-            headers.push("");
-            firstRow.push("Opbrengsten");
-            firstRow.push("Kosten");
-       });
+       const items =  [];  // data[dataGroup].filter( p =>  ["sales","costs"].indexOf(p.payment_stream) > -1  );
 
-       rows.push(firstRow);
 
-       for (const year of columnArray) {
+       for (const year of grouped) {
 
-            const options: { [key: string] : any[] } = parseEBN(this.mapping,this.data[dataGroup].filter( p => p.year == year));
 
-            let row = [year];
+        const nam = [];
+        const participants = []; 
+            for (const company of filterUnique(this.data[dataGroup],"origin")) {
 
-            for (let aa of Object.values(options))  {
-                for (const a of aa) {
-                    row = row.concat(convertToCurrencyInTable(a));
+                const costs = year.find( p => p.payment_stream == "costs" && p.recipient == company);
+                const sales = year.find( p => p.payment_stream == "sales" && p.origin == company);
+
+                if (sales != undefined) { 
+
+                    const row = [
+                        year[0].year,
+                        sales.origin_name != undefined ? sales.origin_name : sales.origin, 
+                        convertToCurrencyInTable(costs.payments_companies * 1000 * 1000),
+                        convertToCurrencyInTable(sales.payments_companies * 1000  * 1000)
+                    ];
+
+                    rows.push(row)
+
                 }
             }
-
-            rows.push(row);
        }
 
+       // samenvoegen
+
+    //         const options: { [key: string] : any[] } = parseEBN(this.mapping,this.data[dataGroup].filter( p => p.year == year));
+
+    //         let row = [year];
+
+    //         for (let aa of Object.values(options))  {
+    //             for (const a of aa) {
+    //                 row = row.concat(convertToCurrencyInTable(a));
+    //             }
+    //         }
+
+    //         rows.push(row);
+    //    }
+
        const table = {
-           headers: ["Jaar"].concat(headers),
+           headers: ["Jaar","Bedrijf","Ontvangsten","Betalingen"],
            rows
        }
 
@@ -175,8 +195,6 @@ export  class EbnCircleGroupV2 { //extends GraphControllerV2 {
     async update(data: any, segment: string, update: boolean) {
 
         this.segment = segment;
-
-       
 
         if(update) {
 

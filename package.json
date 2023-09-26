@@ -20,9 +20,9 @@
     "@local/elements": "file:src/eiti-modules/elements",
     "@local/styleguide": "file:src/eiti-modules/styleguide",
     "axios": "^0.24.0",
-    "d3": "^7.8.4",
     "d3-sankey": "^0.12.3",
     "d3-selection": "^3.0.0",
+    "d3-transition": "^3.0.1",
     "dotenv": "^16.0.3",
     "es6-promise": "^4.2.8",
     "FileSaver": "^0.10.0",
@@ -68,5 +68,6 @@
     "deploy:prod": "cd public && git add . && git commit -am 'changes' && git push eiti master",
     "deploy:staging": "cd public && git add . && git commit -am 'changes' && git push staging master",
     "serve": "webpack serve --env ENV=dev DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/api/"
-  }
+  },
+  "sideEffects": false
 }

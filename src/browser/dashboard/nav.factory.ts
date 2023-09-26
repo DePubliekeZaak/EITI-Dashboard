@@ -11,18 +11,20 @@ export const navItems = [
     },
     {
         slug: 'ebn',
-        label: 'Energie Beheer Nederland',
-        title: 'Energie Beheer Nederland'
+        label: 'Overheidsdeelneming EBN',
+        title: 'Overheidsdeelneming EBN'
     },
     {
         slug: 'economy',
-        label: 'Mijnbouwgegevens Nederland',
-        title: 'Mijnbouwgegevens Nederland'
+        label: 'Mijnbouwsector Nederland',
+        title: 'Mijnbouwsector Nederland',
+        title_en: 'Size mining sector in the Netherlands'
     },
     {
         slug: 'ubo',
-        label: 'UBO gegevens',
-        title: 'UBO gegevens'
+        label: 'UBO-informatie',
+        title: 'UBO-informatie',
+        title_en: 'UBO information'
     },
     {
         slug: 'bedrijf',

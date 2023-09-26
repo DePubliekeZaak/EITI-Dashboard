@@ -1,13 +1,13 @@
 import { GraphControllerV2  } from '@local/d3_graphs';
 
-import { ChartBarReconciliation, ChartBarReconIntroV1, ChartGrid, HTMLYear, ZeroLine } from '@local/elements';
+import { ChartBarReconciliation, ChartBarReconIntroV1, ChartGrid, HtmlLegend, HtmlLegendCustom, HTMLYear, ZeroLine } from '@local/elements';
 import { IGraphMapping } from '@local/d3_types';
 import { breakpoints } from '@local/styleguide';
 import { Bars, EitiData, EitiReport } from '@local/d3_types/data';
 import { reconParameterList } from '@local/eiti-services';
 import { slugify } from '@local/d3-services/_helpers';
 
-const graphHeight = 300;
+const graphHeight = 330;
 
 
 // can this be a wrapper for multiple graphcontrollers?
@@ -27,6 +27,8 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV2 {
     bottomAxis;
     leftAxis;
 
+    legend;
+
     constructor(
         public main: any,
         public data : any,
@@ -42,14 +44,23 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV2 {
 
     pre() {
 
-        this._addMargin(0,80,0,0);
+        if (window.innerWidth < breakpoints.xsm) {
+            this._addMargin(30,80,0,0);
+        } else if(window.innerWidth < breakpoints.lg) {
+            this._addMargin(30,80,0,100);
+        } else {
+            this._addMargin(30,80,0,0);
+        }
+
+
         this._addPadding(0,30,10,120);
         this._addScale('x','linear','horizontal','value');
-        // this._addScale('x2','linear','horizontal','value2');
 
         this._addScale('y','band','vertical','label');
         this._addAxis('x','x','bottom');
-        // this._addAxis('x2','x','bottom');
+     
+
+
     }
 
     init() {
@@ -70,6 +81,22 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV2 {
 
         const h = new HTMLYear(this,container,this.segment == "all" ? "Alle jaren" : this.segment);
         h.container.style.alignItems = 'flex-start';
+
+        this.legend = new HtmlLegendCustom(this.element);
+        this.legend.draw([
+            { 
+                colour: "blue",
+                label: "overheid",
+            },
+            {
+                colour: "orange",
+                label: "bedrijven"
+            }
+            
+
+
+        ])
+
         this.zeroLine = new ZeroLine(this,"zero", "black")
         this.chartBar = new ChartBarReconIntroV1(this);
 

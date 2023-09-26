@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { select as d3Select } from 'd3-selection';
 import { transition as d3Transition } from 'd3-transition';
 d3Select.prototype.transition = d3Transition;
@@ -79,7 +79,7 @@ export class ChartCircles {
                     <div>Bedrag: &euro;` + thousands(d.value) + `</div>
                 `;
 
-                d3.select('.tooltip') 
+                window.d3.select('.tooltip') 
                     .html(html)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 5) + "px")
@@ -101,7 +101,7 @@ export class ChartCircles {
                setTimeout( () => {
 
                     if(self.tooltipArray.length == 0) {
-                        d3.select('.tooltip')
+                        window.d3.select('.tooltip')
                             .transition()
                             .duration(250)
                             .style("opacity", 0);
@@ -122,7 +122,7 @@ export class ChartCircles {
 
 
                 
-                return "&euro;" + thousands(d.value) 
+                return "&euro;" + thousands(Math.round(d.value)) 
             });
     }
 

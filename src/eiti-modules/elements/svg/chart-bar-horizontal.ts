@@ -43,8 +43,6 @@ export class ChartBarsHorizontal implements ChartElement {
 
     redraw(data: Bars) {
 
-        console.log(data);
-
         let self = this;
 
         this.bars
@@ -63,7 +61,6 @@ export class ChartBarsHorizontal implements ChartElement {
                 }
             })
             .attr("height", (d,i) =>  {
-
                 return self.ctrlr.dimensions.height - self.ctrlr.scales.y.fn(d.value);
             })
         ;
@@ -73,23 +70,9 @@ export class ChartBarsHorizontal implements ChartElement {
 
                 return convertToCurrency(d.value);
 
-                    // if (d.format == 'revenue') {
-
-                    //     return d.value < 0 ? '-&#x20AC;' + (Math.round(100 * -d.value) / 100) + 'M' : '&#x20AC;' + (Math.round(100 * d.value) / 100) + 'M';
-
-                    // } else if (d.format == 'percentage') { 
-
-                    //     return (Math.round(100 * d.value) / 100) + '%';
-
-                    // } else if (d.value != 0) { 
-                        
-                    //     return Math.round(100 * d.value) / 100;
-                    // }
-
             })
             .attr('opacity', 0)
             .attr('transform', (d,i) => {
-
 
                 const x = self.ctrlr.scales.x.fn(d.label) + self.ctrlr.scales.x.bandwidth()  / 2;
                 const y = self.ctrlr.scales.y.fn(d.value);
@@ -97,8 +80,6 @@ export class ChartBarsHorizontal implements ChartElement {
                 return 'translate(' + (0 + x) + ',' +
                     (0 + y)
                     + ')';
-
-                
             })
             .transition()
             .delay(500)

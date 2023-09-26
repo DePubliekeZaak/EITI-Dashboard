@@ -1,10 +1,10 @@
 import { GraphControllerV2  } from '@local/d3_graphs';
 
-import { ChartSankey, ChartSankeyV2, HtmlFunctionality, HtmlHeader, HTMLTable } from '@local/elements';
+import { ChartSankeyV2, HtmlFunctionality, HtmlHeader, HTMLTable } from '@local/elements';
 import { Sankey, TCtrlrs } from '@local/d3_types';
 import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colours } from '@local/styleguide';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { Line, Lines, EitiData } from '@local/d3_types';
 import { filterUnique, formatLines } from '@local/eiti-services';
 import { EitiPayments, IntData, SankeyLink, SankeyNode } from '@local/d3_types/data';
@@ -89,7 +89,7 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
         this.config.nodeWidth = 0;
         this.config.nodePadding = 80;
 
-        this.scales.l.set([1000]);
+        this.scales.l.set([1200]);
         this.scales.l.reset();
 
         this.addGradient();
@@ -185,6 +185,9 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
 
        // console.log(data.government_revenues);
 
+       const  yearData: EitiPayments[] = data[dataGroup].filter( (r: EitiPayments) => r.year == parseInt(this.segment));
+
+
         const filteredData: EitiPayments[] = data[dataGroup].filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies > 0 && r.aggregated);
         const filteredData_n: EitiPayments[] = data[dataGroup].filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies < 0 && r.aggregated);
         const uniqueOrigins = [];
@@ -193,6 +196,7 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
         const uniqueOrigins_n = [];
         const uniqueRecipients_n = [];
         const uniqueStreams_n = [];
+
 
         for (const report of filteredData) {
             if(uniqueOrigins.indexOf(report.origin) < 0) {
@@ -285,19 +289,27 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
             "type": "origin"
         });
 
-        // dividend
-        nodes.push({
+        // // dividend
+        // nodes.push({
+        //     "node": nodes.length,
+        //     "name": "dividends",
+        //     "label": "Dividenden",
+        //     "type": "origin"
+        // });
+
+         // dividend
+         nodes.push({
             "node": nodes.length,
             "name": "dividends",
             "label": "Dividenden",
             "type": "origin"
         });
 
-        // dividend
+        // equity
         nodes.push({
             "node": nodes.length,
-            "name": "ezk",
-            "label": "Ministerie van Economische Zaken",
+            "name": "equity",
+            "label": "Eigen vermogen",
             "type": "origin"
         });
 
@@ -308,6 +320,13 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
             "label": "Belastingdienst",
             "type": "origin"
         });
+
+        nodes.push({
+            "node": nodes.length,
+            "name": "ezk",
+            "label": "Ministerie van Economische Zaken",
+            "type": "origin"
+        });
         
         const links: SankeyLink[] = []
 
@@ -315,7 +334,7 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
         links.push({
             "source": nodes.find( n => n.name == "shares").node,
             "target": nodes.find( n => n.name == "gasterra").node,
-            "value": 4930,
+            "value": 4930, 
             "amount": 4930,
             "label" : "Opbrengst aandeel gas",
             "type" : "start",
@@ -407,7 +426,7 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
         links.push({
             "source": nodes.find( n => n.name == "resultaat").node,
             "target": nodes.find( n => n.name == "dividends").node,
-            "value": 0,
+            "value": 1000,
             "amount": 0,
             "label" : "Divenden",
             "type" : "start",
@@ -417,9 +436,19 @@ export  class EbnSankeyV1 extends GraphControllerV2  {
         links.push({
             "source": nodes.find( n => n.name == "dividends").node,
             "target": nodes.find( n => n.name == "ezk").node,
-            "value": 0,
+            "value": 1000,
             "amount": 0,
             "label" : "Divenden",
+            "type" : "start",
+            "meta" : null
+        })
+
+        links.push({
+            "source": nodes.find( n => n.name == "resultaat").node,
+            "target": nodes.find( n => n.name == "equity").node,
+            "value": 4926,
+            "amount": 0,
+            "label" : "Eigen vermogen",
             "type" : "start",
             "meta" : null
         })

@@ -98,9 +98,12 @@ export  class EbnCirclesV2 extends GraphControllerV2  {
         // this.data = data;
         const dataGroup = "payments";
         const filteredData = data[dataGroup].filter( (stream: EitiPayments) => ["sales","costs"].indexOf(stream.payment_stream) > -1 );
+        const nam = [];
+        const participants = []; 
 
         const salesGroup = [];
         const costsGroup = [];
+
         
         for (const cat of this.mapping.parameters[0]) {
 
@@ -108,6 +111,8 @@ export  class EbnCirclesV2 extends GraphControllerV2  {
                 let payments;
                 let sales: number;
                 let costs:  number
+                let meta_sales: EitiPayments[] = [];
+                let meta_costs: EitiPayments[] = [];
 
                 switch (cat.label) {
 
@@ -118,42 +123,49 @@ export  class EbnCirclesV2 extends GraphControllerV2  {
                         costs = payment.payments_companies;
                     break;
 
-                    case 'Groningen':
-                        payment = filteredData.find( p => p.origin == "nam" && p.project === 'groningen' && p.payment_stream == 'sales');
+                    case 'NAM':
+                        payment = filteredData.find( p => p.origin == "nam" && p.project === 'aggregated' && p.payment_stream == 'sales');
                         sales = payment.payments_companies;
-                        payment = filteredData.find( p => p.recipient == "nam" && p.project === 'groningen' && p.payment_stream == 'costs');
+                        meta_sales = filteredData.filter( p => p.origin == "nam" && p.project !== 'aggregated' && p.payment_stream == 'sales');
+                        payment = filteredData.find( p => p.recipient == "nam" && p.project === 'aggregated' && p.payment_stream == 'costs');
                         costs = payment.payments_companies;
+                        meta_costs = filteredData.filter( p => p.recipient == "nam" && p.project !== 'aggregated' && p.payment_stream == 'costs');
+                        
                     break;
 
-                    case 'Olie & Gas Exploratie & Productie':
-                        payments = filteredData.filter( p => !(p.origin == "nam" && ['groningen','aggregated'].indexOf(p.project) > -1) && p.origin !== "gasterra" && p.origin !== 'others' && p.payment_stream == 'sales');
-                        sales = payments.map( p => p.payments_companies).reduce( (sum,p) => sum + p,0);
-                        payments = filteredData.filter( p => !(p.recipient == "nam" && ['groningen','aggregated'].indexOf(p.project) > -1) && p.recipient !== "gasterra" && p.recipient !== 'others' && p.payment_stream == 'costs');
-                        costs = payments.map( p => p.payments_companies).reduce( (sum,p) => sum + p,0);
+                    case 'Overige deelnemers':
+                        meta_sales = filteredData.filter( p => p.origin !== "nam" && p.origin !== "gasterra" && p.origin !== 'others' && p.payment_stream == 'sales');
+                        sales = meta_sales.map( p => p.payments_companies).reduce( (sum,p) => sum + p,0);
+                        meta_costs = filteredData.filter( p => p.recipient !== "nam" && p.recipient !== "gasterra" && p.recipient !== 'others' && p.payment_stream == 'costs');
+                        costs = meta_costs.map( p => p.payments_companies).reduce( (sum,p) => sum + p,0);
                     break;
 
-                    case 'Overige':
+                    case 'Andere klanten':
                         payments = filteredData.filter( p => p.origin === 'others' && p.payment_stream == 'sales');
                         sales = payments.map( p => p.payments_companies).reduce( (sum,p) => sum + p,0);
                         payments = filteredData.filter( p => p.recipient === 'others' && p.payment_stream == 'costs');
                         costs = payments.map( p => p.payments_companies).reduce( (sum,p) => sum + p,0);
                 }
 
-                salesGroup.push({
-                    label: "sales",
-                    type: cat.label,
-                    colour: colours[cat.colour],
-                    value: Math.round(sales * 1000 * 1000),
-                    format: "revenue"
-                })
-
                 costsGroup.push({
                     label: "costs",
                     type: cat.label,
                     colour: colours[cat.colour],
                     value: Math.round(costs * 1000 * 1000),
-                    format: "revenue"
+                    format: "revenue",
+                    meta: meta_costs
                 })
+
+                salesGroup.push({
+                    label: "sales",
+                    type: cat.label,
+                    colour: colours[cat.colour],
+                    value: Math.round(sales * 1000 * 1000),
+                    format: "revenue",
+                    meta: meta_sales
+                })
+
+               
             }
         
 
@@ -185,7 +197,7 @@ export  class EbnCirclesV2 extends GraphControllerV2  {
 
 
         return {
-            graph: [costsGroup,salesGroup],
+            graph: [salesGroup,costsGroup],
             table
         }
     }

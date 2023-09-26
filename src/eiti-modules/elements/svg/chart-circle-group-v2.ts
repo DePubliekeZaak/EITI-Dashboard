@@ -1,6 +1,6 @@
 import { convertToCurrency } from '@local/d3-services';
 import { bePositive, convertToMillions } from '@local/d3-services/_helpers';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import * as _ from "lodash";
 import { colours } from '../../styleguide';
 
@@ -56,7 +56,7 @@ export class ChartCircleGroupsV2 {
             .style("font-family", "RO Sans Regular")
             .style("font-size","1rem")
             .attr('dy', -60)
-            .text( (d) => d[0].label == 'sales' ? 'Ontvangsten' : 'Kosten')
+            .text( (d) => d[0].label == 'sales' ? 'Ontvangsten' : 'Betalingen')
 
         this.headers_lines = this.headerGroup
             .append("rect")
@@ -116,10 +116,43 @@ export class ChartCircleGroupsV2 {
 
         let groupWidth = this.ctrlr.dimensions.width / groupedData.length;
         this.center = {x: (groupWidth / 2) , y: ((this.ctrlr.dimensions.height / 2) + 48) };
-        this.tooltip = d3.select('.tooltip');
+        this.tooltip = window.d3.select('.tooltip');
 
         let popup = function popup(d) {
-            return d.type + '<br/>' + d.label + '<br/>' + convertToCurrency(d.value);
+            
+            let html = '';
+
+            for (const p of d.meta) {
+
+                let line; 
+
+                if (d.type == 'NAM') {
+                     line = '<br/>' + p.project + ": " + convertToCurrency(p.payments_companies * 1000 * 1000);
+                } else if (d.type == 'Overige deelnemers' && p.payment_stream == 'sales') {
+                    line = '<br/>' + p.origin_name + ": " + convertToCurrency(p.payments_companies * 1000 * 1000);
+                } else if (d.type == 'Overige deelnemers' && p.payment_stream == 'costs') {
+                    line = '<br/>' + p.recipient_name + ": " + convertToCurrency(p.payments_companies * 1000 * 1000);
+                }
+
+
+                html = html.concat(line);
+            }
+
+            if (d.type == 'NAM' || d.type == 'Overige deelnemers') {
+
+
+                html = html.concat('<div style="border-top:1px solid #fff;margin:3px 0; padding: 3px 0;">' + d.type + ': ' + convertToCurrency(d.value) + '</div>');
+
+            } else {
+
+
+                html = html.concat('<div>' + d.type + ': ' + convertToCurrency(d.value) + '</div>');
+
+            }
+
+
+            return html;
+
         }
 
         this.headerGroup
@@ -158,18 +191,9 @@ export class ChartCircleGroupsV2 {
                 return (i % 2 == 0) ? 10 : 10;  // - (rScale(d.value) + 50);
             });
 
-            // this.circleGroups
-            //     .attr("transform", (d,i) => {
-            //         const x = i%2 ? -20 : 20;
-            //         const y = i%2 ? 100 : 200;
-            //        return "translate(" + x + "," + y + ")"
-                    
-            //     })
 
             this.circles
                 .attr("r", (d) => {
-                    
-                    // console.log(d.value);
                     return this.ctrlr.scales.r.fn(d.value)
                 })
                 
@@ -183,7 +207,7 @@ export class ChartCircleGroupsV2 {
                             return dd.colour[2]
                         });
 
-                    d3.select(event.target)
+                    window.d3.select(event.target)
                         .style("fill", (dd: any) => dd.colour[1])
                         .style("stroke", (dd: any) => dd.colour[0])
                         ;

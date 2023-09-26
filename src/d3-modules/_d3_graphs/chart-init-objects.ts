@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { colours } from "@local/styleguide";
 
 // could this be a class ? 
@@ -45,7 +45,7 @@ export const ChartObject = () =>  {
         tooltip.style.zIndex = '10';
         tooltip.style.width = 'auto';
         tooltip.style.height = 'auto'
-        tooltip.style.maxWidth = '360px';
+        tooltip.style.maxWidth = '480px';
         // tooltip.style.maxHeight = '180px';
         tooltip.style.padding = '1rem';
         tooltip.style.background = 'black';
@@ -59,7 +59,7 @@ export const ChartObject = () =>  {
         return {
             body : null,
             layers : {},
-            tooltip : (document.querySelector('.tooltip')) ? d3.select(".tooltip") : document.querySelector('body').appendChild(tooltip),
+            tooltip : (document.querySelector('.tooltip')) ? window.d3.select(".tooltip") : document.querySelector('body').appendChild(tooltip),
             yAxis : null,
             xAxis : null
         }

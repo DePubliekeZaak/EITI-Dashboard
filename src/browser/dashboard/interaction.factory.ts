@@ -33,20 +33,24 @@ export const switchTopic = (ctrlr: IDashboardController, paramKey: string, param
     let mobileNav = document.querySelector('.mobile_nav_v2');
     if (mobileNav) {
         mobileNav.classList.remove('is-open');
+        
     } 
     
     let mobileNavButton = document.querySelector('.img_dashboard_mobile_nav_button')
     if(mobileNavButton) {
         mobileNavButton.classList.remove('is-active');
+        
     }
 }
 
 export const openMenu = (): void => {
     document.getElementsByTagName('aside')[0].classList.add('is_open');
+    document.getElementsByTagName("body")[0].style.position = "fixed";
 }
 
 export const closeMenu = (): void => {
     document.getElementsByTagName('aside')[0].classList.remove('is_open');
+    document.getElementsByTagName("body")[0].style.position = "relative";
 }
 
 // export const closeMenu = (): void => {

@@ -92,7 +92,7 @@ export class EconomySharesV1 extends GraphControllerV2  {
     async draw(data: any) {
 
         this.scales.x.set(data.graph.map( (d) => d.year));
-        this.scales.y.set(data.graph.map( (d) => d.value).concat([0]));
+        this.scales.y.set(data.graph.map( (d) => parseFloat(d.value)).concat([0]));
         
         this.bars.draw(data.graph);
 

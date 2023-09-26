@@ -6,7 +6,7 @@ import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colours } from '@local/styleguide';
 import { HTMLCompany } from '@local/elements';
 import { Bars, EitiCompanies, EitiData, EitiReport } from '@local/d3_types/data';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { formatReconData } from '@local/eiti-services';
 
 // const graphHeight = 600;
@@ -168,8 +168,8 @@ export class CompanyReconciliationV1 extends GraphControllerV2 {
             
         });
 
-        let min = d3.min(values) * 1
-        const max = d3.max(values) * 1
+        let min = window.d3.min(values) * 1
+        const max = window.d3.max(values) * 1
         if (min > 0 ) { min = -5}
         this.scales.x.set([min,max]);
         this.yScale = this.scales.y.set(data.map ( d => d.label));

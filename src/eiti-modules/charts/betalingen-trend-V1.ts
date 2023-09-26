@@ -4,7 +4,7 @@ import { ChartLines, HtmlFunctionality, HtmlHeader, HTMLTable } from '@local/ele
 import { TCtrlrs } from '@local/d3_types';
 import { IGraphMapping } from '@local/d3_types';
 import { breakpoints } from '@local/styleguide';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { Line, Lines, EitiData } from '@local/d3_types';
 import { filterUnique, formatLines } from '@local/eiti-services';
 
@@ -127,8 +127,8 @@ export  class BetalingenTrendV1 extends GraphControllerV2  {
 
     async redraw(data: any, range: number[]) {
 
-        const min = parseFloat(d3.min(data.uniqueYears)) - 0;
-        const max = parseFloat(d3.max(data.uniqueYears)) + 0;
+        const min = parseFloat(window.d3.min(data.uniqueYears)) - 0;
+        const max = parseFloat(window.d3.max(data.uniqueYears)) + 0;
 
         this.scales.x.set([min,max]);
      

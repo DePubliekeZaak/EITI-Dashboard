@@ -4,6 +4,7 @@ export { ChartBarProgression } from "./svg/chart-bar-progression"
 export { ChartBarReconciliation } from "./svg/chart-bar-reconciliation"
 export { ChartBarReconciliationV2 } from "./svg/chart-bar-reconciliation-v2"
 export { ChartBarReconciliationV3 } from "./svg/chart-bar-reconciliation-v3"
+export { ChartBarReconciliationV4 } from "./svg/chart-bar-reconciliation-v4"
 export { ChartBarReconIntroV1} from './svg/chart-bar-recon-intro'
 export { ChartBarBells } from './svg/chart-bar-bells'
 
@@ -43,15 +44,20 @@ export { HtmlFunctionality} from "./html/html-functionality"
 export { HtmlYearSelector } from "./html/year-selector"
 export { HtmlMappingSelector } from "./html/mapping-selector"
 export { HtmlCustomSelector} from "./html/html-custom-selector"
+export { HtmlCompanySelector} from "./html/html-company-selector"
 
 export { HtmlLegend } from "./html/html-legend"
 export { HtmlLegendEntities } from "./html/html-legend-entities"
 export { HtmlLegendCustom } from "./html/html-legend-custom"
 
+export { HtmlLegendColumn } from "./html/html-legend-column"
+
 
 export { HtmlCardsV1 } from "./html/html-cards"
 
 export { AxisArrow } from "./svg/axis-arrow"
+
+
 
 
 

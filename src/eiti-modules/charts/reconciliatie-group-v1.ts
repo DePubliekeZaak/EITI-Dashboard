@@ -8,8 +8,8 @@ import { HTMLCompany, HtmlHeader, HtmlYearSelector } from '@local/elements';
 import { groupBy } from '@local/d3-services';
 import { charts }  from '@local/charts';
 import { EitiCompanies, EitiData, EitiReport } from '@local/d3_types/data';
-import *  as d3 from 'd3';
-import { group } from 'd3';
+// import *  as d3 from 'd3';
+// import { group } from 'd3';
 import { filterUnique } from '@local/eiti-services';
 
 
@@ -120,7 +120,7 @@ export default class ReconciliatieGroupV1 { //extends GraphControllerV2 {
        })
 
        return {
-        diff_range: [d3.min(diff_values) * 100,d3.max(diff_values) * 100],
+        diff_range: [window.d3.min(diff_values) * 100,window.d3.max(diff_values) * 100],
         grouped
        }
     }

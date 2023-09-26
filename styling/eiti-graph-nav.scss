@@ -13,7 +13,7 @@
         // border: 1px solid rgb(230, 230, 230);
         width: auto;
 
-        @media(min-width: $breakpoint-md) {
+        @media(min-width: $breakpoint-sm) {
 
             flex-direction: row;
         }

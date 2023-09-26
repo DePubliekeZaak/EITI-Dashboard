@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { IScale } from '@local/d3_types';
 import { IGraphControllerV2 } from './graph-v2';
 
@@ -34,43 +34,43 @@ export class ScaleService implements IScaleService{
 
             case 'linear':
 
-                this.scale = d3.scaleLinear()
+                this.scale = window.d3.scaleLinear()
                     .domain([
-                        d3.min(data, (v) => (v ? v : 0) as number),  //
-                        d3.max(data, (v) => (v ? v : 0) as number)
+                        window.d3.min(data, (v) => (v ? v : 0) as number),  //
+                        window.d3.max(data, (v) => (v ? v : 0) as number)
                     ]);
                 break;
 
             case 'log':
 
-                this.scale = d3.scaleLog()
+                this.scale = window.d3.scaleLog()
                     .domain([
                         1,
-                        d3.max(data, (v) => (v ? v : 0) as number)
+                        window.d3.max(data, (v) => (v ? v : 0) as number)
                     ]);
                 break;
 
             case 'log1000':
 
-                this.scale = d3.scaleLog()
+                this.scale = window.d3.scaleLog()
                     .domain([
                         100000,
-                        d3.max(data, (v) => (v ? v : 0) as number)
+                        window.d3.max(data, (v) => (v ? v : 0) as number)
                     ]);
                 break;
 
             case 'time':
 
-                this.scale = d3.scaleTime()
+                this.scale = window.d3.scaleTime()
                     .domain([
-                        d3.min(data, (d : any) => ( new Date(d) ? new Date(d) : 0) as Date), //
-                        d3.max(data, (d : any) => ( new Date(d) ? new Date(d) : 0) as Date),
+                        window.d3.min(data, (d : any) => ( new Date(d) ? new Date(d) : 0) as Date), //
+                        window.d3.max(data, (d : any) => ( new Date(d) ? new Date(d) : 0) as Date),
                     ]);
                 break;
 
             case 'band':
 
-                this.scale = d3.scaleBand()
+                this.scale = window.d3.scaleBand()
                     .domain(data)
                     .paddingInner(self.ctrlr.config.paddingInner)
                     .paddingOuter(self.ctrlr.config.paddingOuter)
@@ -81,7 +81,7 @@ export class ScaleService implements IScaleService{
 
             case 'bandTime':
 
-                this.scale = d3.scaleBand()
+                this.scale = window.d3.scaleBand()
                     .domain(data)
                     .paddingInner(.2)
                     .paddingOuter(.5)
@@ -91,17 +91,17 @@ export class ScaleService implements IScaleService{
 
             case 'radius':
 
-                this.scale = d3.scalePow()
+                this.scale = window.d3.scalePow()
                     .domain([
-                        d3.min(data, (v) => (v ? v : 0) as number),  //
-                        d3.max(data, (v) => (v ? v : 0) as number)
+                        window.d3.min(data, (v) => (v ? v : 0) as number),  //
+                        window.d3.max(data, (v) => (v ? v : 0) as number)
                     ]).nice();
 
                 break;
 
             case 'normalised':
 
-                this.scale = d3.scaleLinear();
+                this.scale = window.d3.scaleLinear();
 
                 break;
         }

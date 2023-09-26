@@ -5,7 +5,7 @@ import { IGraphMapping } from '@local/d3_types';
 import { breakpoints } from '@local/styleguide';
 import { Bars, EitiData } from '@local/d3_types/data';
 
-const graphHeight = 300;
+const graphHeight = 345;
 
 
 // can this be a wrapper for multiple graphcontrollers?
@@ -41,14 +41,13 @@ export  class ReconciliatieIntroBellsV1 extends GraphControllerV2 {
 
     pre() {
 
-        this._addMargin(0,60,0,0);
+        this._addMargin(60,60,0,0);
         this._addPadding(0,0,10,60);
 
         this._addScale('y','linear','vertical','value');
         this._addScale('x','linear','horizontal','label');
 
         this._addAxis('x','x','bottom','percentage');
-        // this._addAxis('y','y','left')
     }
 
     init() {
@@ -113,15 +112,10 @@ export  class ReconciliatieIntroBellsV1 extends GraphControllerV2 {
         this.scales.x.set(data.map( t=> t.label));
         this.yScale = this.scales.y.set(data.map ( d => d.value));
 
-        
         await super.redraw(data);
-
         await this.bell.redraw(data)
-
         await this.arrowX.redraw();
         await this.arrowY.redraw();
-
-
     }
 
     

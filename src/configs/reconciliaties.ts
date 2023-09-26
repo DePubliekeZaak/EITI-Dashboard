@@ -103,46 +103,74 @@ export const reconciliatie : IGraphMapping[] = [
         "segment": "difference_in_reported_absolute",
         "elementClasslist": ['graph-container','graph-container-12']
     },
+    {
+        "slug" : "reconciliatie_per_jaar_percentage",
+        "graph": "ReconciliationCompanyV2",
+        "args" : [],
+        "parameters": [
+            [
+                
+                {
+                    "label": "verschil tussen rapportages en reconciliatie",
+                    "column": "pre_company_report",
+                    "colour": "gray",
+                    "format": "percentage"
+                },
+                {
+                    "label": "aanpassing bedrijf",
+                    "column": "pre_company_report",
+                    "colour": "orange",
+                    "format": "percentage"
+                },
+                {
+                    "label": "aanpassing overheid",
+                    "column": "pre_company_report",
+                    "colour": "blue",
+                    "format": "percentage"
+                }
+            ]
+        ],
+        "header": "Reconciliatie per bedrijf",
+        "multiGraph": false,
+        "functionality": ["companySelect","tableView","download"],
+        "description": null,
+        "endpoint": "reconciliatie",
+        "segment": "nam",
+        "elementClasslist": ['graph-container','graph-container-12']
+    },
     // {
-    //     "slug" : "reconciliatie_per_jaar",
-    //     "graph": "ReconciliatieYearGroupV1",
+    //     "slug" : "reconciliatie_per_jaar_percentage",
+    //     "graph": "ReconciliationCompanyV3",
     //     "args" : [],
     //     "parameters": [
     //         [
+                
     //             {
-    //                 "label": "bedrijf",
+    //                 "label": "verschil tussen rapportages en reconciliatie",
+    //                 "column": "pre_company_report",
+    //                 "colour": "gray",
+    //                 "format": "percentage"
+    //             },
+    //             {
+    //                 "label": "aanpassing bedrijf",
     //                 "column": "pre_company_report",
     //                 "colour": "orange",
+    //                 "format": "percentage"
+    //             },
+    //             {
+    //                 "label": "aanpassing overheid",
+    //                 "column": "pre_company_report",
+    //                 "colour": "blue",
     //                 "format": "percentage"
     //             }
     //         ]
     //     ],
     //     "header": "Reconciliatie per jaar",
-    //     "multiGraph": true,
-    //     "description": "Deze vorm gebruiken we waarschijnlijk op individuele bedrijven pagina.",
+    //     "multiGraph": false,
+    //     "functionality": ["companySelect","tableView","download"],
+    //     "description": null,
     //     "endpoint": "reconciliatie",
-    //     "segment": "2022",
-    //     "elementClasslist": ['graph-container','graph-container-12']
-    // },
-    // {
-    //     "slug" : "reconciliatie_bedrijven",
-    //     "graph": "ReconciliatieGroupV1",
-    //     "args" : [],
-    //     "parameters": [
-    //         [
-    //             {
-    //                 "label": "bedrijf",
-    //                 "column": "pre_company_report",
-    //                 "colour": "orange",
-    //                 "format": "percentage"
-    //             }
-    //         ]
-    //     ],
-    //     "header": "Reconciliatie",
-    //     "multiGraph": true,
-    //     "description": "Allereerst wordt de aanpak en methodologie van de reconciliatie van betaalstromen over 2021 toegelicht. Daarna worden de uitkomsten van de reconciliatieoefening weergegeven als totaal, per overheidsinstantie, per bedrijf en per betaalstroom. Vervolgens worden de gerapporteerde uitkomsten voor het jaar 2021 vergeleken met die 2020 en 2019 en van een context voorzien.",
-    //     "endpoint": "reconciliatie",
-    //     "segment": "2022",
+    //     "segment": "nam",
     //     "elementClasslist": ['graph-container','graph-container-12']
     // }
 ];

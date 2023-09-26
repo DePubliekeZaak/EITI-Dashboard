@@ -76,7 +76,7 @@ export class ChartBars implements ChartElement {
 
                     if (d.format == 'revenue') {
 
-                        return d.value < 0 ? '-&#x20AC;' + (Math.round(100 * -d.value) / 100) + 'M' : '&#x20AC;' + (Math.round(100 * d.value) / 100) + 'M';
+                        return d.value < 0 ? '-&#x20AC;' + (Math.round(100 * -d.value) / 100) + 'M' : '&#x20AC;' + (Math.round(100 * d.value) / 100).toString().replace(".",",") + 'M';
 
                     } else if (d.format == 'percentage') { 
 

@@ -1,4 +1,5 @@
 import {colours} from "@local/styleguide";
+import { drop } from "lodash";
 
 export class HtmlMappingSelector {
 
@@ -19,6 +20,7 @@ export class HtmlMappingSelector {
         let dropdown = document.createElement('select');
         dropdown.id = this.id;
         dropdown.style.alignSelf = 'flex-start';
+        dropdown.style.maxWidth = '90vw';
 
         for ( let map of this.mapping.parameters[0]) {
 

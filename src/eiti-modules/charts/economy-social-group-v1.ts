@@ -40,6 +40,15 @@ export class EconomySocialGroupV1 implements IGraphGroupControllerV2 {
 
         const self = this;
 
+        if (this.mapping.slug == "environmental") {
+
+            const h2 = document.createElement("h2");
+            h2.innerText = "Niet-gereconcilieerde betalingen:";
+            h2.style.marginTop = "4rem";
+            h2.style.marginBottom = "2rem";
+            this.element.appendChild(h2);
+        }
+
         if (this.mapping.header) {
             this.htmlHeader = new HtmlHeader(this.element, this.mapping.header,this.mapping.description);
             this.htmlHeader.draw(); 
@@ -59,12 +68,14 @@ export class EconomySocialGroupV1 implements IGraphGroupControllerV2 {
         let i = 0;
         for (let paramGroup of data.graphs) {
 
+       
+
             const header = document.createElement("h3");
             header.innerText = this.mapping.parameters[i][0].label;
             header.style.marginBottom = "1rem";
           
             const container = document.createElement('section');
-            container.classList.add("graph-container-6")
+            container.classList.add("graph-container-9")
             container.classList.add("graph-view");
             container.appendChild(header);
             wrapper.appendChild(container);
@@ -94,7 +105,7 @@ export class EconomySocialGroupV1 implements IGraphGroupControllerV2 {
         const graphs : Bars[] = [];
         const ranges = [];
 
-        const uniqueYears = data[dataGroup].map( d => d.year);
+        const uniqueYears = data[dataGroup].map( d => d.year).filter( (y) => y != 2017);
 
 
 

@@ -1,10 +1,11 @@
 
 body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
+    width: 100%;
 }
 
 main {
@@ -27,11 +28,9 @@ main {
     position: relative;
     justify-content: space-between  ;
     align-items: flex-start;
-  
     padding: 2rem 1rem 2rem 1rem;
     width : calc(100% - 2rem);
-    overflow: visible;
-   
+    overflow: visible; 
   
     @media (min-width: $breakpoint-sm) {
       min-width: 680px;
@@ -39,8 +38,7 @@ main {
     }
   
     @media (min-width: $breakpoint-md) {
-      // padding: 2rem 0rem 0 0px;
-      // min-width: 920px;
+
       width : calc(100% - 4rem); 
       margin: 0;
     }
@@ -58,9 +56,11 @@ main {
 
     display: none;
     position: fixed;
+    overflow: auto;
     left: 0;
     top: 11.5rem;
     width: 100vw;
+    padding-bottom: 6rem;
     height: calc(100vh - 11.5rem);
 
 
@@ -70,7 +70,7 @@ main {
     }
 
 
-    @media(min-width: $breakpoint-sm) {
+    @media(min-width: $breakpoint-lg) {
 
       display: block;
       position: relative;
@@ -87,25 +87,27 @@ main {
       margin: auto;
   
       margin-top: 1rem;
+
+      height: calc(100% - 16.5rem);
   
-      @media (min-width: $breakpoint-bax) {
-        margin-top: 10rem;
-      }
+      // @media (min-width: $breakpoint-bax) {
+      //   margin-top: 10rem;
+      // }
   
-      h3 {
+      // h3 {
   
-        @media (min-width: $breakpoint-md) {
-          display: none;
-        }
-      }
+      //   @media (min-width: $breakpoint-md) {
+      //     display: none;
+      //   }
+      // }
   
-      @media (min-width: $breakpoint-sm) {
-        width : auto;
-        padding: 2rem;
+      // @media (min-width: $breakpoint-sm) {
+      //   width : auto;
+      //   padding: 2rem;
   
-      }
+      // }
   
-      @media (min-width: $breakpoint-md) {
+      @media (min-width: $breakpoint-lg) {
         // position: absolute;
         // left: 0;
         min-height: 100vh;

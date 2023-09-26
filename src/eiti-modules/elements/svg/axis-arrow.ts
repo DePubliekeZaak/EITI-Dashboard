@@ -1,5 +1,5 @@
-import * as d3 from 'd3';
-import { colours } from '@local/styleguide';
+// import * as d3 from 'd3';
+import { breakpoints, colours } from '@local/styleguide';
 import { Dimensions, DataPart, GraphData} from "@local/d3_types";
 
 
@@ -34,7 +34,7 @@ export class AxisArrow {
             .attr('markerHeight', markerSize)
             .attr('orient', 'auto-start-reverse')
             .append('path')
-            .attr('d', d3.line()(arrowPoints))
+            .attr('d', window.d3.line()(arrowPoints))
             .attr('stroke', 'black');
 
 
@@ -48,6 +48,7 @@ export class AxisArrow {
         this.ctrlr.svg.layers.axes
             .append("text")
             .attr("class", "label_" + this.axis)
+            .style("font-size", window.innerWidth < breakpoints.xsm ? '.66rem' : '.85rem' )
             .text(this.description);
     }
 

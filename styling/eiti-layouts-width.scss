@@ -140,9 +140,10 @@
   .graph-container-12 {
     width: 100%;
 
+
       &.table-view {
         max-height: 800px;
-        overflow: scroll;
+        overflow: auto;
       }
   }
   

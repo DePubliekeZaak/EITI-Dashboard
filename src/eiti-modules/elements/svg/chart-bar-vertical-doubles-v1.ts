@@ -2,7 +2,7 @@ import { slugify, thousands } from '@local/d3-services';
 import { Dimensions } from '@local/d3_types';
 import { Bars } from '@local/d3_types';
 import { colourArray, colours} from "@local/styleguide";
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 
 
 interface ChartElement {
@@ -71,8 +71,12 @@ export class ChartBarVerticalDoublesV1   {
             .html((d) => {
 
                 let s = '';
-                if (d.format == 'percentage') {
-                    s = (Math.round(d.value * 10) / 10).toString() + "%";
+
+
+                if (d.format == 'percentage' && this.ctrlr.mapping.slug == 'employment_in_economy') {
+                    s = (Math.round(d.value * 100000) / 100000).toString() + "%";
+                } else if (d.format == 'percentage') {
+                    s = (Math.round(d.value * 100) / 100).toString() + "%";
                 } else if (d.format == 'miljard') {
                     s = "&euro;" + thousands(Math.round(d.value)).toString() + ' MLD';
                 } else if (d.format == 'fte') {

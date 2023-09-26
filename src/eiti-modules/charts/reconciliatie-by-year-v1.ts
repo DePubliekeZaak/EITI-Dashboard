@@ -6,7 +6,6 @@ import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colours } from '@local/styleguide';
 import { HTMLCompany } from '@local/elements';
 import { Bars, EitiCompanies, EitiData, EitiReport } from '@local/d3_types/data';
-import * as d3 from 'd3';
 
 const graphHeight = 600;
 // const companyWidth = 160;
@@ -148,8 +147,8 @@ export class ReconciliatieByYearV1 extends GraphControllerV2 {
 
         // console.log(data);
         const values : number[] = data.map( (r) => r.value).concat(data.map( (r) => r.value2));
-        const min = d3.min(values) - 10
-        const max = d3.max(values) + 10
+        const min = window.d3.min(values) - 10
+        const max = window.d3.max(values) + 10
         this.scales.x.set([min,max]);
         this.yScale = this.scales.y.set(data.map ( d => d.label));
 

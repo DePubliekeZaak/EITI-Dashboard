@@ -5,7 +5,7 @@ import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colours } from '@local/styleguide';
 import { EitiData, EitiPayments } from '@local/d3_types';
 import { BallenbakSimulation, filterUnique } from '@local/eiti-services';
-import { IntData } from '@local/d3_types/data';
+import { EitiEntity, IntData } from '@local/d3_types/data';
 import { convertToCurrencyInTable } from '@local/d3-services/_helpers';
 
 const graphHeight = 480;
@@ -40,7 +40,7 @@ export  class EbnCirclesV1 extends GraphControllerV2  {
 
         this._addScale('x','band','horizontal','value');
         this._addScale('y','band','vertical-reverse','value');
-        this._addScale('r','log1000','radius','value');
+        this._addScale('r','linear','radius','value');
     }
 
     async init() {
@@ -63,6 +63,7 @@ export  class EbnCirclesV1 extends GraphControllerV2  {
 
         const container = document.createElement('section');
         container.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight.toString() + "px" : graphHeight.toString() + "px";
+        container.style.flexDirection = 'column';
 
         for (const className of this.mapping.elementClasslist) { }
         container.classList.add("graph-container-12")
@@ -76,7 +77,7 @@ export  class EbnCirclesV1 extends GraphControllerV2  {
 
         await super._svg(container);
 
-        this.config.minRadius = 6;
+        this.config.minRadius = 20;
         this.config.radiusFactor = this.ctrlr.params.isCompanyPage() ? .6 : .6;
         this.config.paddingInner = .4;
         this.config.paddingOuter = .2;
@@ -99,17 +100,22 @@ export  class EbnCirclesV1 extends GraphControllerV2  {
 
         // this.data = data;
         const dataGroup = "payments";
-        const filteredData = data[dataGroup].filter( (stream: EitiPayments) => ["sales","costs"].indexOf(stream.payment_stream) > -1 );
+        const filteredData = data[dataGroup].filter( (stream: EitiPayments) => ["sales","costs"].indexOf(stream.payment_stream) > -1  && (stream.origin === this.segment || stream.recipient == this.segment)) ;
+        const uniqueYears = filterUnique(data[dataGroup],"year");
+        uniqueYears.sort( (a:any,b: any) => parseInt(a) - parseInt(b));
 
         const years = [];
 
-        for (const uyear of filterUnique(filteredData,"year").reverse()) {
+        for (const uyear of uniqueYears) {
 
             const yearData = filteredData.filter( p => p.year == uyear)
             const group = [];
 
-            const sales = 1000 * 1000 * yearData.find( p => p.payment_stream == 'sales')["payments_companies"];
-            const costs = 1000 * 1000 * yearData.find( p => p.payment_stream == 'costs')["payments_companies"];
+            const salesReport = yearData.find( p => p.payment_stream == 'sales');
+            const costsReport = yearData.find( p => p.payment_stream == 'costs');
+
+            const sales = salesReport != undefined ? 1000 * 1000 * salesReport["payments_companies"] : 0;
+            const costs = costsReport != undefined ? 1000 * 1000 * costsReport["payments_companies"] : 0;
 
             group.push({
                 label: "sales",
@@ -138,31 +144,54 @@ export  class EbnCirclesV1 extends GraphControllerV2  {
             })
         }
 
+    
+
         /// TABLE DATA 
 
         const rows = [];
-        const uniqueYears = filterUnique(data[dataGroup],"year");
-        uniqueYears.sort( (a:any,b: any) => parseInt(a) - parseInt(b));
 
-        for (const ustream of filterUnique(data[dataGroup],"payment_stream")) {
+        for (const entity of data.entities.filter( (e) => e.type === 'company' && e.slug != 'ebn').sort( (a: EitiEntity, b: EitiEntity) =>  a.name.localeCompare(b.name)) ) {
 
-            const row = [];
-            row.push(data[dataGroup].find( (s) => s.payment_stream === ustream).name_nl);
+            
+            const companyData = data[dataGroup].filter( (stream: EitiPayments) => ["sales","costs"].indexOf(stream.payment_stream) > -1  && (stream.origin === entity.slug|| stream.recipient == entity.slug)) ;
 
-            for (const year of uniqueYears) { 
+            if (companyData.length > 0) {
 
-                const item = data[dataGroup].find( (s) => s.payment_stream === ustream && s.year == year);
-                row.push(item != undefined ?  convertToCurrencyInTable(item.payments_companies) : "-")
+
+                for (const ustream of ['costs','sales']) {
+
+                    const row = [];
+
+
+                    row.push(entity.name);
+
+                    const report = companyData.find( (s) => s.payment_stream === ustream);
+
+                    if (report != undefined) {
+                        row.push(report.name_nl);
+                    }
+                
+
+                    for (const year of uniqueYears) { 
+
+                        const item = companyData.find( (s) => s.payment_stream === ustream && s.year == year);
+                        row.push(item != undefined ?  convertToCurrencyInTable(item.payments_companies * 1000 * 1000) : "-")
+                    }
+
+                    rows.push(row);
+                }
+
             }
 
-            rows.push(row);
         }
 
         const table = {
 
-            headers:  ["Betaalstroom"].concat([this.segment]),
+            headers:  ["Bedrijf","Betaalstroom"].concat(uniqueYears.map( (y) => y.toString())),
             rows
         };
+
+        console.log(years);
 
 
         return {
@@ -173,14 +202,14 @@ export  class EbnCirclesV1 extends GraphControllerV2  {
 
     async draw(data: any) {
 
-        let values = [];
+        let values = [0];
         for (const year of data.graph) {
             values = values.concat(year.group.map(p => p.value))
         }
 
         this.scales.x.set(data.graph.map( (d) => d['label']));
         this.scales.y.set(data.graph.map( (d) => d['label']));
-        this.scales.r.set(values.filter( v => v > 0)); // = radius !!
+        this.scales.r.set(values.filter( v => v >= 0)); // = radius !!
         
         this.circleGroups.draw(data.graph);
         //

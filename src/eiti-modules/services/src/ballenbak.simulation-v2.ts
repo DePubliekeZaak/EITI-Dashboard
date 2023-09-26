@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import { SimulationNodeDatum } from "d3";
 import { Circle } from "@local/d3_types";
 
@@ -15,12 +15,12 @@ export class BallenbakSimulationV2 {
 
     init() {
 
-        this.s = d3.forceSimulation();
+        this.s = window.d3.forceSimulation();
         
         this.s
-            .force('charge', d3.forceManyBody().strength(forceStrength))
-            .force("center", d3.forceCenter())
-            .force("collide", d3.forceCollide().strength(forceStrength))
+            .force('charge', window.d3.forceManyBody().strength(forceStrength))
+            .force("center", window.d3.forceCenter())
+            .force("collide", window.d3.forceCollide().strength(forceStrength))
          //   .force("forceX", d3.forceX().strength(forceStrength))    
     }
 

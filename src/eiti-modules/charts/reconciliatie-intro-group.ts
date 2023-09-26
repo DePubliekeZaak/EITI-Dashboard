@@ -91,6 +91,8 @@ export class ReconciliatieIntroGroupV1 { //extends GraphControllerV2 {
 
         for (const year of this.uniqueYears.filter( y => y != "all")) {
 
+            // if (year != 2018) return;
+
             const reports = formatReconData(data[dataGroup].filter( (r) => r.year === year));
 
             const total = {
@@ -113,8 +115,7 @@ export class ReconciliatieIntroGroupV1 { //extends GraphControllerV2 {
 
             totals.push(total);
 
-            const values = reports.map( r => r[key]).filter( r => !isNaN(r)).concat(reports.map( r => r[key2]).filter( r => !isNaN(r)))
-            
+            const values = reports.map( r => r[key]).filter( r => !isNaN(r) && r != Infinity).concat(reports.map( r => r[key2]).filter( r => !isNaN(r) && r != Infinity))
             const { mean, stdev } =  standardDeviation(values);
 
             const halfStdev = stdev / 2;
@@ -213,7 +214,6 @@ export class ReconciliatieIntroGroupV1 { //extends GraphControllerV2 {
         }
 
         distributions.push(totalDistributionBands);
-
 
 
         // table

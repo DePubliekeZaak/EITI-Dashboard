@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 
 import * as topojson from "topojson-client";
 
@@ -81,10 +81,10 @@ export class ProjectMapV1 extends GraphControllerV2 {
         container.style.alignSelf = 'flex-start';
         container.style.alignItems = 'flex-start';
         container.style.width = "100%";
-        container.style.height = "400px";
+        container.style.height = window.innerWidth < breakpoints.sm ? "400px" : "500px";
         container.style.marginLeft= window.innerWidth < breakpoints.sm ?  "-10%" : "-20%";
-        container.style.marginTop= window.innerWidth < breakpoints.sm ?  "40%" : "30%";
-        container.style.marginBottom = window.innerWidth < breakpoints.sm ? "0" : "-25%";
+        container.style.marginTop= window.innerWidth < breakpoints.sm ?  "40%" : "25%";
+        container.style.marginBottom = window.innerWidth < breakpoints.sm ? "0" : "-20%";
         container.id = svgId; 
         wrapper.appendChild(container);
 

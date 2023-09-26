@@ -91,7 +91,7 @@ export  class UboCardsV1 extends GraphControllerV2  {
         const rows = [];
       
         for (const m of members_with_ubo) {
-
+            
             const row = [];
 
             for (const p of this.mapping.parameters[0]) { 

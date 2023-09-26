@@ -72,7 +72,14 @@ body, svg g {
   }
 
   .barLabel {
-    font-size: .85rem;
+    
+    font-size: .66rem;
+
+    @media (min-width: $breakpoint-sm) {
+
+      font-size: .85rem;
+ 
+     }
   }
 
   .sector_info h4 {
@@ -85,6 +92,24 @@ body, svg g {
 
   .tooltip * {
     color: white;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid $orange;
+
+    &:hover {
+      color: $orange;
+    }
+  }
+
+  .article_header {
+
+    ul {
+      list-style: disc;
+      padding-left: 1rem;
+    }
   }
   
   

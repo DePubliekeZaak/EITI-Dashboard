@@ -68,7 +68,7 @@ export function convertToCurrencyInTable(number: number) {
 export function convertToMillions(number: number) {
 
 
-    return thousands(Math.round((number / (1000 * 1000)))).toString() + 'M'
+    return thousands(Math.round((number / (1000 * 1000)))).toString()  + 'M'
 }
 
 export function sanitizeCurrency(string: string) {

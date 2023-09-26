@@ -8,8 +8,8 @@ import { HTMLCompany, HtmlFunctionality, HtmlHeader, HTMLSector, HTMLTable, HTML
 import { groupBy, slugify } from '@local/d3-services';
 import { charts }  from '@local/charts';
 import { EitiCompanies, EitiData, EitiReport } from '@local/d3_types/data';
-import *  as d3 from 'd3';
-import { group } from 'd3';
+// import *  as d3 from 'd3';
+// import { group } from 'd3';
 import { filterUnique } from '@local/eiti-services';
 import { convertToCurrencyInTable } from '@local/d3-services/_helpers';
 
@@ -66,7 +66,10 @@ export  class PaymentsGroupV1 { //extends GraphControllerV2 {
         }
 
         let i = 0;
+
+
         for (const sectorData of data.grouped) {
+
 
             // how to sort when its an object ? 
             const slug = slugify(sectorData[0].sector);
@@ -105,7 +108,7 @@ export  class PaymentsGroupV1 { //extends GraphControllerV2 {
        }
 
        const values = data[dataGroup].map( r => r.payments_companies);
-       const range = [d3.min(values),d3.max(values)];
+       const range = [window.d3.min(values),window.d3.max(values)];
 
 
        // FOR TABLE

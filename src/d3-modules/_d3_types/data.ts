@@ -138,7 +138,9 @@ export type Bar = {
     format? : string,
     type?: string,
     meta?: any,
-    year?: number
+    year?: number,
+    y?: number,
+    dy?: number
 }
 
 export type Bars = Bar[];

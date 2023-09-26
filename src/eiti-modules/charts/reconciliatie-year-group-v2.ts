@@ -56,6 +56,7 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
         }
 
         let i = 0;
+
         for (const year of data.grouped) {
 
             // how to sort when its an object ? 
@@ -93,11 +94,18 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
         //SPLIT HERE ???? 
         // OR TWO TYPES O DATA?
 
+
         for (const year of uniqueYears.slice()) {
+
+         
 
             let reports = data[dataGroup].filter( s => s.year === year );
 
-            reports = formatReconData(reports)
+           
+
+            reports = formatReconData(reports);
+
+            
           
             reports = reports.filter( r => {
                 let bool = true;
@@ -111,7 +119,12 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
                 return bePositive(b[this.segment]) - bePositive(a[this.segment])
            })
 
+
+         
+
            grouped.push(reports.slice(0,4));
+
+          
         }
 
         // table
@@ -154,7 +167,8 @@ export class ReconciliatieYearGroupV2 { //extends GraphControllerV2 {
 
             for (let [slug, graph] of Object.entries(this.ctrlrs)) {
 
-                const yearData = data.grouped.find( g => g[0].year === slug);
+
+                const yearData = data.grouped.find( g => g[0].year == slug);
             
                 if(yearData != undefined) {
                     graph.update(yearData,segment,update,null)

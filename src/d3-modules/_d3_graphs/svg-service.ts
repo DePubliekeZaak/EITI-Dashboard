@@ -1,5 +1,5 @@
 import { Dimensions, IGraphConfig } from '@local/d3_types';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 
 export interface ISvgService {
 
@@ -28,7 +28,7 @@ export class SvgService implements ISvgService {
 
     render() {
 
-        this.svg.body = d3.select(this.element)
+        this.svg.body = window.d3.select(this.element)
             .append('svg')
             .style('overflow','visible');
     }

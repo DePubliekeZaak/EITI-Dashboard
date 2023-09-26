@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 import { sankey, sankeyLinkHorizontal, sankeyNodeWidth } from 'd3-sankey';
 import { colours } from '@local/styleguide';
 import { Dimensions, DataPart, GraphData, Lines, Sankey} from "@local/d3_types";
@@ -96,7 +96,6 @@ export class ChartSankey {
             .style("stroke", colours["lightBlue"][1])
             .on("mouseover", function (event: any, d: any) {
 
-                console.log("yoooooo");
 
                 // const sel = d3.select(event.target);
                 // sel.raise();
@@ -182,7 +181,7 @@ export class ChartSankey {
             .attr("height", (d) => { 
 
                 if(d.y1 - d.y0 < 0) {
-                    console.log(d);
+                    // console.log(d);
                 }
                 return d.y1 - d.y0; 
             })
@@ -225,8 +224,8 @@ export class ChartSankey {
             .attr("text-anchor", "start");
 
 
-        d3.selectAll(".link")
-            .on("mouseover", function (event: any, d: any) {
+            window.d3.selectAll(".link")
+                .on("mouseover", function (event: any, d: any) {
                 
                 let html = `
 
@@ -236,14 +235,14 @@ export class ChartSankey {
                     <div>Bedrag: &euro;` + thousands(d.amount * 1000 * 1000) + `</div>
                 `;
 
-                d3.select('.tooltip') 
+            window.d3.select('.tooltip') 
                 .html(html)
                 .style("left", (event.pageX + 5) + "px")
                 .style("top", (event.pageY - 5) + "px")
                 .style("opacity", 1);
             })
             .on("mouseout", function (event: any, d: any) {
-                d3.select('.tooltip')
+                window.d3.select('.tooltip')
                 .transition()
                 .duration(250)
                 .style("opacity", 0);

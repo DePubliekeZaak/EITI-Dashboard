@@ -1,6 +1,6 @@
 import { convertToCurrency } from '@local/d3-services';
-import { bePositive } from '@local/d3-services/_helpers';
-import * as d3 from 'd3';
+import { bePositive, convertToMillions } from '@local/d3-services/_helpers';
+// import * as d3 from 'd3';
 import * as _ from "lodash";
 import { colours } from '../../styleguide';
 
@@ -34,7 +34,6 @@ export class ChartCircleGroupsV1 {
 
     draw(groupedData) {
 
-        console.log(groupedData);
 
 
         let self = this;
@@ -88,6 +87,10 @@ export class ChartCircleGroupsV1 {
             .join("g")
             .attr("class","circleGroup");
 
+
+        this.circleGroups.selectAll('circle,text')
+            .remove();
+
         this.circles = this.circleGroups
             .filter( d => d.label !== "netto")
             .filter( d => d.value > 500000)
@@ -130,11 +133,12 @@ export class ChartCircleGroupsV1 {
 
         let groupWidth = this.ctrlr.dimensions.width / groupedData.length;
         this.center = {x: (groupWidth / 2) , y: ((this.ctrlr.dimensions.height / 2) + 48) };
-        this.tooltip = d3.select('.tooltip');
+        this.tooltip = window.d3.select('.tooltip');
 
         let popup = function popup(d) {
-            return d.label + '<br/>' + d.value;
-        }
+            console.log(d);
+            return d.label == 'sales' ?  'Ontvangsten' + '<br/>' +  convertToCurrency(d.value) : 'Betalingen' + '<br/>' +  convertToCurrency(d.value);
+        } 
 
         this.headerGroup
             .attr("transform", (d) => {
@@ -175,36 +179,36 @@ export class ChartCircleGroupsV1 {
             this.circles
                 .attr("r", (d) => this.ctrlr.scales.r.fn(d.value))
                 
-                // .on("mouseover", function(event: any, d: any) {
+                .on("mouseover", function(event: any, d: any) {
 
-                //     self.circles
-                //         .style("fill", (dd: any) => colours[dd.colour][1]);
+                    // self.circles
+                    //     .style("fill", (dd: any) => colours[dd.colour][1]);
 
-                //     d3.select(event.target)
-                //         .style("fill", (dd: any) => colours[dd.colour][0]);
+                    // d3.select(event.target)
+                    //     .style("fill", (dd: any) => colours[dd.colour][0]);
 
-                //     self.tooltip
-                //         .html(popup(d))
-                //         .style("left", (event.pageX) + "px")
-                //         .style("top", (event.pageY) + "px")
-                //         .transition()
-                //         .duration(250)
-                //         .style("opacity", 1);
-                // })
-                // .on("mouseout", function(d) {
+                    self.tooltip
+                        .html(popup(d))
+                        .style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY) + "px")
+                        .transition()
+                        .duration(250)
+                        .style("opacity", 1);
+                })
+                .on("mouseout", function(d) {
 
-                //     self.circles
-                //         .style("fill", (dd: any) => colours[dd.colour][1]);
+                    // self.circles
+                    //     .style("fill", (dd: any) => colours[dd.colour][1]);
 
-                //     self.tooltip
-                //         .transition()
-                //         .duration(250)
-                //         .style("opacity", 0);
-                // })
+                    self.tooltip
+                        .transition()
+                        .duration(250)
+                        .style("opacity", 0);
+                })
             ;
 
         this.circlesText
-            .text( d => convertToCurrency(d.value));
+            .text( d => convertToMillions(d.value));
 
         this.nettoText
             .text( d => {

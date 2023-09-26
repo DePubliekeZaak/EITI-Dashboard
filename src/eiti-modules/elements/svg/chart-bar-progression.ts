@@ -1,8 +1,8 @@
-import { slugify, thousands } from '@local/d3-services';
+import { convertToCurrency, convertToMillions, slugify, thousands } from '@local/d3-services';
 import { Dimensions } from '@local/d3_types';
 import { Bars } from '@local/d3_types';
-import { colourArray, colours} from "@local/styleguide";
-import * as d3 from 'd3';
+import { breakpoints, colourArray, colours} from "@local/styleguide";
+// import * as d3 from 'd3';
 
 
 const groupHeight = 320;
@@ -15,6 +15,7 @@ interface ChartElement {
 
 export class ChartBarProgression   {
 
+    data;
     bars;
     barLabels;
     tooltipArray: string[] = [];
@@ -27,6 +28,9 @@ export class ChartBarProgression   {
 
     draw(data: Bars) {
 
+        this.data = data;
+
+
         this.bars = this.ctrlr.svg.layers.data.selectAll(".bar")
             .data(data)
             .join("rect")
@@ -35,14 +39,16 @@ export class ChartBarProgression   {
             .attr("stroke", (d,i) => d.colour[0])
         ;
 
+
         this.barLabels = this.ctrlr.svg.layers.data.selectAll(".barLabel")
             .data(data)
             .join('text')
             .attr('class','barLabel')
-            .attr('dx', '10px')
-            .attr('dy', '16px')
-            .style("text-anchor", "start")
+            .attr('dx', '0px')
+            .attr('dy', '-10px')
+            .style("text-anchor", "middle")
             ;
+    
     }
 
     redraw(dimensions: Dimensions) {
@@ -62,14 +68,18 @@ export class ChartBarProgression   {
         this.bars
             .on("mouseover", function (event: any, d: any) {
                     
-                let html = `
-                    <b>` + d.label +  `</b> 
-                    <div>` + d.meta.def_nl +  `</div>
-                    <div>GFS code:` + d.meta.code +  `</div>
-                    <div>Bedrag: &euro;` + thousands(d.dy) + `</div>
-                `;
+                let html = '<b>' + d.label +  '</b>';
 
-                d3.select('.tooltip') 
+                if(d.meta.def_nl !== null) {
+                    html = html.concat('<div>' + d.meta.def_nl +  '</div>');
+                }
+                if(d.meta.code !== null) {
+                    html = html.concat('<div>GFS code:' + d.meta.code +  '</div>');
+                }
+                    
+                html = html.concat('<div>Bedrag: &euro;' + thousands(d.dy) + '</div>');
+                
+                window.d3.select('.tooltip') 
                     .html(html)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 5) + "px")
@@ -91,7 +101,7 @@ export class ChartBarProgression   {
                setTimeout( () => {
 
                     if(self.tooltipArray.length == 0) {
-                        d3.select('.tooltip')
+                        window.d3.select('.tooltip')
                             .transition()
                             .duration(250)
                             .style("opacity", 0);
@@ -99,6 +109,37 @@ export class ChartBarProgression   {
 
                 },250);
         })
+
+        this.barLabels
+            .filter( (d,i) => {
+
+                    if (i  == this.data.length - 1) {
+                        return d;
+                    }
+
+                    if(this.data[i].year !=this.data[i + 1].year ) {
+                        return d;
+                    }
+
+                // return || 
+            })
+            .html( (d,i,o) => {
+                return window.innerWidth > breakpoints.sm ? convertToCurrency(d.dy + d.y) : convertToMillions(d.dy + d.y);
+            })
+            .attr('opacity', 0)
+            .attr('transform', (d,i) => {
+
+                const x = self.ctrlr.scales.x.fn(d.year) + self.ctrlr.scales.x.bandwidth()  / 2;
+                const y = self.ctrlr.scales.y.fn(d.dy + d.y);
+                
+                return 'translate(' + (0 + x) + ',' +
+                    (0 + y)
+                    + ')';
+            })
+            .transition()
+            .delay(500)
+            
+            .attr('opacity', 1)
 
     }
 }

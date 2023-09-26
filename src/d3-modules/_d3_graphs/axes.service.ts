@@ -1,5 +1,5 @@
 import { localTime } from '@local/d3-services';
-import * as d3 from "d3";
+// import * as d3 from "d3";
 // import { getMonthFromNumber} from "../../../utils/date-object.utils";
 import { convertToCurrency, convertToMillions } from '@local/d3-services';
 import { Dimensions } from '@local/d3_types';
@@ -30,7 +30,7 @@ export class AxesService {
                 this.axisGroup
                     .attr('class', 'x-axis');
 
-                this.axis = d3.axisBottom(this.ctrlr.scales[this.config.scale]);
+                this.axis = window.d3.axisBottom(this.ctrlr.scales[this.config.scale]);
 
                 break;
 
@@ -39,7 +39,7 @@ export class AxesService {
                 this.axisGroup
                     .attr('class', 'x-axis');
 
-                this.axis = d3.axisBottom(this.ctrlr.scales[this.config.scale]);
+                this.axis = window.d3.axisBottom(this.ctrlr.scales[this.config.scale]);
 
                 break;
 
@@ -48,7 +48,7 @@ export class AxesService {
                 this.axisGroup
                     .attr('class', 'x-axis');
 
-                this.axis =  d3.axisTop(this.ctrlr.scales[this.config.scale]);
+                this.axis =  window.d3.axisTop(this.ctrlr.scales[this.config.scale]);
 
                 break;
 
@@ -57,7 +57,7 @@ export class AxesService {
                 this.axisGroup
                     .attr('class', 'y-axis');
 
-                this.axis = d3.axisLeft(this.ctrlr.scales[this.config.scale]);
+                this.axis = window.d3.axisLeft(this.ctrlr.scales[this.config.scale]);
 
                 break;
 
@@ -66,7 +66,7 @@ export class AxesService {
                 this.axisGroup
                     .attr('class', 'y-axis');
 
-                this.axis = d3.axisRight(this.ctrlr.scales[this.config.scale]);
+                this.axis = window.d3.axisRight(this.ctrlr.scales[this.config.scale]);
 
                 break;
 
@@ -141,15 +141,15 @@ export class AxesService {
                 //    }
 
                    this.axis
-                       .ticks(d3[tickOrder].every(tickSpread))
-                       .tickFormat( date => (d3.timeYear(date) < date) ? localTime.format('%b')(date) : localTime.format('%Y')(date));
+                       .ticks(window.d3[tickOrder].every(tickSpread))
+                       .tickFormat( date => (window.d3.timeYear(date) < date) ? localTime.format('%b')(date) : localTime.format('%Y')(date));
 
                    break;
 
                case 'bandTime' :
 
                    this.axis
-                       .ticks(d3[this.ctrlr.config.extra.xScaleTicks].every(1))
+                       .ticks(window.d3[this.ctrlr.config.extra.xScaleTicks].every(1))
                        .tickFormat( date => localTime.format('%d %b')(new Date(date)));
                    break;
 

@@ -107,7 +107,7 @@ export class ChartBarReconciliationV3 implements ChartElement {
                 if (d.value && d.format == "percentage") {
                     return (Math.round(10 * d.value) / 10) + '%';
                 } else if (d.value) {
-                    return '&euro;' + Math.round(d.value *10) / 10 + 'M'
+                    return '&euro;' + (Math.round(d.value *10) / 10).toString().replace(".",",") + 'M'
                 }
             })
             .attr('fill-opacity', 1)

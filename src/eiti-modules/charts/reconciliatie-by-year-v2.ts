@@ -6,7 +6,7 @@ import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colours } from '@local/styleguide';
 import { HTMLCompany } from '@local/elements';
 import { Bars, EitiCompanies, EitiData, EitiReport } from '@local/d3_types/data';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 
 const graphHeight = 600;
 // const companyWidth = 160;
@@ -72,7 +72,9 @@ export class ReconciliatieByYearV2 extends GraphControllerV2 {
         const svgId = "svg-wrapper-reports-" + this.data[0].origin;
         const container = document.createElement('section');
         container.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight + "px" : graphHeight + "px";
-        container.classList.add("graph-container-12")
+        container.style.minWidth = "600px";
+        container.classList.add("graph-container-12");
+
         container.id = svgId;
         this.element.appendChild(container);
 
@@ -153,8 +155,8 @@ export class ReconciliatieByYearV2 extends GraphControllerV2 {
 
         // console.log(data);
         const values : number[] = data.map( (r) => r.value);
-        let min = d3.min(values) * 1.5
-        const max = d3.max(values) * 1.2
+        let min = window.d3.min(values) * 1.5
+        const max = window.d3.max(values) * 1.2
         if (min > 0 ) { min = -5}
         this.scales.x.set([min,max]);
         this.yScale = this.scales.y.set(data.map ( d => d.label));

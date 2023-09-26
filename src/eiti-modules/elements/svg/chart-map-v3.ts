@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import { colours,breakpoints } from '@local/styleguide';
 import { convertToCurrency, slugify, thousands } from '@local/d3-services';
 import { EitiData, GraphData } from "@local/d3_types";
@@ -18,8 +18,8 @@ export  class ChartMapV3   {
 
     init() {
 
-        this.projection = d3.geoMercator();
-        this.path = d3.geoPath()
+        this.projection = window.d3.geoMercator();
+        this.path = window.d3.geoPath()
             .projection(this.projection);
 
         var b = [
@@ -34,7 +34,7 @@ export  class ChartMapV3   {
             .translate(t)
         ;
 
-        this.projector = d3.geoMercator()
+        this.projector = window.d3.geoMercator()
         //    .center([2, 47])                // GPS of location to zoom on
             .scale(s)                       // This is like the zoom
             .translate(t)
@@ -109,10 +109,10 @@ export  class ChartMapV3   {
                         
                         `;
 
-                    d3.select(event.target)
+                    window.d3.select(event.target)
                         .attr("fill-opacity", 1);
 
-                    d3.select('.tooltip')
+                    window.d3.select('.tooltip')
                         .html(html)
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 5) + "px")
@@ -123,10 +123,10 @@ export  class ChartMapV3   {
             })
             .on("mouseout", function (event, d) {
 
-                d3.select(event.target)
+                window.d3.select(event.target)
                     .attr("fill-opacity", (e: any) => (e.properties[property] > 0) ? self.ctrlr.scales.y.fn(d.properties[property]) : 1)
 
-                d3.select('.tooltip')
+                window.d3.select('.tooltip')
                     .transition()
                     .duration(250)
                     .style("opacity", 0);

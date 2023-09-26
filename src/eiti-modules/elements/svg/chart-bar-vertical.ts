@@ -2,7 +2,7 @@ import { slugify, thousands } from '@local/d3-services';
 import { Dimensions } from '@local/d3_types';
 import { Bars } from '@local/d3_types';
 import { colourArray, colours} from "@local/styleguide";
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 
 
 const groupHeight = 320;

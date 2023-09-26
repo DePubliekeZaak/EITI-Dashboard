@@ -46,7 +46,7 @@ header {
             margin-top: .5rem;
             margin-left: .75rem;
 
-            @media(min-width: $breakpoint-sm) {
+            @media(min-width: $breakpoint-lg) {
                 display: none;
             }
         }

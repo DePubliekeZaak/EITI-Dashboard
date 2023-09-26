@@ -20,6 +20,10 @@ const config = (env) =>  {
         return `./styles/${filepath}/[name].[hash][ext][query]`;
       },
     },
+    mode: 'development',
+    optimization: {
+      usedExports: true,
+    },
     devServer: {
       open:true,
       port: 3333,

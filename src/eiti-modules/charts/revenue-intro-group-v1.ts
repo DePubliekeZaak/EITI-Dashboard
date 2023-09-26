@@ -60,9 +60,9 @@ export class RevenueIntroGroupV1 implements IGraphGroupControllerV2 {
 
         const data = this.prepareData(this.data);
 
-        this.circleGroup = new RevenueCirclesV1(this.main,data[0],wrapper,this.mapping,this.segment);
+     //   this.circleGroup = new RevenueCirclesV1(this.main,data[0],wrapper,this.mapping,this.segment);
         this.barProgression = new RevenueBarsV1(this,data[0],wrapper,this.mapping,this.segment);
-        this.circleGroup.init();
+        // this.circleGroup.init();
         this.barProgression.init();
 
         await this.update(this.data,this.segment, false);
@@ -75,9 +75,6 @@ export class RevenueIntroGroupV1 implements IGraphGroupControllerV2 {
     }
 
     prepareData(data: EitiData) : EitiData[] {
-
-        // console.log('hooooi');
-        // console.log(data);
 
         const dataGroup = "payments";
 
@@ -93,7 +90,7 @@ export class RevenueIntroGroupV1 implements IGraphGroupControllerV2 {
 
         if(update) {
             const formattedData = this.prepareData(data);
-            await this.circleGroup.update(formattedData[0]);
+        //    await this.circleGroup.update(formattedData[0]);
             await this.barProgression.update(formattedData[0]);
         }
     } 

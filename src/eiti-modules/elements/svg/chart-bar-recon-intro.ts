@@ -2,7 +2,7 @@ import { convertToCurrency } from '@local/d3-services';
 import { bePositive, slugify, thousands } from '@local/d3-services/_helpers';
 import { DataPart, GraphData } from '@local/d3_types';
 import { Bars } from '@local/d3_types/data';
-import { colours} from "@local/styleguide";
+import { breakpoints, colours} from "@local/styleguide";
 import { join } from 'lodash';
 
 //const groupHeight = 240;
@@ -53,12 +53,14 @@ export class ChartBarReconIntroV1 implements ChartElement {
             .attr('dx', (d) => d.value > 0 ? 20 : -10)
             .attr('dy',  '28px')
             .style("text-anchor", (d) => d.value > 0 ? "start" : "end")
+            .style("font-size", window.innerWidth < breakpoints.xsm ? '.85rem' : '1rem')
             ;
 
         this.diffGroup = this.ctrlr.svg.layers.data.selectAll(".diff_group")
             .data(["government","company","outcome"], (d) => d)
                 .join("g")
                 .attr("class","diff_group")
+               
 
         this.circle = this.diffGroup
                 .append("circle")
@@ -71,18 +73,11 @@ export class ChartBarReconIntroV1 implements ChartElement {
                         case "government":
                             return colours["blue"][1];
                         case "outcome": 
-                        return "white";
+                        return window.innerWidth < breakpoints.xsm ? "#fff" : "white";
                     }
                 })
 
-        // this.barExtensions = this.barGroup
-        //         .append("line")
-        //         .attr("fill", "none")
-        //         .attr("stroke", d => colours[d.colour][1])
-        //         .style("stroke-width", 2)
-
         this.circleExtensions = this.diffGroup
-                // .filter(d => d != "outcome")
                 .append("line")
                 .attr("fill", "none")
                 .style("stroke-width", 3)
@@ -95,7 +90,7 @@ export class ChartBarReconIntroV1 implements ChartElement {
                         case "government":
                             return colours["blue"][1];
                         case "outcome": 
-                        return "white";
+                        return window.innerWidth < breakpoints.xsm ? "#fff" : "white";
                     }
                 })
 
@@ -110,25 +105,26 @@ export class ChartBarReconIntroV1 implements ChartElement {
 
                         case "company":
                             diff = Math.round((data.slice[2].value - data.slice[0].value) * 1000) / 1000;
-                            return diff < 0 ? '+&euro;' + bePositive(diff) + 'M' : '-&euro;' + bePositive(diff) + 'M'
+                            return diff < 0 ? '+&euro;' + bePositive(diff).toString().replace(".",",")  + 'M' : '-&euro;' + bePositive(diff).toString().replace(".",",")  + 'M'
                         case "government":
                             diff = Math.round((data.slice[3].value - data.slice[1].value) * 1000) / 1000;
-                            return diff < 0 ? '+&euro;' + bePositive(diff) + 'M' : '-&euro;' + bePositive(diff) + 'M'
+                            return diff < 0 ? '+&euro;' + bePositive(diff).toString().replace(".",",")  + 'M' : '-&euro;' + bePositive(diff).toString().replace(".",",")  + 'M'
                         case "outcome": 
                             diff = Math.round((data.slice[0].value - data.slice[1].value) * 1000) / 1000;
 
                             if (diff < 0) {
-                                return '+&euro;' + bePositive(diff) + 'M' 
+                                return '+&euro;' + bePositive(diff).toString().replace(".",",")  + 'M' 
 
                             } else if (diff == 0) {
                                 return 0;
                             } else {
-                                return '-&euro;' + bePositive(diff) + 'M'
+                                return '-&euro;' + bePositive(diff).toString().replace(".",",")  + 'M'
                             }
                     }
                 })
                 .style("text-anchor", "middle")
                 .attr('dy',  '5px')   
+                .style("font-size", window.innerWidth < breakpoints.xsm ? '.85rem' : '1rem');
     }
 
     redraw(data: Bars) {
@@ -166,7 +162,10 @@ export class ChartBarReconIntroV1 implements ChartElement {
 
         this.label
             .html( (d,i) => {
-                return  d.label + " - &euro;" + thousands(Math.round(10 * d.value) / 10) + "M";
+
+                const label = window.innerWidth < breakpoints.xsm ? d.label.split(" ")[0] : d.label;
+
+                return  label + " - &euro;" + thousands(Math.round(10 * d.value) / 10) + "M";
             })
             .attr('fill-opacity', 1);
 
@@ -181,7 +180,7 @@ export class ChartBarReconIntroV1 implements ChartElement {
 
                 if (d  == "outcome") {
 
-                    x = self.ctrlr.scales.x.fn((data.slice[0].value)) - barHeight
+                    x =  window.innerWidth < breakpoints.xsm ? self.ctrlr.scales.x.fn((data.slice[0].value)) + 3 : self.ctrlr.scales.x.fn((data.slice[0].value)) - barHeight;
                     y = self.ctrlr.scales.y.fn(slugify(data.slice[0].label))
 
                 } else {
@@ -192,12 +191,6 @@ export class ChartBarReconIntroV1 implements ChartElement {
 
                 return "translate("+ x + "," + y + ")"
             });  
-
-        // this.barExtensions
-        //     .attr("x1", d => this.ctrlr.scales.x.fn( d.value))
-        //     .attr("x2", (d,i)  => i % 2 ? this.ctrlr.dimensions.width - this.ctrlr.scales.x.fn(d.value) + 40: this.ctrlr.dimensions.width - this.ctrlr.scales.x.fn(d.value) + 100) 
-        //     .attr("y1" ,barHeight / 2)
-        //     .attr("y2", barHeight / 2)
 
         this.circleExtensions
             .attr("x1", -1)

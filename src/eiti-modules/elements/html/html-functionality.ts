@@ -7,6 +7,8 @@ import { HtmlMappingSelector } from "./mapping-selector";
 import { HtmlYearSelector } from "./year-selector";
 import { HtmlCustomSelector } from "./html-custom-selector";
 import { breakpoints } from "@local/styleguide";
+import { HtmlCompanySelector } from "./html-company-selector";
+import { EitiEntity } from "@local/d3_types/data";
 
 export class HtmlFunctionality {
 
@@ -74,7 +76,7 @@ export class HtmlFunctionality {
                 case 'shareTotalSelect': 
 
                         this.selector = new HtmlCustomSelector(li,this.mapping.slug);
-                        selectEl = this.selector.draw(this.segment,['percentage','mijnbouwsector','totaal']);
+                        selectEl = this.selector.draw(this.segment,['mijnbouwsector','totaal Nederland','aandeel mijnbouwsector']);
 
                         selectEl.addEventListener("change", () => {
                             if( selectEl.value != self.ctrlr.segment) {
@@ -87,11 +89,11 @@ export class HtmlFunctionality {
                 case 'priceVolumeSelect': 
 
                     this.selector = new HtmlCustomSelector(li,this.mapping.slug);
-                    selectEl = this.selector.draw(this.segment,['prijs','volume']);
+                    selectEl = this.selector.draw(this.segment,['prijs (miljoen euro)','volume (miljoen kilo)']);
 
                     selectEl.addEventListener("change", () => {
                         if( selectEl.value != self.ctrlr.segment) {
-                            self.ctrlr.update(self.ctrlr.data, selectEl.value, true);
+                            self.ctrlr.update(self.ctrlr.data, selectEl.value.split(" ")[0], true);
                         }
                     });
 
@@ -110,18 +112,36 @@ export class HtmlFunctionality {
 
                     break;
 
+                case 'companySelect' :
+
+                        this.selector = new HtmlCompanySelector(li,this.mapping.slug);
+
+                        const companies = self.ctrlr.data.entities
+                            .filter( (e) => e.type === 'company' && e.slug != 'ebn')
+                            .sort( (a: EitiEntity, b: EitiEntity) =>  a.name.localeCompare(b.name));
+
+
+                        const selectEl3 = this.selector.draw(this.segment, companies);
+
+                        selectEl3.addEventListener("change", () => {
+                            if( selectEl3.value != self.ctrlr.segment) {
+                                self.ctrlr.update(self.ctrlr.data, selectEl3.value, true);
+                            }
+                        });
+                
+                
+                    break;
+
                 case 'tableView':
 
                     this.tableButton = this.ctrlr.main.window.document.createElement('button');
                     this.tableButton.innerText = 'tabelweergave';
                     li.appendChild(this.tableButton);
 
-                   
-
                     const graphElements = this.mapping.multiGraph ? this.element.querySelectorAll("section.graph-wrapper") : this.element.querySelectorAll("section.graph-view")
                     const tableElements = this.element.querySelectorAll("section.table-view");
 
-                    // console.log(graphElements);
+                    const possibleLegend = this.element.querySelector(".legend");
 
                     this.tableButton.addEventListener("click", function() {
 
@@ -134,12 +154,22 @@ export class HtmlFunctionality {
                             for (const el of tableElements) {
                                 el.style.display = 'none';
                             }
+
+                            if(possibleLegend != undefined) {
+                                possibleLegend.style.display = 'flex';
+                            }
+
+
                         } else {
                             for (const el of graphElements) {
                                 el.style.display = 'none';
                             }
                             for (const el of tableElements) {
                                 el.style.display = 'flex';
+                            }
+
+                            if(possibleLegend != undefined) {
+                                possibleLegend.style.display = 'none';
                             }
                         }
                     });

@@ -103,9 +103,6 @@ export  class EbnSimpleBarsV2 extends GraphControllerV2  {
             this.funcList.draw();
         }
 
-        // this.legend = new HtmlLegend(this);
-
-
         return;
     }
 
@@ -123,7 +120,7 @@ export  class EbnSimpleBarsV2 extends GraphControllerV2  {
 
         const ebnData = data[dataGroup].filter ( 
             (s) => 
-            ["sales","costs"].indexOf(s.payment_stream) > -1
+            ["sales","costs","corporate_income_tax","dividends","mor"].indexOf(s.payment_stream) > -1
             && !(s.origin === 'nam' && s.project != "aggregated")
             && !(s.recipient === 'nam' && s.project != "aggregated")
         );
@@ -133,20 +130,28 @@ export  class EbnSimpleBarsV2 extends GraphControllerV2  {
 
             const yearData = ebnData.filter( s => s.year  === year );
 
+
+            const outgoingPayments = yearData.filter( p  =>  p.origin == 'ebn' && ['costs','corporate_income_tax','dividends','mor'].indexOf(p.payment_stream) > -1 );
+
+            // console.log(outgoingPayments)
+
              options = {
             
-                sales : 1000 * 1000 / 10 * Math.round(10 * yearData
-                    .filter( p  => p.payment_stream == 'sales')
+                incoming : 1000 * 1000 / 10 * Math.round(10 * yearData
+                    .filter( p  => p.payment_stream == 'sales' )
                     .map( p => p.payments_companies) 
                     .reduce((sum, p) => sum + p, 0)),
 
-                costs : 1000 * 1000 / 10 * Math.round(10 * yearData
-                    .filter( p  => p.payment_stream == 'costs')
+                outgoing : 1000 * 1000 / 10 * Math.round(10 * outgoingPayments
                     .map( p => p.payments_companies) 
                     .reduce((sum, p) => sum + p, 0)),
             }
 
-            options.netto = options.sales - options.costs;
+            options.netto = options.incoming - options.outgoing;
+
+            // if (year === 2022) {
+            //     console.log(options.outgoing / 1000 / 1000);
+            // }
 
             optionGroup[year] = options;
 
@@ -173,9 +178,10 @@ export  class EbnSimpleBarsV2 extends GraphControllerV2  {
 
         const table = {
 
-            headers:  ["Jaar","Opbrengsten","Kosten","Netto kasstroom"],
+            headers:  ["Jaar","Inkomende kasstromen","Uitgaande kasstromen","Netto kasstroom"],
             rows
         };
+
 
         return {
             

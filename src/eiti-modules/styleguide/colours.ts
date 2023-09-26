@@ -95,12 +95,14 @@ export const paymentTypes = {
 
     'corporate_income_tax' : blue,
     'profit_share' : orange,
-    'surface_rental': green,
+    'surface_rental': lightBlue,
     'retributions':  gray,
-    'dividends': lightBlue,
+    'dividends': green,
     'mor' : violet,
     'royalties' :  purple,
-    'state_share' : brown
+    'state_share' : brown,
+    'costs': orange,
+    'sales': purple
 }
 
 export const entities = {

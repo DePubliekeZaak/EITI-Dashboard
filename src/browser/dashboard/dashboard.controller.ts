@@ -31,6 +31,7 @@ export class DashboardController implements IDashboardController {
     window;
     close_btn;
     open_btn;
+    loader;
 
     constructor() {
 
@@ -51,8 +52,12 @@ export class DashboardController implements IDashboardController {
         pageConfig = this.params.matchConfig();
 
         this._reloadHtml();
+
+        this._showLoader()
  
         await this.call(pageConfig, segment, false);
+
+        this._hideLoader()
 
         this._reloadHtml();
 
@@ -62,6 +67,23 @@ export class DashboardController implements IDashboardController {
         }
         this._armMenuButton();
         this._screenListener();
+
+    }
+
+    _showLoader() {
+
+        this.loader = document.createElement("div");
+
+        this.loader.innerText = "data wordt geladen";
+
+        document.querySelector("div[eiti-graph-preset='dashboard']").appendChild(this.loader);
+
+   
+    }
+
+    _hideLoader() {
+
+        this.loader.remove();
 
 
     }
@@ -107,14 +129,8 @@ export class DashboardController implements IDashboardController {
         [].slice.call(document.getElementsByTagName("aside")).forEach( (a) => a.remove());
         [].slice.call(document.getElementsByTagName("nav")).forEach( (a) => a.remove());
     
-
-    
-            let aside = createSideBar(this.htmlContainer);
-            aside.insertBefore(createNav(this), aside.childNodes[0]);
-      
-        // } else {
-        //     let mobileNavTop = createMobileNav();
-        // }
+        let aside = createSideBar(this.htmlContainer);
+        aside.insertBefore(createNav(this), aside.childNodes[0]);
 
         companyTitle(this);
     

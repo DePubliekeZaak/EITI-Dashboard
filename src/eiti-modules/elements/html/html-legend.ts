@@ -16,8 +16,8 @@ export class HtmlLegend {
         let legend = document.createElement('div');
         legend.classList.add('legend');
         legend.style.display = 'flex';
-        legend.style.flexDirection = window.innerWidth < breakpoints.md ? 'column' : 'row';
-        legend.style.paddingLeft = window.innerWidth < breakpoints.md ? this.ctrlr.config.padding.left + 'px' : '0';
+        legend.style.flexDirection = window.innerWidth < breakpoints.xsm ? 'column' : 'row';
+        legend.style.paddingLeft = window.innerWidth < breakpoints.xsm ? this.ctrlr.config.padding.left + 'px' : '0';
         legend.style.justifyContent = 'center';
         legend.style.width = '100%';
 

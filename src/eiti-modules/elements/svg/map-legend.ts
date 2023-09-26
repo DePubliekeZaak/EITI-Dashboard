@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import { GeoData } from "@local/d3_types";
 import { colours, breakpoints } from "@local/styleguide";
 
@@ -24,7 +24,7 @@ export class MapLegend {
         bar.style.borderBottom = '1px solid black';
       //  bar.style.marginTop = '1.5rem';
 
-        let max = d3.max(data.features.map( f => f.properties[this.ctrlr.parameters.y]));
+        let max = window.d3.max(data.features.map( f => f.properties[this.ctrlr.parameters.y]));
 
 
         let topSpan = document.createElement('span');

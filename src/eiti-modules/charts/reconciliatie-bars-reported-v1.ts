@@ -6,7 +6,7 @@ import { IGraphMapping } from '@local/d3_types';
 import { breakpoints, colours } from '@local/styleguide';
 import { HTMLCompany } from '@local/elements';
 import { EitiCompanies, EitiData, EitiReport } from '@local/d3_types/data';
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 
 const groupHeight = 100;
 const companyWidth = 160;

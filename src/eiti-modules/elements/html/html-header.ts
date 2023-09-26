@@ -19,10 +19,19 @@ export class HtmlHeader {
         this.headerElement = document.createElement('div');
         this.headerElement.classList.add('article_header');
         this.headerElement.style.position = 'relative';
-        this.headerElement.style.borderTop = '2px solid rgb(230, 230, 230)';
+
+
+        if(!this.element.classList.contains("graph-view")) {
+
+            this.headerElement.style.borderTop = '2px solid rgb(230, 230, 230)';
+            this.headerElement.style.paddingBottom = '2rem';
+            this.headerElement.style.paddingTop = '2rem';
+
+        }
+
+
         this.headerElement.style.width = 'calc(100% - 0px)';
-        this.headerElement.style.paddingBottom = '2rem';
-        this.headerElement.style.paddingTop = '2rem';
+        
         // this.headerElement.style.marginBottom = '2.5rem';
 
         if(this.label) {
