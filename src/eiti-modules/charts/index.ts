@@ -1,4 +1,4 @@
-import { PaymentsGroupV1 } from "./payments-group-v1";
+import { PaymentsGroupV1 } from "../../pages/payments/groups/payments-group-v1";
 
 import {  ReconciliatieBarsReportedV1} from "./reconciliatie-bars-reported-v1";
 import { default as ReconciliatieGroupV1} from "./reconciliatie-group-v1";
@@ -21,16 +21,16 @@ import { BetalingenBarsV1 } from "./betalingen-bars-V1";
 import { BetalingenTrendV1 } from "./betalingen-trend-V1";
 import { BetalingenTrendGroupV1} from "./betalingen-trend-group-v1";
 
-import { RevenueTypeSankeyV1 } from "./revenue-sankey-v1"
+import { RevenueTypeSankeyV1 } from "../../pages/payments/graphs/revenue-sankey-v1"
 import { RevenueTrendV1 } from "./revenue-trend-V1"
-import { RevenueCirclesV1 } from "./revenue-circles-v1"
+import { RevenueCirclesV1 } from "../../pages/payments/graphs/revenue-circles-v1"
 import { RevenueTrendGroupV1 } from "./revenue-trend-group-v1"
 import { RevenueBarsV1} from "./revenue-bars-v1"
 
 import { CompanySankeyV1} from './company-sankey-v1';
 import { CompanyMapV1} from './company-map';
 import { ProjectMapV1 } from './projects-map-v1';
-import { ProjectsMapGroupV1} from './projects-map-group-v1';
+import { ProjectsMapGroupV1} from '../../pages/payments/groups/projects-map-group-v1';
 import { CompanyReconciliationV1 } from './company-reconciliation';
 
 import { EbnBarsV1 } from './ebn-bars-v1';

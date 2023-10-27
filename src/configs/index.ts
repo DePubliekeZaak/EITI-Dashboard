@@ -1,6 +1,6 @@
 export { home } from "./home" 
 export { reconciliatie } from "./reconciliaties"
-export { betalingen } from "./betalingen"
+// export { betalingen } from "../pages/payments/config"
 export { bedrijf } from "./bedrijf"
 export { ebn } from "./ebn"
 export { ubo } from "./ubo"

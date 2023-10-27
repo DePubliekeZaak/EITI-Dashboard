@@ -27,6 +27,14 @@
   @media (max-width : $breakpoint-sm) {
     overflow: scroll;
   }
+
+  &:empty {
+      min-height: 200px;
+  background: #efefed;
+  border-radius: 50%;
+  margin-bottom: 2rem;
+  
+  }
 }
 
 .graph-container {
@@ -139,6 +147,7 @@
   
   .graph-container-12 {
     width: 100%;
+    overflow: visible;
 
 
       &.table-view {

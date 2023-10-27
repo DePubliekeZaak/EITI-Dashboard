@@ -125,6 +125,7 @@ export class HtmlFunctionality {
 
                         selectEl3.addEventListener("change", () => {
                             if( selectEl3.value != self.ctrlr.segment) {
+                                console.log("once");
                                 self.ctrlr.update(self.ctrlr.data, selectEl3.value, true);
                             }
                         });

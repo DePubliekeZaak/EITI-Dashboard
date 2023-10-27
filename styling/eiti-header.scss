@@ -58,3 +58,31 @@ header {
 
 
 }
+
+ul#language-selector {
+
+
+    display: flex;
+    flex-direction: row;
+
+    li {
+
+        margin: 0;
+        padding: 0;
+
+        &::after {
+            content: "|";
+            padding: 0 .5rem;
+        }
+
+        &:last-child::after {
+            content: none;
+        }
+
+
+        &.active {
+            font-weight: 700;
+        }
+    }
+    
+}

@@ -3,7 +3,7 @@ import {  HtmlFunctionality, HtmlHeader, HTMLTable } from '@local/elements';
 import { EitiData } from '@local/d3_types';
 import { IDashboardController } from '@local/dashboard';
 
-import { RevenueCirclesV1 } from './revenue-circles-v1';
+import { RevenueCirclesV1 } from '../../pages/payments/graphs/revenue-circles-v1';
 import { RevenueBarsV1 } from './revenue-bars-v1';
 
 

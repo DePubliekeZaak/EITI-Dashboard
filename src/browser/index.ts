@@ -1,16 +1,16 @@
 import '../../styling/main.scss'
 
-import 'babel-polyfill';
-import 'isomorphic-fetch';
+// import 'babel-polyfill';
+// import 'isomorphic-fetch';
 
-import { DashboardController } from '@local/dashboard'
+import { DashboardController } from '@local/dashboard/'
 
 const init = () => {
 
     // @ts-ignore
-    if (ENV == "prod") {
-        addStylesheets();
-    }
+    // if (ENV == "prod") {
+    //     addStylesheets();
+    // }
 
     const attribute = 'eiti-graph-preset';
     const graphElements = [].slice.call(document.querySelectorAll("[" + attribute + "]"));

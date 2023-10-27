@@ -1,4 +1,3 @@
-// import * as d3 from "d3";
 import { SimulationNodeDatum } from "d3";
 import { Circle } from "@local/d3_types";
 
@@ -21,7 +20,6 @@ export class BallenbakSimulationV2 {
             .force('charge', window.d3.forceManyBody().strength(forceStrength))
             .force("center", window.d3.forceCenter())
             .force("collide", window.d3.forceCollide().strength(forceStrength))
-         //   .force("forceX", d3.forceX().strength(forceStrength))    
     }
 
     supply(data: any, groupCount?: number) {
@@ -38,9 +36,6 @@ export class BallenbakSimulationV2 {
                 .radius((d : Circle) => {
                     return self.ctrlr.scales.r.fn(d.value)
                 });
-        // this.s 
-        //     .force("forceX")
-        //         .strength(forceStrength);
 
         this.s 
             .on("tick", (d: Circle) => {
@@ -52,8 +47,6 @@ export class BallenbakSimulationV2 {
     }
 
     restart() {
-
-        // console.log("mo checks");
     
         this.s.alphaTarget(.3).restart;
     }
@@ -72,20 +65,6 @@ export class BallenbakSimulationV2 {
             .force("collide")
                 .radius((d : any) => this.ctrlr.scales.r.fn(d.value) + 2);
 
-        // this.s
-        //     .force("forceX")
-        //         .x(center.x);
-        
-
         this.s.alphaTarget(.3).restart;
     }
-
-
-
-
-
-
-
-
-
 }

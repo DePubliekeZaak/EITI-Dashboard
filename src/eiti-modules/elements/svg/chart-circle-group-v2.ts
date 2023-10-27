@@ -1,6 +1,5 @@
 import { convertToCurrency } from '@local/d3-services';
 import { bePositive, convertToMillions } from '@local/d3-services/_helpers';
-// import * as d3 from 'd3';
 import * as _ from "lodash";
 import { colours } from '../../styleguide';
 
@@ -92,15 +91,6 @@ export class ChartCircleGroupsV2 {
             .style("fill","black")
             .style("font-size",".8rem");
 
-        // this.nettoText = this.circleWrapper
-        //     .filter( d => d.label == "netto")
-        //     .append("text")
-        //     .attr("class","small-label")
-        //     .attr("text-anchor","middle")
-        //     .style("font-family", "NotoSans Regular")
-        //     .style("fill","black")
-        //     .style("font-size",".8rem");
-
         let groupWidth = this.ctrlr.dimensions.width / groupedData.length;
         this.center = {x: (groupWidth / 2) , y: ((this.ctrlr.dimensions.height * .85) + 48) };
 
@@ -108,8 +98,7 @@ export class ChartCircleGroupsV2 {
 
     redraw(groupedData) {
 
-       
-
+    
         let self = this;
 
         const direction = this.ctrlr.scales.x.config.direction;
@@ -237,17 +226,6 @@ export class ChartCircleGroupsV2 {
         this.circlesText
             .text( d => convertToMillions(d.value));
 
-        // this.nettoText
-        //     .text( d => {
-
-        //         const v = Math.round(d.value * 10) / 10
-               
-        //        return v > 0 ? "+" + convertToCurrency(v) : "-" + convertToCurrency(bePositive(v));
-        //     })
-        //     .style("font-size","1rem")
-        //     .style("font-family","RO Sans Bold")
-        //     .style("letter-spacing","1px")
-        //     .attr("transform","translate(-20,100)")
     }
 
     forceDirect() {

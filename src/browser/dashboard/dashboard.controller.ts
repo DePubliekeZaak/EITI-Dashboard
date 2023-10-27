@@ -3,8 +3,8 @@ import { breakpoints} from '@local/styleguide';
 import { IParamService, ParamService } from './param.service';
 import { screenSize } from './screen.factory';
 import { styleParentElement, createSideBar, createNav, createMobileNav, createPopupElement, pageHeader, companyTitle} from './html.factory';
-import { DataService, IDataService } from '@local/eiti-services';
-import { switchTopic, toggleSubMenu, openMenu, closeMenu } from './interaction.factory';
+import { DataService, IDataService } from './data.service';
+import { switchTopic, toggleSubMenu, openMenu, closeMenu, armLanguageSelector, switchLanguage } from './interaction.factory';
 import { navItems } from './nav.factory';
 
 export interface IDashboardController {
@@ -16,8 +16,9 @@ export interface IDashboardController {
     close_btn: HTMLElement,
     open_btn: HTMLElement,
     _reloadHtml: () => void;
-    call(pageConfig: IGraphMapping[], segment: string, update: boolean);
+    call(segment: string, update: boolean);
     switch: (topic: string, segment: string) => void;
+    switchLanguage: (lan: string) => void;
     _toggleSubMenu: () => void
     _screenListener: () => void
 
@@ -36,69 +37,50 @@ export class DashboardController implements IDashboardController {
     constructor() {
 
         this.params = new ParamService();
-        this.data = new DataService(this)
+        this.data = new DataService()
         this.init();
     }
 
     async init() {
 
         this.window = window;
-        let pageConfig = null;
         let selector = null;
         let segment = '2022';
         
         this.params.renew();
 
-        pageConfig = this.params.matchConfig();
+        this._reloadHtml();
+
+        await this.call(segment, false);
+
+        const c = this.data.collection();
 
         this._reloadHtml();
 
-        this._showLoader()
- 
-        await this.call(pageConfig, segment, false);
-
-        this._hideLoader()
-
-        this._reloadHtml();
-
-        if (this.params.topic == 'bedrijf') {
-            
+        if (this.params.topic == 'company') { 
             this._toggleSubMenu();
         }
+
         this._armMenuButton();
+        armLanguageSelector(this);
         this._screenListener();
 
     }
 
-    _showLoader() {
+    async call(segment: string, update: boolean ): Promise<void> {
 
-        this.loader = document.createElement("div");
+        this.htmlContainer.innerHTML = "";
 
-        this.loader.innerText = "data wordt geladen";
-
-        document.querySelector("div[eiti-graph-preset='dashboard']").appendChild(this.loader);
-
-   
-    }
-
-    _hideLoader() {
-
-        this.loader.remove();
-
-
-    }
-
-    async call(pageConfig: IGraphMapping[], segment: string, update: boolean ): Promise<void> {
-
-        this.htmlContainer = document.querySelector("[eiti-graph-preset='dashboard']");
-
-        // bij bedrijf pagina .. vervang na laden data 
-        let  pageTitle = navItems.find( i => i.slug == this.params.topic) != undefined ? navItems.find( i => i.slug == this.params.topic).title : segment
-
+        let navItem = navItems.find( i => i.slug == this.params.topic);
+        navItem = (navItem == undefined) ? navItems[0] : navItem;
+        const  pageTitle = this.params.language == 'en' ? navItem.title_en : navItem.title;
+       
         pageHeader(pageTitle, this.htmlContainer);
 
-        await this.data.call(pageConfig, segment, update, this.htmlContainer);
-
+        await import(/*webpackIgnore: true*/ `./${this.params.topic}.bundle.js`);
+        // @ts-ignore
+        const ctrlr = new window[this.params.topic](this);
+        ctrlr.init();
         return;
     }
 
@@ -108,7 +90,6 @@ export class DashboardController implements IDashboardController {
         switchTopic(this,paramKey,paramValue);
         companyTitle(this);
 
-
         if (this.params.topic === 'bedrijf') {
             this._toggleSubMenu();
         }
@@ -116,11 +97,16 @@ export class DashboardController implements IDashboardController {
         this._closeMenu();
     }
 
+    switchLanguage(lan: string) : void {
+
+        this.params.language = lan;
+        switchLanguage(this)
+        this.init();
+    }
+
     _toggleSubMenu() : void {
         toggleSubMenu();
     }
-
-
 
     _reloadHtml(): void {
 
@@ -183,5 +169,28 @@ export class DashboardController implements IDashboardController {
         this.close_btn.style.display = 'block';
         this.open_btn.style.display = 'none';
     }
+
+
+    // _showLoader() {
+
+    //     this.loader = document.createElement("div");
+
+    //     this.loader.innerText = "data wordt geladen";
+
+    //     const element = document.querySelector("div[eiti-graph-preset='dashboard']");
+
+    //     if(element != null) {
+    //         element.appendChild(this.loader);
+    //     }       
+    // }
+
+
+    // _hideLoader() {
+
+    //     this.loader.remove();
+
+
+    // }
+
 
 }

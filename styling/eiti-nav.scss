@@ -5,7 +5,7 @@ ul.dashboard_nav {
         padding: 0 0 0 0.75rem;
 
 
-        &:not([data-slug="bedrijf"]):hover {
+        &:not([data-slug="company"]):hover {
 
             background: $blue;
             color: white;

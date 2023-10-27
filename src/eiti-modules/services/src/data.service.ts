@@ -4,7 +4,7 @@ import { IDashboardController } from "@local/dashboard";
 import { charts } from "@local/charts";
 // moet dit niet in eiti-module ??
 import { createGraphGroupElement } from "@local/dashboard/html.factory";
-import { netherlands } from "./netherlands.geodata";
+import { netherlands } from "@local/eiti-services/src/netherlands.geodata";
 // import { licences2023 } from "./licences2023.geodata";
  
 export interface IDataService {

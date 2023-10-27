@@ -17,7 +17,6 @@ export type IGraphGroupControllerV2 = {
     update: (data: EitiData, segment: string, update: boolean) => void
 }
 
-// can this be a wrapper for multiple graphcontrollers?
 export class EconomySharesGroupV1 implements IGraphGroupControllerV2 { 
 
     graphs = [];
@@ -128,10 +127,6 @@ export class EconomySharesGroupV1 implements IGraphGroupControllerV2 {
                 graphs.push(year_arr);
         }
 
-        // graphs[3].forEach( (d) => {
-        //     d.format = "fte"
-        // });
-
         // FOR TABLE
        const rows = []
 
@@ -152,6 +147,8 @@ export class EconomySharesGroupV1 implements IGraphGroupControllerV2 {
            headers: [""].concat(years),
            rows
        }
+
+     
   
         return {
             graphs,

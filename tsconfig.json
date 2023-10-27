@@ -2,10 +2,10 @@
     "compilerOptions": {
       "allowSyntheticDefaultImports": true,
       "noImplicitAny": false,
-      "module": "es6",
+      "module": "esnext",
       "target": "es6",
       "allowJs": true,
       "moduleResolution": "node"
     },
-    "files": ["src/browser/index.ts"]
+    "files": ["src/browser/dashboard/index.ts"]
 }

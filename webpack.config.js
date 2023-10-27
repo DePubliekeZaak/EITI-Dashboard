@@ -6,11 +6,75 @@ const isProduction = process.env.NODE_ENV == "production";
 const config = (env) =>  {
 
   return {
-    entry: "./src/browser/index.ts",
+    entry: {
+      scaffold: {
+        import: "./src/browser/index.ts",
+      },
+      payments: {
+        
+        filename: "scripts/payments.bundle.js",
+        import: "./src/pages/payments/index.ts",
+        library: {
+          name: 'payments',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      reconciliation: {
+        filename: "scripts/reconciliation.bundle.js",
+        import: "./src/pages/reconciliation/index.ts",
+        library: {
+          name: 'reconciliation',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      ebn: {
+        filename: "scripts/ebn.bundle.js",
+        import: "./src/pages/ebn/index.ts",
+        library: {
+          name: 'ebn',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      economy: {
+        filename: "scripts/economy.bundle.js",
+        import: "./src/pages/economy/index.ts",
+        library: {
+          name: 'economy',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      ubo: {
+        filename: "scripts/ubo.bundle.js",
+        import: "./src/pages/ubo/index.ts",
+        library: {
+          name: 'ubo',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      company: {
+        filename: "scripts/company.bundle.js",
+        import: "./src/pages/company/index.ts",
+        library: {
+          name: 'company',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      charts: {
+        import: "./src/charts/index.ts"
+      },
+      css: {
+        import: "/styling/main.scss"
+      }
+    },
     output: {
       path: path.resolve(__dirname, "public/"),
-      chunkFilename: 'scripts/bundle.js',
-      filename: 'scripts/bundle.js',
+      filename: 'scripts/[name].bundle.js',
       assetModuleFilename: (pathData) => {
         const filepath = path
             .dirname(pathData.filename)
@@ -22,10 +86,10 @@ const config = (env) =>  {
     },
     mode: 'development',
     optimization: {
-      usedExports: true,
+      usedExports: false,
     },
     devServer: {
-      open:true,
+      open:false,
       port: 3333,
       hot: true,
       client: {
@@ -63,6 +127,7 @@ const config = (env) =>  {
       ],
     },
     resolve: {
+      modules: ['public/scripts','node_modules'],
       extensions: [".ts",".js"]
     }
   }

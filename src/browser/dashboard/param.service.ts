@@ -1,4 +1,3 @@
-import { reconciliatie, betalingen, bedrijf, ebn, ubo, licences, economy } from "@local/configs";
 import { IGraphMapping, KeyValue } from "../../d3-modules/_d3_types";
 
 
@@ -6,7 +5,7 @@ export interface IParamService {
 
     renew() : void,
     isCompanyPage(): boolean
-    matchConfig(): IGraphMapping[]
+    // matchConfig(): IGraphMapping[]
     topic : string
     company: string
     language: string
@@ -33,8 +32,8 @@ export class ParamService implements IParamService {
         const primKey = Object.keys(this._params)[0];
         let primValue = Object.values(this._params)[0];
 
-        if (primValue === 'undefined') {
-            this._topic = 'betalingen'
+        if (primValue === 'undefined' || 'language') {
+            this._topic = 'payments'
             this._company == null;
             this._segment = '2022'
         }
@@ -45,8 +44,8 @@ export class ParamService implements IParamService {
             this._segment = '2022'
         }
 
-        else if (primKey === 'bedrijf') {
-            this._topic = 'bedrijf';
+        else if (primKey === 'company') {
+            this._topic = 'company';
             this._company = Object.values(this._params)[0].toString();
             this._segment = '2022'
         }
@@ -66,6 +65,10 @@ export class ParamService implements IParamService {
 
     get language() {
         return this._language;
+    }
+
+    set language(lan: string) {
+        this._language = lan;
     }
 
     get segment() {
@@ -88,30 +91,10 @@ export class ParamService implements IParamService {
     }
 
     isCompanyPage() {
-        return this._topic === 'bedrijf';
+        return this._topic === 'company';
     }
 
-    // getters setters 
 
-    matchConfig (): IGraphMapping[] {
 
-        switch (this._topic) {
-            case 'reconciliatie':
-                return reconciliatie;
-            case 'betalingen':
-                return betalingen;
-            case 'bedrijf':
-                return bedrijf;
-            case 'ebn':
-                return ebn;
-            case 'economy':
-                return economy;
-            case 'ubo':
-                return ubo;
-            case 'vergunningen':
-                return licences;
-            default:
-                return betalingen;
-        }
-    }
+
 }

@@ -2,16 +2,23 @@ import { navItems } from './nav.factory';
 import { switchTopic } from "./interaction.factory";    
 import { IDashboardController } from './dashboard.controller';
 import { IGraphMapping } from '@local/d3_types/mapping';
+import members from './members'
 
-export const styleParentElement = (): HTMLElement => {
+export const styleParentElement = (): Element | null => {
 
-    const htmlContainer: HTMLScriptElement =  document.querySelector("[eiti-graph-preset='dashboard']");
-    const parentEl = htmlContainer.parentElement;
-    parentEl.classList.add('container');
-    parentEl.style.display = 'flex';
-    parentEl.style.flexDirection = 'row-reverse';
-    parentEl.style.justifyContent = 'flex-start';
-    parentEl.style.alignItems = 'flex-start';
+    const htmlContainer =  document.querySelector("[eiti-graph-preset='dashboard']");
+
+    if(htmlContainer != undefined) {
+        const parentEl = htmlContainer.parentElement;
+        if(parentEl != undefined) {
+            parentEl.classList.add('container');
+            parentEl.style.display = 'flex';
+            parentEl.style.flexDirection = 'row-reverse';
+            parentEl.style.justifyContent = 'flex-start';
+            parentEl.style.alignItems = 'flex-start';   
+        }
+    }
+
     return htmlContainer;
 }
 
@@ -20,8 +27,7 @@ export const createSideBar = (container: HTMLElement): HTMLElement => {
     container.classList.add('has_sidebar');
     let aside = document.createElement('aside');
     aside.classList.add('selectors');
-    container.parentElement.appendChild(aside);
-
+    if (container.parentElement != null) container.parentElement.appendChild(aside);
     return aside;
 }
 
@@ -36,20 +42,24 @@ export const createNav = (ctrlr: IDashboardController): HTMLElement => {
     for (let i of navItems) {
 
         let li = document.createElement('li');
-        li.innerText = i.label;
+        li.innerText = ctrlr.params.language == 'en' ? i.label_en : i.label;
         li.style.cursor = 'pointer';
         li.setAttribute('data-slug', i.slug);
 
-        if(i.slug != 'bedrijf') {
+        if(i.slug != 'company' && i.slug != 'opendata') {
             li.onclick = () => ctrlr.switch('topic',i.slug);
         }
 
-        if(ctrlr.params.topic == i.slug && i.slug != 'bedrijf') {
+        if(ctrlr.params.topic == i.slug && i.slug != 'company') {
             li.classList.add('active');
+        }
+
+        if (i.slug == 'opendata') {
+            li.onclick = () =>  window.open(window.location.protocol + "//" + window.location.host + '/opendata','_blank')
         }
         
 
-        if( i.slug == 'bedrijf') {
+        if( i.slug == 'company') {
 
             li.onclick = () => ctrlr._toggleSubMenu() 
 
@@ -57,20 +67,22 @@ export const createNav = (ctrlr: IDashboardController): HTMLElement => {
             ul_bedrijven.style.flexDirection = 'column';
             ul_bedrijven.classList.add('dashboard_nav_companies');
 
-            if (ctrlr.data.data) {
-                for (let e of ctrlr.data.data.entities.filter( e => e.type == 'company')) {
+            if (members) {
+                for (let m of members) {
                     let li = document.createElement('li');
-                    li.innerText = e.name;
+                    li.innerText = m.name;
 
                     li.style.cursor = 'pointer';
-                    li.setAttribute('data-slug', e.slug);
-                    li.onclick = () => ctrlr.switch("bedrijf",e.slug)
+                    li.setAttribute('data-slug', m.slug);
+                    li.onclick = () => ctrlr.switch("company",m.slug)
                     ul_bedrijven.append(li);
                 }
             
                 li.appendChild(ul_bedrijven);
             
             }
+
+
         }
         ul.appendChild(li);
     }
@@ -169,9 +181,10 @@ export const createGraphGroupElement = (graphObject : IGraphMapping, htmlContain
 export const companyTitle = (ctrlr: IDashboardController) => {
 
     if (ctrlr.params.isCompanyPage()) {
-        if(ctrlr.data.data) {
-            let t = ctrlr.data.data.reconciliation.find( r => r.origin == ctrlr.params.company);
-            (document.querySelector(".eiti-dashboard-breadcrumbs h2") as HTMLHeadingElement).innerText = t["entity_name"];
+        if(members) {
+            let t = members.find( r => r.slug == ctrlr.params.company);
+            const el = (document.querySelector(".eiti-dashboard-breadcrumbs h2") as HTMLHeadingElement)
+           if(el != null)  el.innerText = t["name"];
         }
     } 
 }

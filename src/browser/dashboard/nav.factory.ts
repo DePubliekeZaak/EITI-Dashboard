@@ -1,40 +1,54 @@
 export const navItems = [
+
     {
-        slug: 'betalingen',
+        slug: 'payments',
         label: 'Betalingen',
-        title: 'Betalingen gas, olie en zout aan overheid'
+        label_en: "Payments",
+        title: 'Betalingen gas, olie en zout aan overheid',
+        title_en: "Government revenues from gas, oil and salt"
     },  
     {
-        slug: 'reconciliatie',
+        slug: 'reconciliation',
         label: 'Reconciliatie',
-        title: 'Reconciliatie'
+        label_en: "Reconciliation",
+        title: 'Reconciliatie',
+        title_en: "Reconciliation"
     },
     {
         slug: 'ebn',
         label: 'Overheidsdeelneming EBN',
-        title: 'Overheidsdeelneming EBN'
+        label_en: "State share in EBN",
+        title: 'Overheidsdeelneming EBN',
+        title_en: 'State share in EBN',
     },
     {
         slug: 'economy',
         label: 'Mijnbouwsector Nederland',
+        label_en: "Dutch mining sector",
         title: 'Mijnbouwsector Nederland',
         title_en: 'Size mining sector in the Netherlands'
     },
     {
         slug: 'ubo',
         label: 'UBO-informatie',
+        label_en: 'UBO-information',
         title: 'UBO-informatie',
         title_en: 'UBO information'
     },
     {
-        slug: 'bedrijf',
+        slug: 'company',
         label: 'Bedrijven',
-        title: 'Bedrijven'
+        label_en: 'Companies',
+        title: 'Bedrijven',
+        title_en: "Companies"
     },
     {
         slug: 'opendata',
         label: 'Open data',
-        title: 'Open data'
+        label_en: 'Open data',
+        title: 'Open data',
+        title_en: 'Open data'
     }
 
 ];
+
