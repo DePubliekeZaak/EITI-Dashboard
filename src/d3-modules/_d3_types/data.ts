@@ -96,8 +96,10 @@ export type EitiEntity = {
     trade_name?: string,
     registration_ref?: string,
     parent_company?: string,
+    parent_company_en?: string,
     registry_link?: string,
     registry_place?: string,
+    registry_place_en?: string,
     legal_env?: string,
     member?: boolean
 

@@ -159,15 +159,19 @@ export class DashboardController implements IDashboardController {
     _closeMenu() {
 
         closeMenu();
-        this.close_btn.style.display = 'none';
-        this.open_btn.style.display = 'block';
+        if (window.innerWidth < breakpoints.lg) {
+            this.close_btn.style.display = 'none'; 
+            this.open_btn.style.display = 'block';
+        }
     }
 
     _openMenu() {
 
         openMenu();
-        this.close_btn.style.display = 'block';
-        this.open_btn.style.display = 'none';
+        if (window.innerWidth < breakpoints.lg) {
+            this.close_btn.style.display = 'block';
+            this.open_btn.style.display = 'none';
+        }
     }
 
 

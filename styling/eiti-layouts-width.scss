@@ -1,3 +1,9 @@
+.full-width {
+
+  display: flex;
+  justify-content: center;
+}
+
 .container {
 
   width : calc(100% - 2rem);
@@ -93,7 +99,7 @@
   .graph-container-6 {
     width: 100%;
   
-    @media (min-width : $breakpoint-bax) {
+    @media (min-width : $breakpoint-md) {
       width: calc(50% - 2rem/2);
     }
   }

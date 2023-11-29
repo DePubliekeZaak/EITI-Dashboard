@@ -64,9 +64,6 @@
   },
   "scripts": {
     "build:prod": "webpack --env ENV=prod DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/api/",
-    "build:staging": "webpack --env ENV=dev DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/staging/api/",
-    "deploy:prod": "cd public && git add . && git commit -am 'changes' && git push eiti master",
-    "deploy:staging": "cd public && git add . && git commit -am 'changes' && git push staging master",
     "serve": "webpack serve --env ENV=dev DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/api/"
   },
   "sideEffects": false

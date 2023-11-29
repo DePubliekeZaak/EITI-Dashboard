@@ -59,6 +59,26 @@ header {
 
 }
 
+#menu-home-link {
+    margin-right: auto;
+    color: white;
+    font-weight: bold;
+
+    @media (max-width: $breakpoint-bax) {
+        display: none;
+    }
+
+    a {
+        color: white;
+        border-bottom: 1px solid white;
+
+        &:hover {
+            color: $darkblue;
+            border-color: $darkblue;
+        }
+    }
+}
+
 ul#language-selector {
 
 

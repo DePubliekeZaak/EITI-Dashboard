@@ -57,7 +57,14 @@ export const createNav = (ctrlr: IDashboardController): HTMLElement => {
         if (i.slug == 'opendata') {
             li.onclick = () =>  window.open(window.location.protocol + "//" + window.location.host + '/opendata','_blank')
         }
-        
+
+        if (i.slug == 'contact') {
+            li.onclick = () =>  window.open('https://www.eiti.nl/contact','_blank')
+        }
+
+        if (i.slug == 'copyright') {
+            li.onclick = () =>  window.open('https://www.eiti.nl/copyright','_blank')
+        }
 
         if( i.slug == 'company') {
 

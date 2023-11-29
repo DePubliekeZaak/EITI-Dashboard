@@ -5,7 +5,7 @@ export const navItems = [
         label: 'Betalingen',
         label_en: "Payments",
         title: 'Betalingen gas, olie en zout aan overheid',
-        title_en: "Government revenues from gas, oil and salt"
+        title_en: "Gas, oil and salt payments to government"
     },  
     {
         slug: 'reconciliation',
@@ -48,6 +48,20 @@ export const navItems = [
         label_en: 'Open data',
         title: 'Open data',
         title_en: 'Open data'
+    },
+    {
+        slug: 'copyright',
+        label: 'Copyright',
+        label_en: 'Copyright',
+        title: 'Copyright',
+        title_en: 'Copyright'
+    },
+    {
+        slug: 'contact',
+        label: 'Contact',
+        label_en: 'Contact',
+        title: 'Contact',
+        title_en: 'Contact'
     }
 
 ];
