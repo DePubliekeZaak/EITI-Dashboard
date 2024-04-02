@@ -10,4 +10,5 @@ public/scripts
 public/styles
 bundle.js
 deploy.sh
+docs
 

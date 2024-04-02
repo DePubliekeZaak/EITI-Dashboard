@@ -44,6 +44,7 @@ export class RevenueBarsGroupV1 extends GroupControllerV1 {
 
     const bars: Bars = [];
     const rows: string[][] = [];
+    const definitions: Definitions = [];
    
     const uniqueYears = filterUnique(data[dataGroup],"year");
     uniqueYears.sort( (a:any,b: any) => parseInt(a) - parseInt(b));
@@ -116,7 +117,7 @@ export class RevenueBarsGroupV1 extends GroupControllerV1 {
         rows
     };
 
-    const definitions: Definitions = [];
+     
 
     for (let payment_type of uniquePayments) {
         
