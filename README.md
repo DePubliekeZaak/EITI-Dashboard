@@ -3,7 +3,7 @@ At present there is no boilerplate version. If you would like to re-use the code
 
 The codebase can be seen as a wrapper around d3.js, with added functionality based on best practices and other lessons learned over the years. 
 These learnings mainly involve accessibility for the visually impaired, as well as a large group of people whom prefer to read numbers in tables rather than interprete graphs. 
-When you are reading this there is a good chance that you like or love (making) beautiful and complex graphs. The hard truth is that few people do. Communicating data is only partly about graphs. 
+When you are reading this there is a good chance that you like or love (making) beautiful and complex graphs. The hard truth is that few people do. 
 
 There is a consistency implemented whereby each (group of) graph(s), corresponds to a single data table (also downloadable) and a set of definitions exlaining all parameters, and ideally a single endpoint queriable in a swagger interface. I have learned this helps me focus on message. 
 
