@@ -1,5 +1,5 @@
 This is the codebase used for EITI-NL dataportaal. Another version is being used to update open data dashboard for Institute Mijnbouwschade Groningen. 
-At present there is no generic, boilerplate version. If you would like to re-use the codebase, do contact me at joera@joeramulders.com. I would be happy to help strip it down. 
+At present there is no boilerplate version. If you would like to re-use the codebase, do contact me at joera@joeramulders.com. I would be happy to help strip it down and make a more generic version.
 
 The codebase can be seen as a wrapper around d3.js, with added functionality based on best practices and other lessons learned over the years. 
 These learnings mainly involve accessibility for the visually impaired, as well as a large group of people whom prefer to read numbers in tables rather than interprete graphs. 
