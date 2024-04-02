@@ -5,11 +5,7 @@ import { Bars } from '@local/d3_types/data';
 import { breakpoints, colours} from "@local/styleguide";
 import { join } from 'lodash';
 
-//const groupHeight = 240;
-// const barHeight = 40;
-
 interface ChartElement {
-
     draw: (data: Bars) => void,
     redraw: (data: Bars) => void
 }
@@ -33,14 +29,14 @@ export class ChartBarReconIntroV1 implements ChartElement {
         public ctrlr,
     ){}
 
-    draw(data: Bars) {
+    draw(data: any) {
 
         if (this.barGroup) {
             this.barGroup.remove()
         }
 
         this.barGroup = this.ctrlr.svg.layers.data.selectAll(".bar_group")
-            .data(data.slice, (d) => slugify(d.label))
+            .data(data, (d) => slugify(d.label))
             .join("g")
             .attr("class","bar_group")
             
@@ -104,19 +100,19 @@ export class ChartBarReconIntroV1 implements ChartElement {
                     switch(d) {
 
                         case "government":
-                            diff = Math.round((data.slice[2].value - data.slice[0].value) * 1000) / 1000;
+                            diff = Math.round((data[2].value - data[0].value) * 1000) / 1000;
                             return diff < 0 ? '+&euro;' + bePositive(diff).toString().replace(".",",")  + 'M' : '-&euro;' + bePositive(diff).toString().replace(".",",")  + 'M'
                         case "company":
-                            diff = Math.round((data.slice[3].value - data.slice[1].value) * 1000) / 1000;
+                            diff = Math.round((data[3].value - data[1].value) * 1000) / 1000;
                             return diff < 0 ? '+&euro;' + bePositive(diff).toString().replace(".",",")  + 'M' : '-&euro;' + bePositive(diff).toString().replace(".",",")  + 'M'
                         case "outcome": 
-                            diff = Math.round((data.slice[0].value - data.slice[1].value) * 1000) / 1000;
+                            diff = Math.round((data[0].value - data[1].value) * 1000) / 1000;
 
                             if (diff < 0) {
                                 return '+&euro;' + bePositive(diff).toString().replace(".",",")  + 'M' 
 
                             } else if (diff == 0) {
-                                return 0;
+                                return '0%';
                             } else {
                                 return '-&euro;' + bePositive(diff).toString().replace(".",",")  + 'M'
                             }
@@ -127,7 +123,7 @@ export class ChartBarReconIntroV1 implements ChartElement {
                 .style("font-size", window.innerWidth < breakpoints.xsm ? '.85rem' : '1rem');
     }
 
-    redraw(data: Bars) {
+    redraw(data: any) {
 
         let self = this;
 
@@ -164,7 +160,6 @@ export class ChartBarReconIntroV1 implements ChartElement {
             .html( (d,i) => {
 
                 const label = window.innerWidth < breakpoints.sm ? d.label.split(" ")[0] : d.label;
-
                 return  label + " - &euro;" + thousands(Math.round(10 * d.value) / 10) + "M";
             })
             .attr('fill-opacity', 1);
@@ -179,12 +174,9 @@ export class ChartBarReconIntroV1 implements ChartElement {
                 let y: number;
 
                 if (d  == "outcome") {
-
-                    x =  window.innerWidth < breakpoints.xsm ? self.ctrlr.scales.x.fn((data.slice[0].value)) + 3 : self.ctrlr.scales.x.fn((data.slice[0].value)) - barHeight;
-                    y = self.ctrlr.scales.y.fn(slugify(data.slice[0].label))
-
+                    x =  window.innerWidth < breakpoints.xsm ? self.ctrlr.scales.x.fn((data[0].value)) + 3 : self.ctrlr.scales.x.fn((data[0].value)) - barHeight;
+                    y = self.ctrlr.scales.y.fn(slugify(data[0].label))
                 } else {
-
                     x = d == "company" ? this.ctrlr.dimensions.width + 40 : this.ctrlr.dimensions.width + 100;
                     y = -16 + (2 * barHeight * 1.125) + i * (barHeight * 1.125)
                 }

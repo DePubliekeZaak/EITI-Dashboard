@@ -22,7 +22,7 @@ const bedrijf : IGroupMappingV2[] = [
         ],
         "header": "Betalingen van bedrijven per jaar op projectniveau",
         "header_en": "Company payments on project level",
-        "functionality": [],
+        "functionality": ["table"],
         "description": "Hier staan de gereconcilieerde betalingen die gerapporteerd worden op projectniveau weergegeven.",
         "description_en": "Aggregated payments on project level that have been matched. Data is incomplete.",
         "endpoints": ["payments"],

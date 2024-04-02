@@ -40,7 +40,7 @@ const config : IGroupMappingV2[] = [
     }],
     "header": null,
     "header_en": null,
-    "functionality": ['tableView','download'],
+    "functionality": ['table','download'],
     "description": `
         <p>De EITI-Standaard vereist het transparant maken van de eigenaar van of de persoon met de feitelijke zeggenschap over het mijnbouwbedrijf, ook wel de ultimate beneficial owner (UBO) genoemd. Dit is uitgewerkt in vereiste 2.5 van de EITI-Standaard. Bij een besloten vennootschap (bv) of naamloze vennootschap (nv) gaat het om: personen met meer dan 25% van de aandelen, personen met meer dan 25% van de stemrechten, personen die de feitelijke zeggenschap over de onderneming hebben. Op 27 maart 2022 moesten organisaties hun UBO’s hebben geregistreerd. Dat betekent dat zij hun eigenaren of personen met zeggenschap in het UBO-register hebben ingeschreven bij de Kamer van Koophandel. Het UBO-register volgt uit Europese regels. Het register moet financieel-economische criminaliteit voorkomen, zoals witwassen, fraude, belastingontduiking en terrorismefinanciering.</p>
 

@@ -21,6 +21,8 @@ export class HtmlCompanySelector {
         this.dropdown = document.createElement('select');
         this.dropdown.id = this.id;
         this.dropdown.style.alignSelf = 'flex-start';
+        this.dropdown.setAttribute("aria-describedby", this.id);
+        this.dropdown.name = "bedrijven";
 
         this.element.appendChild(this.dropdown)   // insertBefore(dropdown,headerElement.nextSibling);
 

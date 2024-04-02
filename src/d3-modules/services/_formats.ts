@@ -7,6 +7,13 @@ const localCurrency = window.d3.formatDefaultLocale({
     "currency": ["€",""],
 });
 
+const localNumbers = window.d3.formatDefaultLocale({
+    "decimal": ",",
+    "thousands": ".",
+    "grouping": [2],
+    "currency": ["",""],
+});
+
 const localTime = window.d3.timeFormatLocale({
     "dateTime": "%a %e %B %Y %T",
     "date": "%d-%m-%Y",
@@ -23,4 +30,4 @@ const monthNames = ["januari", "februari", "maart", "april", "mei", "juni", "jul
 // const formatDates = localTime.format("%B %Y");
 // const currency = localCurrency.format("$,");
 
-export { localCurrency, localTime, monthNames }
+export { localCurrency, localNumbers, localTime, monthNames }

@@ -1,4 +1,6 @@
 import { IGraphMapping, KeyValue } from "../../d3-modules/_d3_types";
+import members from "./members";
+import { navItems } from "./nav.service";
 
 
 export interface IParamService {
@@ -27,6 +29,8 @@ export class ParamService implements IParamService {
 
     renew() {
 
+        this.removePathFromUrl() 
+
         this._params = this._getParams();
 
         const primKey = Object.keys(this._params)[0];
@@ -53,6 +57,33 @@ export class ParamService implements IParamService {
         if(Object.keys(this._params).indexOf('language') > -1) {
             this._language = Object.values(this._params)[Object.keys(this._params).indexOf('language')].toString();
         }
+
+        if (navItems.map( i => i.slug).indexOf(this._topic) < 0) {
+
+            this.redirectToLanding()
+        }
+           
+        if(primKey === 'company' && members.filter( m => m.member).map( i => i.slug).indexOf(this._company) < 0) {
+
+            this.redirectToLanding()
+        }
+    }
+
+    removePathFromUrl() {
+
+        if (window.location.pathname != '/') {
+            const newurl = window.location.href.replace(window.location.pathname,'/')
+            window.history.pushState({path:newurl},'',newurl);
+        }
+    }
+
+    redirectToLanding() {
+
+        this._topic = 'not_available'
+        this._company == null;
+        this._segment = '2022';
+        const newurl = window.location.protocol + "//" + window.location.host + '?topic=not_available';
+        window.history.pushState({path:newurl},'',newurl);
     }
 
     get topic() {

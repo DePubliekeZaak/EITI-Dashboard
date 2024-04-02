@@ -40,16 +40,13 @@ export  class UboCardsV1 extends GraphControllerV3  {
         const graphHeight = 300;
 
         if(this.group.element == null ) return;
-        this.group.element.style.minWidth = "600px";
+
         this.graphEl = super._html();
         this.graphEl.style.marginBottom = "3rem";
         this.graphEl.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight + "px" : graphHeight + "px";
  
         const header = document.createElement("h3");
         header.style.marginBottom = "1rem";
-
-        if (this.graphEl != null) this.graphEl.appendChild(header);
-
      
     }
 

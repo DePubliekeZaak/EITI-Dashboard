@@ -25,17 +25,18 @@ export default class PageController implements IPageController {
 
         this.main = main;
         this.slug = main.params.topic;
-     
     }
 
     async init(config, groups, graphs) {
 
         for (const c of config) {
 
+            let j = 0;
+
             let g : GroupObject = { 
                 slug: c.slug,
                 splice: c.splice,
-                ctrlr: new groups[c.ctrlr](this, c),
+                ctrlr: new groups[c.ctrlr](this, c, j),
                 graphs: [],
                 config: c,
                 element: null,
@@ -59,6 +60,8 @@ export default class PageController implements IPageController {
                 i++;
             }
 
+            j++;
+
             this.chartArray.push(g) 
         }
 
@@ -66,14 +69,20 @@ export default class PageController implements IPageController {
         await this.gatherData();
         this.prepareData();
         this.tables();
+        this.definitions();
+        this.descriptions();
+        this.setTarget();
+        this.setActiveTabs();
+        // this.setFilters();
         await this.prepareMultiples();
         this.initGraphs();
+        this.armDownloads()
 
     }
 
     initHtml() {
         for (const group of this.chartArray) {
-            
+
         }
     }
 
@@ -103,6 +112,51 @@ export default class PageController implements IPageController {
         }
     }
 
+    definitions() {
+
+        for (const group of this.chartArray) {
+            if(group.data.definitions != undefined) {
+                group.ctrlr.populateDefinitions(group.data.definitions);
+            }
+        }
+    }
+
+    descriptions() {
+
+        for (const group of this.chartArray) {
+  
+                group.ctrlr.populateDescription();
+        
+        } 
+    }
+
+   
+
+    setActiveTabs() {
+
+        for (const group of this.chartArray) {
+                group.ctrlr.armTabs();
+        }
+
+    }
+
+    // setFilters() {
+
+    //     for (const group of this.chartArray) {
+    //             group.ctrlr.filters();
+    //     }
+
+    // }
+
+    setTarget() {
+       
+        if(window.location.hash) {
+
+            const el = document.getElementById(window.location.hash.replace("#","")); 
+            el?.classList.add('visible');
+        } 
+    }
+
     initGraphs() {
        
         for (const group of this.chartArray) {
@@ -111,6 +165,13 @@ export default class PageController implements IPageController {
                 graph.ctrlr.html();
                 graph.ctrlr.init();
             }
+        }
+    }
+
+    armDownloads() {
+
+        for (const group of this.chartArray) {
+            group.ctrlr.armDownloads();
         }
     }
 
@@ -132,10 +193,14 @@ export default class PageController implements IPageController {
         
                         const slug = graph.slug + '_' + i;
                         
+                        // difference is in the index! 
+
                         newGraphs.push({
                             slug,
                             ctrlr : new graphs[this, graph.ctrlrName](slug,this,group,graph.mapping,group.config.segment,i)
                         });
+
+                 
     
                         i++;
                     }

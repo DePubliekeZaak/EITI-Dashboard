@@ -1,5 +1,6 @@
 import { EitiData } from "@local/d3_types";
 import { DataObject, TableData } from "./types";
+import { Definitions } from "./types_graphs";
 
 export interface IParameterMapping {
 
@@ -56,11 +57,15 @@ export interface GroupObject {
 
 export interface IGroupCtrlr {
 
+    slug: string,
     page: any,
     segment: string,
     html: () => HTMLElement | undefined,
     prepareData: (data:EitiData) => DataObject,
-    populateTable: (tableData: TableData) => void
+    populateTable: (tableData: TableData) => void,
+    populateDefinitions: (definitions: Definitions) => void,
+    populateDescription?: () => void,
+    armTabs: () => void,
     update: (data: DataObject, segment: string, update: boolean) => void
     
 }

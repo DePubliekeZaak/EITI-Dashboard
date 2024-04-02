@@ -1,4 +1,4 @@
-import { localTime } from '@local/d3-services';
+import { convertToLocale, localTime } from '@local/d3-services';
 // import * as d3 from "d3";
 // import { getMonthFromNumber} from "../../../utils/date-object.utils";
 import { convertToCurrency, convertToMillions } from '@local/d3-services';
@@ -21,6 +21,8 @@ export class AxesService {
     draw () {
 
         this.axisGroup = this.ctrlr.svg.layers.axes.append("g");
+
+
 
         switch (this.config.position) {
 
@@ -90,6 +92,7 @@ export class AxesService {
 
                case 'linear' :
 
+
                     if (this.config.format === "percentage") {
 
                         this.axis
@@ -110,9 +113,10 @@ export class AxesService {
 
                     } else {
 
+
                         this.axis
                             .ticks(4)
-                            .tickFormat( d => d.toString());
+                            .tickFormat( d => convertToLocale(d.toString()));
                     }
 
                    break;

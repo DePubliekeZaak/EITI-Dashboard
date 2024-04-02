@@ -77,7 +77,7 @@ const config : IGroupMappingV2[] = [
             }
           ]
         ]  
-    }
+      }
     ],
       "header": null,
       "header_en": null,
@@ -89,7 +89,7 @@ const config : IGroupMappingV2[] = [
       <p>In the reconciliation process, the accountant compares the reported amounts of companies and governments to determine if there are differences between the two sources. If there are differences, government authorities and companies will be contacted to explain these differences. Differences often have to do with the time at which payments are recorded, if payments are made at the end of a year (payment in year t, registration year t + 1). If the accountant finds it an explainable difference, this will be adjusted in the outcome. See the difference between reporting and outcome, the first two dots. See also the bar chart in which the relative deviation of the reports is compared to the government outcome.</p>
       <p>The differences that could not be explained in recent years were negligible. They are well within the acceptable margin of error for residual reconciliation differences, which is set at 1% of total mineral extraction revenues reported by government authorities. See the difference between government outcome and company outcome, the third bullet.</p>
       `,
-      "functionality": ["tableView","download"],
+      "functionality": ["table","download"],
       "endpoints": ["reconciliation"],
       "segment": "",
 
@@ -158,7 +158,7 @@ const config : IGroupMappingV2[] = [
         "header_en": "Largest explainable differences",
         "description": "In dit overzicht vindt u de grootste absolute/relatieve verklaarbare verschillen tussen de gerapporteerde bedragen of tussen het gerapporteerde bedrag en de uitkomst van de reconciliatie." ,
         "description_en": "In this overview you will find the largest absolute/relative explainable differences between the reported amounts or between the reported amount and the outcome of the reconciliation." ,
-        "functionality": ['combiSelect',"tableView","download"],
+        "functionality": ['combiSelect',"table","download"],
         "endpoints": ["reconciliation"],
         "segment": "difference_in_reported_absolute"
     },
@@ -196,46 +196,11 @@ const config : IGroupMappingV2[] = [
             ]
         }],
         "header": "Reconciliatie per bedrijf",
-        "functionality": ["companySelect","tableView","download"],
+        "functionality": ["companySelect","table","download"],
         "description": null,
         "endpoints": ["reconciliation","entities"],
         "segment": "nam",
-    },
-    // {
-    //     "slug" : "reconciliatie_per_jaar_percentage",
-    //     "graph": "ReconciliationCompanyV3",
-    //     "args" : [],
-    //     "parameters": [
-    //         [
-                
-    //             {
-    //                 "label": "verschil tussen rapportages en reconciliatie",
-    //                 "column": "pre_company_report",
-    //                 "colour": "gray",
-    //                 "format": "percentage"
-    //             },
-    //             {
-    //                 "label": "aanpassing bedrijf",
-    //                 "column": "pre_company_report",
-    //                 "colour": "orange",
-    //                 "format": "percentage"
-    //             },
-    //             {
-    //                 "label": "aanpassing overheid",
-    //                 "column": "pre_company_report",
-    //                 "colour": "blue",
-    //                 "format": "percentage"
-    //             }
-    //         ]
-    //     ],
-    //     "header": "Reconciliatie per jaar",
-    //     "multiGraph": false,
-    //     "functionality": ["companySelect","tableView","download"],
-    //     "description": null,
-    //     "endpoint": "reconciliatie",
-    //     "segment": "nam",
-    //     "elementClasslist": ['graph-container','graph-container-12']
-    // }
+    }
 ];
 
 export default config;

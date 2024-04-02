@@ -5,6 +5,7 @@ import { GroupControllerV1 } from '../../shared/group-v1';
 import { DataObject, EitiData, EitiEntity, EitiPayments, TableData } from '../../shared/types';
 import { IGroupMappingV2 } from '../../shared/interfaces';
 import { convertToCurrencyInTable } from '../../shared/_helpers';
+import { HTMLSource } from '../../shared/html/html-source';
 
 
 
@@ -13,19 +14,23 @@ export  class EbnCircleGroupV1 extends GroupControllerV1  {
     circleGroups;
     simulation = {};
 
-    funcList;
+    filter;
     table;
     hasListener = false;
 
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config, index);
     }
 
     html() {
-        return super.html()
+        
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
     init() {}
@@ -36,8 +41,7 @@ export  class EbnCircleGroupV1 extends GroupControllerV1  {
 
         if(!this.hasListener) {
             this.hasListener = true;
-            this.funcList.redraw('companySelect');
-            
+            this.filter.redraw('companySelect'); 
         }
 
         const dataGroup = "payments";
@@ -151,9 +155,15 @@ export  class EbnCircleGroupV1 extends GroupControllerV1  {
         super.populateTable(tableData);
     }
 
+    populateDescription() {
+
+        if (this.config.functionality && this.config.functionality.indexOf('description') > -1) {
+            this.description.draw();
+        }
+    }
+
     update(data: DataObject, segment: string, update: boolean) {
         
-
         super.update(data,segment,update)
     }  
 

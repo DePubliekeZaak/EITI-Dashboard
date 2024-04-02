@@ -1,6 +1,7 @@
 import { bePositive, convertToCurrencyInTable } from "../../shared/_helpers";
 import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
+import { HTMLSource } from "../../shared/html/html-source";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { DataObject, EitiData, EitiPayments, TableData } from "../../shared/types";
 
@@ -19,12 +20,15 @@ export  class EbnCircleGroupV2 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config, index);
     }
 
     html() {
-        return super.html()
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
     init() {}
@@ -106,6 +110,13 @@ export  class EbnCircleGroupV2 extends GroupControllerV1 {
     populateTable(tableData: TableData) {
 
         super.populateTable(tableData);
+    }
+
+    populateDescription() {
+
+        if (this.config.functionality && this.config.functionality.indexOf('description') > -1) {
+            this.description.draw();
+        }
     }
 
     update(data: DataObject, segment: string, update: boolean) {

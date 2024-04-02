@@ -3,11 +3,12 @@ import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { DataObject, EitiData, EitiEntity } from "../../shared/types";
 import { TableData } from "../../shared/types_graphs";
+import { HTMLSource } from "../../shared/html/html-source";
 
 
 const graphHeight = 480;
 
-export  class UboCardsGroupV1 extends GroupControllerV1  {
+export class UboCardsGroupV1 extends GroupControllerV1  {
 
     cards;
     cards_2;
@@ -17,13 +18,15 @@ export  class UboCardsGroupV1 extends GroupControllerV1  {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config,index);
     }
-
     html() {
 
-        return super.html()
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"EITI-NL");
+        return graphWrapper
     }
 
 
@@ -44,11 +47,22 @@ export  class UboCardsGroupV1 extends GroupControllerV1  {
             const row : string[] = [];
 
             for (const p of this.config.graphs[0].parameters[0]) { 
-                row.push(m[p.column]);
+
+                if(p.column == 'registry_link') {
+
+                    const l = this.page.main.params.language == "en" ? m['registry_place_en'] : m['registry_place'];
+                    if(l != null) {
+                        row.push(`<a href="${m['registry_link']}">${l}</a>`)
+                    }
+
+                } else {
+                    row.push(m[p.column]);
+                }
             }
 
             rows.push(row);
         }
+
 
         const table = {
 

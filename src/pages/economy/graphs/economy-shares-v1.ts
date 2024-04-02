@@ -53,14 +53,7 @@ export class EconomySharesV1 extends GraphControllerV3  {
 
         if (this.graphEl != null) this.graphEl.appendChild(header);
 
-        if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
-            let source = HTMLSource(this.graphEl.parentElement as HTMLElement,this.page.main.params.language,"CBS");
-            source.style.marginTop = "-6rem"; 
-            source.style.position = "absolute";
-            source.style.bottom = "0";
-         }
     }
-
 
     async init() {
 
@@ -72,7 +65,6 @@ export class EconomySharesV1 extends GraphControllerV3  {
         if (this.graphEl != null) super._svg(this.graphEl);
 
         this.bars = new elements.ChartBarVertical(this);
-        
         await this.update(this.group.data,this.segment, false);
 
         return;
@@ -81,17 +73,14 @@ export class EconomySharesV1 extends GraphControllerV3  {
     prepareData(data: DataObject): any {
 
         data.graph = data.graphs[this.index];
-
         return data;
     }
 
     async draw(data: any) {
 
-
-
         if (this.graphEl != null) {
             const header = this.graphEl.querySelector('h3');
-            if (header != null) header.innerText = data.graph[0].label;
+            if (header != null) header.innerText = data.graph[0].label.split(" ")[0];
         }
 
         this.scales.x.set(data.graph.map( (d) => d.year));

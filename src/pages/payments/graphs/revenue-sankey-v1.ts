@@ -68,7 +68,7 @@ export  class RevenueTypeSankeyV1 extends GraphControllerV3  {
 
         this.graphEl.appendChild(this.scrollingContainer);
 
-        let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
+        // let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
 
 
     }

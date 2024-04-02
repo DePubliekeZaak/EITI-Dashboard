@@ -1,5 +1,6 @@
 import { flattenArray } from "../../shared/_helpers";
 import { GroupControllerV1 } from "../../shared/group-v1";
+import { HTMLSource } from "../../shared/html/html-source";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { DataObject, EitiData, TableData } from "../../shared/types";
 import { Bars } from "../../shared/types_graphs";
@@ -18,12 +19,16 @@ export class EconomyEmploymentGroupV1 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config,index);
     }
 
     html() {
-        return super.html()
+        
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"CBS");
+        return graphWrapper
     }
 
     init() {}
@@ -46,10 +51,10 @@ export class EconomyEmploymentGroupV1 extends GroupControllerV1 {
                 for (let year of uniqueYears) {
 
                     const item = data[dataGroup].find( g => g.year == year);
-                    const mining_males = item[params[0].column + "_males"];
-                    const mining_females = item[params[0].column + "_females"];
-                    const total_males = item[params[1].column + "_males"];
-                    const total_females = item[params[1].column + "_females"];
+                    const mining_males = item[params[0].column];
+                    const mining_females = item[params[1].column];
+                    const total_males = item[params[2].column];
+                    const total_females = item[params[3].column];
                     let value1;
                     let value2;
 
@@ -87,8 +92,6 @@ export class EconomyEmploymentGroupV1 extends GroupControllerV1 {
                 }
                 graphs.push(year_arr);
         }
-
-    
 
         // FOR TABLE
        const rows : string[][] = []

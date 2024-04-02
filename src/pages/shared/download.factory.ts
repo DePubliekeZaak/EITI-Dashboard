@@ -9,6 +9,7 @@ export const tableToCSV = (element:  HTMLElement) => {
     
     // Get each row data
     var rows = element.getElementsByTagName('tr');
+
     for (var i = 0; i < rows.length; i++) {
     
         // Get each column data

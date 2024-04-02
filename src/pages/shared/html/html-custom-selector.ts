@@ -19,6 +19,8 @@ export class HtmlCustomSelector {
         let dropdown = document.createElement('select');
         dropdown.id = this.id;
         dropdown.style.alignSelf = 'flex-start';
+        dropdown.name = "opties";
+        dropdown.setAttribute('aria-describedby', this.id)
 
         for ( let o of options) {
 

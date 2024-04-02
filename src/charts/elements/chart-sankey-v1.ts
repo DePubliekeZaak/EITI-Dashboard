@@ -205,7 +205,7 @@ export class ChartSankeyV1 {
                     <div>` + d.label +  `</div>
                     <div>` + def +  `</div>
                     <div>GFS code:` + d.meta.code +  `</div>
-                    <div>&euro;` + thousands(d.amount * 1000 * 1000) + `</div>
+                    <div>&euro;` + thousands(d.amount) + `</div>
                 `;
 
             window.d3.select('.tooltip') 

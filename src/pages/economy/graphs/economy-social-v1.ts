@@ -57,12 +57,12 @@ export class EconomySocialV1 extends GraphControllerV3  {
 
         if (this.graphEl != null) this.graphEl.appendChild(header);
 
-        if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
-            let source = HTMLSource(this.graphEl.parentElement as HTMLElement,this.page.main.params.language,"CBS");
-            source.style.marginTop = "-6rem"; 
-            source.style.position = "absolute";
-            source.style.bottom = "0";
-        }
+        // if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
+        //     let source = HTMLSource(this.graphEl.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        //     source.style.marginTop = "-6rem"; 
+        //     source.style.position = "absolute";
+        //     source.style.bottom = "0";
+        // }
     }
 
     async init() {

@@ -81,6 +81,17 @@ export type TableData = {
     rows: string[][]
 }
 
+export type Definition = {
+    name: string,
+    description: string,
+    name_en: string,
+    description_en: string,
+    code: string,
+
+}
+
+export type Definitions = Definition[]; 
+
 export type IntData  = {
     graph: (Circle|Bar)[]|Sankey,
     graph_2?: (Circle|Bar)[]|Sankey,

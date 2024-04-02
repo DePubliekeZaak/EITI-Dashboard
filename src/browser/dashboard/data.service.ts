@@ -32,7 +32,7 @@ export class DataService implements IDataService{
 
                 // @ts-ignore
                 const url = (["netherlands","licences2023"].indexOf(endpoint) > -1) ? './' + endpoint + '.geojson' : DOMAIN + APIBASE + endpoint;
-  
+
                 const response = await fetch(url);
 
                 if(response.ok) {

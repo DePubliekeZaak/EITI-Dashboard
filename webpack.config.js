@@ -11,7 +11,6 @@ const config = (env) =>  {
         import: "./src/browser/index.ts",
       },
       payments: {
-        
         filename: "scripts/payments.bundle.js",
         import: "./src/pages/payments/index.ts",
         library: {
@@ -65,6 +64,15 @@ const config = (env) =>  {
           export: 'default',
         }
       },
+      not_available: {
+        filename: "scripts/not_available.bundle.js",
+        import: "./src/pages/not_available/index.ts",
+        library: {
+          name: 'not_available',
+          type: 'window',
+          export: 'default',
+        }
+      },
       charts: {
         import: "./src/charts/index.ts"
       },
@@ -92,6 +100,9 @@ const config = (env) =>  {
       open:false,
       port: 3333,
       hot: true,
+      historyApiFallback: {
+        index: 'index.html'
+      },
       client: {
         overlay: true,
         progress: true,

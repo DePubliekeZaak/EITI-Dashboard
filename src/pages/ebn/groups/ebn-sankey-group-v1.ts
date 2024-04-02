@@ -5,6 +5,7 @@ import { DataObject, EitiData, EitiPayments, TableData } from "../../shared/type
 import { SankeyLink, SankeyNode } from "../../shared/types_graphs";
 import { filterUnique } from "../../shared/data.format.factory";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
+import { HTMLSource } from "../../shared/html/html-source";
 
 const graphHeight = 400;
 
@@ -31,12 +32,16 @@ export  class EbnSankeyGroupV1 extends GroupControllerV1  {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config, index);
     }
 
     html() {
-        return super.html()
+        
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
     init() { }
@@ -99,7 +104,7 @@ export  class EbnSankeyGroupV1 extends GroupControllerV1  {
         nodes.push({
             "node": nodes.length,
             "name": "markt",
-            "label": this.page.main.params.language == 'en' ? "Revenue from market" : "Opbrengst via markt",
+            "label": this.page.main.params.language == 'en' ? "Revenue from market" : "Opbrengst via andere klanten",
             "type": "origin"
         });
 
@@ -115,7 +120,7 @@ export  class EbnSankeyGroupV1 extends GroupControllerV1  {
         nodes.push({
             "node": nodes.length,
             "name": "costs",
-            "label": this.page.main.params.language == 'en' ? "Costs" : "Kosten",
+            "label": this.page.main.params.language == 'en' ? "Costs and investment expenses (capex)" : "Betalingen voor kosten en investeringsuitgaven",
             "type": "origin"
         });
 
@@ -326,6 +331,13 @@ export  class EbnSankeyGroupV1 extends GroupControllerV1  {
     populateTable(tableData: TableData) {
 
         super.populateTable(tableData);
+    }
+
+    populateDescription() {
+
+        if (this.config.functionality && this.config.functionality.indexOf('description') > -1) {
+            this.description.draw();
+        }
     }
 
     update(data: DataObject, segment: string, update: boolean) {

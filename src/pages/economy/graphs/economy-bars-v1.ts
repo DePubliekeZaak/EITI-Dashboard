@@ -5,6 +5,7 @@ import { GroupObject, IGraphMappingV2 } from "../../shared/interfaces";
 import { IPageController } from "../../shared/page.controller";
 import { DataObject, EitiData } from "../../shared/types";
 import { HTMLSource } from "../../shared/html/html-source";
+import { HtmlLegendCustom } from "@local/elements";
 
 
 const graphHeight = 360;
@@ -32,7 +33,9 @@ export class EconomyBarsV1 extends GraphControllerV3 {
 
     pre() {
 
-        this._addMargin(0,60,0,0);
+        const bottom = window.innerWidth < breakpoints.sm ? 120 : 90;
+        
+        this._addMargin(0,bottom,0,0);
         this._addPadding(40,60,30,0);
 
         this._addScale('x','band','horizontal','year');
@@ -57,12 +60,24 @@ export class EconomyBarsV1 extends GraphControllerV3 {
 
         if (this.graphEl != null) this.graphEl.appendChild(header);
 
-        if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
-            let source = HTMLSource(this.graphEl.parentElement as HTMLElement,this.page.main.params.language,"CBS");
-            source.style.marginTop = "-6rem"; 
-            source.style.position = "absolute";
-            source.style.bottom = "0";
-        }
+        const legend = new HtmlLegendCustom(this.graphEl);
+
+        const m = this.page.main.params.language == 'en' ? "production" : "productie";
+        const f = this.page.main.params.language == 'en' ? "Export" : "export";
+
+        legend.draw([
+            { label : m, colour : "orange" } , 
+            { label : f, colour : "blue" }
+        ]);
+
+      
+
+        // if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
+        //     let source = HTMLSource(this.graphEl.parentElement as HTMLElement,this.page.main.params.language,"CBS");
+        //     source.style.marginTop = "-6rem"; 
+        //     source.style.position = "absolute";
+        //     source.style.bottom = "0";
+        // }
     }
 
     async init() {

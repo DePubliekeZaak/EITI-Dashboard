@@ -2,22 +2,24 @@ import { IGraphMapping, KeyValue } from '@local/d3_types';
 import { breakpoints} from '@local/styleguide';
 import { IParamService, ParamService } from './param.service';
 import { screenSize } from './screen.factory';
-import { styleParentElement, createSideBar, createNav, createMobileNav, createPopupElement, pageHeader, companyTitle} from './html.factory';
+import { styleParentElement, createSideBar, createPopupElement, pageHeader, companyTitle} from './html.factory';
 import { DataService, IDataService } from './data.service';
-import { switchTopic, toggleSubMenu, openMenu, closeMenu, armLanguageSelector, switchLanguage } from './interaction.factory';
-import { navItems } from './nav.factory';
+import { switchTopic, toggleSubMenu, openMenu, closeMenu, } from './menu.factory';
+import { armLanguageSelector, setLanguageTag, switchLanguage } from './language.factory'
+import { INavService, NavService, navItems } from './nav.service';
 
 export interface IDashboardController {
 
     window: Window;
     params: IParamService;
     data: IDataService,
+    nav: INavService;
     htmlContainer: HTMLScriptElement,
     close_btn: HTMLElement,
     open_btn: HTMLElement,
     _reloadHtml: () => void;
     call(segment: string, update: boolean);
-    switch: (topic: string, segment: string) => void;
+    switch: (topic: string, segment: string) => boolean;
     switchLanguage: (lan: string) => void;
     _toggleSubMenu: () => void
     _screenListener: () => void
@@ -28,6 +30,7 @@ export class DashboardController implements IDashboardController {
 
     params;
     data;
+    nav;
     htmlContainer;
     window;
     close_btn;
@@ -37,7 +40,8 @@ export class DashboardController implements IDashboardController {
     constructor() {
 
         this.params = new ParamService();
-        this.data = new DataService()
+        this.data = new DataService();
+        this.nav = new NavService(this);
         this.init();
     }
 
@@ -84,7 +88,7 @@ export class DashboardController implements IDashboardController {
         return;
     }
 
-    switch(paramKey: string, paramValue: string) : void {
+    switch(paramKey: string, paramValue: string) : boolean {
 
         closeMenu();
         switchTopic(this,paramKey,paramValue);
@@ -95,6 +99,8 @@ export class DashboardController implements IDashboardController {
         }
 
         this._closeMenu();
+
+        return false;
     }
 
     switchLanguage(lan: string) : void {
@@ -110,13 +116,16 @@ export class DashboardController implements IDashboardController {
 
     _reloadHtml(): void {
 
+        setLanguageTag(this.params.language);
+        
         this.htmlContainer = styleParentElement();
     
         [].slice.call(document.getElementsByTagName("aside")).forEach( (a) => a.remove());
         [].slice.call(document.getElementsByTagName("nav")).forEach( (a) => a.remove());
     
         let aside = createSideBar(this.htmlContainer);
-        aside.insertBefore(createNav(this), aside.childNodes[0]);
+        aside.insertBefore(this.nav.create(), aside.childNodes[0]);
+        this.nav.update();
 
         companyTitle(this);
     
@@ -173,28 +182,4 @@ export class DashboardController implements IDashboardController {
             this.open_btn.style.display = 'none';
         }
     }
-
-
-    // _showLoader() {
-
-    //     this.loader = document.createElement("div");
-
-    //     this.loader.innerText = "data wordt geladen";
-
-    //     const element = document.querySelector("div[eiti-graph-preset='dashboard']");
-
-    //     if(element != null) {
-    //         element.appendChild(this.loader);
-    //     }       
-    // }
-
-
-    // _hideLoader() {
-
-    //     this.loader.remove();
-
-
-    // }
-
-
 }

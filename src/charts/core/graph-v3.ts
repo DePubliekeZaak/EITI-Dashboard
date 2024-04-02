@@ -24,8 +24,9 @@ export type IGraphControllerV3 = {
     config: IGraphConfig,
     segment: string,
     dimensions: Dimensions,
-    svg;
-    chartDimensions : IChartDimensions
+    svg,
+    chartDimensions : IChartDimensions,
+    scales: any;
 
     init: () => void,
     _html: (groupEl : HTMLElement) => HTMLElement
@@ -74,11 +75,6 @@ export class GraphControllerV3 implements IGraphControllerV3  {
     _init() {
 
         let self = this;
-       
-        // if (this.mapping.header) {
-        //     this.htmlHeader = new HtmlHeader(this.element, this.mapping.header != undefined ? this.mapping.header : this.firstMapping['label'],this.mapping.description);
-        //     this.htmlHeader.draw(); 
-        // }
 
         let chartObject = ChartObject();
         this.config = Object.assign(chartObject.config(),this.config);

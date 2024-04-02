@@ -66,8 +66,6 @@ export class RevenueBarsV1 extends core.GraphControllerV3  {
         this.graphEl = super._html();
         if(this.graphEl != null) this.graphEl.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight.toString() + "px" : graphHeight.toString() + "px";
 
-        let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
-
 
     }
 

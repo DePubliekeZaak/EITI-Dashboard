@@ -16,7 +16,7 @@ export class HTMLSector {
      
         let d = document.createElement('div');
 
-        let h = document.createElement('h4');
+        let h = document.createElement('h3');
         h.innerText = this.header + ":";
         d.appendChild(h);
 

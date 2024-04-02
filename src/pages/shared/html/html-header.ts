@@ -1,3 +1,5 @@
+import { slugify } from "../_helpers";
+
 export class HtmlHeader {
 
     headerElement;
@@ -5,7 +7,8 @@ export class HtmlHeader {
     constructor(
         private element,
         private header,
-        private description
+        private description,
+        private groupSlug?
     ){}
 
     draw() {
@@ -20,7 +23,7 @@ export class HtmlHeader {
 
         if(!this.element.classList.contains("graph-view")) {
 
-            this.headerElement.style.borderTop = '2px solid rgb(230, 230, 230)';
+            // this.headerElement.style.borderTop = '2px solid rgb(230, 230, 230)';
             this.headerElement.style.paddingBottom = '2rem';
             this.headerElement.style.paddingTop = '2rem';
 
@@ -33,9 +36,18 @@ export class HtmlHeader {
 
         if(this.header) {
 
-            let h = document.createElement('h3');
+            let h = this.element.classList.contains("group-wrapper") ? document.createElement('h2') : document.createElement('h3');
             h.innerText = this.header;
+            // for group to describe select + buttons 
+            if(this.groupSlug ){
+                h.id = slugify(this.groupSlug)
+            }
             this.headerElement.appendChild(h);
+        
+        } else if(this.groupSlug) {
+            
+            const hh = document.querySelector('h1');
+            hh.setAttribute("id",slugify(this.groupSlug))
         }
 
         if(this.description) {

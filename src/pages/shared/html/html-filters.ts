@@ -1,24 +1,23 @@
 
 import { tableToCSV } from "../download.factory";
-
 import { breakpoints } from "@local/styleguide";
-
 import { IGroupCtrlr } from "../interfaces";
 
-import { HtmlYearSelector } from "../../shared/html/year-selector";
+import { HtmlYearSelector } from "./year-selector";
 import { HtmlMappingSelector } from "./mapping-selector";
 import { HtmlCompanySelector } from "./html-company-selector";
 import { HtmlCustomSelector } from "./html-custom-selector";
 
 import { EitiEntity } from "../types";
 
-export class HtmlFunctionality {
+export class HtmlFilters {
 
     listElement;
     selector;
     companySelector;
     tableButton
     downloadButton;
+    definitionsButton;
     hasListener = false;
 
     constructor(
@@ -32,9 +31,9 @@ export class HtmlFunctionality {
 
     init() {
 
-        const prevElement = this.element.querySelector('.functionality_list')
+        const prevElement = this.element.querySelector('.filter_list')
         this.listElement = this.ctrlr.page.main.window.document.createElement('div');
-        this.listElement.classList.add('functionality_list');
+        this.listElement.classList.add('filter_list');
 
         const ul = this.ctrlr.page.main.window.document.createElement('ul');
 
@@ -46,7 +45,7 @@ export class HtmlFunctionality {
 
     }
 
-     draw() {
+    draw() {
 
         const self = this;
 
@@ -55,13 +54,14 @@ export class HtmlFunctionality {
         for (const func of this.mapping.functionality) {
 
             const li = this.ctrlr.page.main.window.document.createElement('li');
+            
             let selectEl;
 
             switch (func) {
 
                 case 'yearSelect':
 
-                        this.selector = new HtmlYearSelector(li,this.mapping.slug);
+                        this.selector = new HtmlYearSelector(li,this.ctrlr.slug);
                         selectEl = this.selector.draw(this.segment);
 
                         selectEl.addEventListener("change", () => {
@@ -74,7 +74,7 @@ export class HtmlFunctionality {
 
                 case 'shareTotalSelect': 
 
-                        this.selector = new HtmlCustomSelector(li,this.mapping.slug);
+                        this.selector = new HtmlCustomSelector(li,this.ctrlr.slug);
 
                         const options = [
                             { 
@@ -103,21 +103,19 @@ export class HtmlFunctionality {
 
                 case 'priceVolumeSelect': 
 
-                    this.selector = new HtmlCustomSelector(li,this.mapping.slug);
+                    this.selector = new HtmlCustomSelector(li,this.ctrlr.slug);
 
                     const _options = [
                         {
                             slug : 'price',
-                            label : this.ctrlr.page.main.params.language == 'en' ? 'Price (in million euro)' : 'Prijs (miljoen euro)',
+                            label : this.ctrlr.page.main.params.language == 'en' ? 'Price (in million euro)' : 'Waarde (miljoen euro)',
                             
                         },
                         {
                             slug : 'volume',
-                            label : this.ctrlr.page.main.params.language == 'en' ? 'Volume (in million kilo)' : 'Volume (miljoen kilo)',
-                            
+                            label : this.ctrlr.page.main.params.language == 'en' ? 'Volume (in million kilo)' : 'Volume (miljoen kilo)',  
                         }
                     ]
-
 
                     selectEl = this.selector.draw(this.segment, _options);
 
@@ -131,7 +129,7 @@ export class HtmlFunctionality {
 
                 case 'mappingSelect':
 
-                        this.selector = new HtmlMappingSelector(this.ctrlr, li,this.mapping.slug,this.mapping);
+                        this.selector = new HtmlMappingSelector(this.ctrlr, li,this.ctrlr.slug,this.mapping);
                         const selectEl2 = this.selector.draw(this.segment);
 
                         selectEl2.addEventListener("change", () => {
@@ -148,17 +146,18 @@ export class HtmlFunctionality {
                     li.style.flexDirection =  window.innerWidth < breakpoints.sm ? "column" : "row"
 
 
-                    const selectorA = new HtmlMappingSelector(this.ctrlr, li,this.mapping.slug,this.mapping);
+                    const selectorA = new HtmlMappingSelector(this.ctrlr, li,this.ctrlr.slug,this.mapping);
                     const selectEl2a = selectorA.draw(this.segment,0);
                     selectEl2a.style.maxWidth =  window.innerWidth < breakpoints.sm ? "70vw" : "30vw";
 
                     
-                    const selectorB = new HtmlMappingSelector(this.ctrlr, li,this.mapping.slug,this.mapping);
+                    const selectorB = new HtmlMappingSelector(this.ctrlr, li,this.ctrlr.slug,this.mapping);
                     const selectEl2b = selectorB.draw(this.segment, 1);
 
                     if (window.innerWidth < breakpoints.sm ) {
                         selectEl2a.style.marginBottom = "1rem";
-                        selectEl2b.style.alignSelf = "center";
+                        // selectEl2a.style.marginTop = "1rem";
+                        selectEl2b.style.alignSelf = "flex-start";
 
                     } else {
                         selectEl2a.style.marginRight = "1rem";
@@ -188,59 +187,14 @@ export class HtmlFunctionality {
 
                 case 'companySelect' :
 
-
-                        this.companySelector = new HtmlCompanySelector(li,this.mapping.slug);
+                        this.companySelector = new HtmlCompanySelector(li,this.ctrlr.slug);
                         const selectEl3 = this.companySelector.draw();
             
                     break;
-
-                case 'tableView':
-
-                    this.tableButton = this.ctrlr.page.main.window.document.createElement('button');
-                    this.tableButton.classList.add("toggle_view");
-                    this.tableButton.innerText = this.ctrlr.page.main.params.language == 'nl' ? 'tabelweergave': 'table view';
-                    li.appendChild(this.tableButton);
-
-                    break;
-
-                case 'download':
-
-                    if (window.innerWidth > breakpoints.sm) {
-
-                        const blob = new Blob(
-                            [tableToCSV(this.element)],
-                            { type: 'text/csv' }
-                        );
-            
-                        const url = URL.createObjectURL(blob);
-
-                        this.downloadButton = this.ctrlr.page.main.window.document.createElement('a');
-                        this.downloadButton.classList.add("button");
-                        this.downloadButton.innerText = 'download';
-                        this.downloadButton.title = this.ctrlr.page.main.params.language == 'nl' ? 'download csv bestand' : 'download csv file';
-                        this.downloadButton.download =  'EITI-NL_' + this.mapping.slug + '.csv' || 'download';
-                        this.downloadButton.href = url;
-                        li.appendChild(this.downloadButton);
-
-                        const clickHandler = () => {
-                            setTimeout(() => {
-                            URL.revokeObjectURL(url);
-                            removeEventListener('click', clickHandler);
-                            }, 150);
-                        };
-                        
-
-                        this.downloadButton.addEventListener('click', clickHandler, false);
-
-                    }
-
-                break;
             }
 
             ul.appendChild(li);
         }
-
-       
     }
 
     // post data retrieval 

@@ -22,7 +22,7 @@ const config : IGroupMappingV2[] = [
         }],
         "header": "Overzicht betaalstromen",
         "header_en": "Overview of payments streams",
-        "functionality": [],
+        "functionality": ["description"],
         "description": `
         <p>Energie Beheer Nederland (EBN) zet zich op grond van de Mijnbouwwet in het algemeen belang in voor het planmatig beheer en de doelmatige opsporing en winning van de Nederlandse aardolie en aardgasbronnen. EBN is een besloten vennootschap met de Nederlandse Staat als enige (100%) aandeelhouder. De aandelen worden beheerd door het ministerie van Economische Zaken en Klimaat. 
         De Staatsmijnen, de voorloper van EBN, kregen in 1963 de taak om het economisch en maatschappelijk belang van de Nederlandse Staat te behartigen in het Gasgebouw en later ook om deel te nemen in het zoeken naar en het winnen van aardgas en aardolie in de Nederlandse ondergrond. 
@@ -127,14 +127,14 @@ const config : IGroupMappingV2[] = [
         
         "header": " Kasstromen",
         "header_en": " Cash flows",
-        "functionality": ['tableView','download'],
+        "functionality": ['table','download'],
         "description": "<p>Voor EBN bestaat de inkomende kasstroom uit ontvangsten uit de verkoop van koolwaterstoffen. De uitgaande kasstroom bestaat uit betalingen voor kosten en investeringsuitgaven (capex) in olie- en gaswinningsprojecten, dividenden aan de Nederlandse Staat en vennootschapsbelasting. Om de inkomsten van de Nederlandse Staat uit olie- en gaswinningsprojecten niet dubbel te tellen, zijn alleen betalingen van EBN aan de Belastingdienst en EZK als directe inkomsten uit de sector opgevat.</p>",
         "description_en": "<p>For EBN, the incoming cash flow consists of receipts from the sale of hydrocarbons. The outgoing cash flow consists of payments for costs and investment expenses (capex) in oil and gas extraction projects, dividends to the Dutch State and corporate tax. To avoid double counting the income accruing to the Dutch State from these oil and gas extraction projects, only payments by EBN to the Tax and Customs Administration and EZK are viewed as direct income from the sector</p>",
         "endpoints": ["payments"],
         "segment": "incoming",
     },
     {
-        "slug" : "Ontvangsten en betalingen per bedrijf",
+        "slug" : "ebn_company_group",
         "ctrlr" : "EbnCircleGroupV1",
         "graphs": [{
             "slug" : "ebn_per_company",
@@ -157,7 +157,7 @@ const config : IGroupMappingV2[] = [
         }],
         "header": "Ontvangsten en betalingen uit olie- en gaswinningsprojecten",
         "header_en": "Income and payments from oil and gas extraction projects",
-        "functionality": ["companySelect","tableView","download"],
+        "functionality": ["companySelect","table","download"],
         "description": `
             <p>EBN is als niet-uitvoerend partner betrokken bij bijna alle olie- en gaswinningsprojecten in Nederland. Het belang in dit soort projecten bedraagt in de regel 40%. Inkomsten die EBN van exploratie- en productiebedrijven heeft ontvangen voor het aandeel in de diverse olie- en gaswinningsprojecten, en de betalingen die EBN aan de operators heeft gedaan voor zijn aandeel in de operationele en geactiveerde uitgaven, zijn ter informatie apart vermeld en worden niet als extra inkomsten voor of heffingen door de overheid meegerekend.</p>
             <p>De inkomsten voor het Staatsaandeel in de diverse olie- en gaswinningsprojecten en de betalingen aan operators voor kosten en investeringsuitgaven (capex) staan hieronder weergegeven. De ontvangsten uit de verkoop van koolwaterstoffen aan GasTerra en andere klanten (niet gespecificeerd) van EBN zijn alleen door EBN gerapporteerd.</p>

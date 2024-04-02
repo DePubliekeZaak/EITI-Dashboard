@@ -1,5 +1,6 @@
 import { flattenArray, miljarden } from "../../shared/_helpers";
 import { GroupControllerV1 } from "../../shared/group-v1";
+import { HTMLSource } from "../../shared/html/html-source";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { DataObject, EitiData, TableData } from "../../shared/types";
 import { Bars } from "../../shared/types_graphs";
@@ -17,12 +18,16 @@ export class EconomySharesGroupV1 extends GroupControllerV1{
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config, index);
     }
 
     html() {
-        return super.html()
+        
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"CBS");
+        return graphWrapper
     }
 
     init() {}

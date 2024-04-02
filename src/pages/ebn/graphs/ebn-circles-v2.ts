@@ -91,12 +91,12 @@ export  class EbnCirclesV2 extends GraphControllerV3  {
         this.update(this.group.data,this.segment, false);
 
 
-        if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
-            let source = HTMLSource(this.graphEl as HTMLElement,this.page.main.params.language,"NL-EITI");
-            source.style.marginTop = "-6rem"; 
-            source.style.position = "absolute";
-            source.style.bottom = "0";
-         }
+        // if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
+        //     let source = HTMLSource(this.graphEl as HTMLElement,this.page.main.params.language,"NL-EITI");
+        //     source.style.marginTop = "-6rem"; 
+        //     source.style.position = "absolute";
+        //     source.style.bottom = "0";
+        //  }
 
         return;
     }

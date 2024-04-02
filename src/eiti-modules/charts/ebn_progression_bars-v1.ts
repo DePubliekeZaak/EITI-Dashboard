@@ -219,6 +219,8 @@ export  class EbnProgressionBarsV1 extends GraphControllerV2  {
 
         }
 
+        console.log(bars);
+
         for (const year of uniqueYears) {
 
             const row = [];

@@ -65,12 +65,12 @@ export class EconomyEmploymentV1 extends GraphControllerV3  {
             { label : f, colour : "blue" }
         ]);
 
-        if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
-            let source = HTMLSource(this.graphEl.parentElement as HTMLElement,this.page.main.params.language,"CBS");
-            source.style.marginTop = "-6rem"; 
-            source.style.position = "absolute";
-            source.style.bottom = "0";
-        }
+        // if (this.graphEl != null && this.group.graphs.length -1 == this.index) {
+        //     let source = HTMLSource(this.graphEl.parentElement as HTMLElement,this.page.main.params.language,"CBS");
+        //     source.style.marginTop = "-6rem"; 
+        //     source.style.position = "absolute";
+        //     source.style.bottom = "0";
+        // }
 
     }
 

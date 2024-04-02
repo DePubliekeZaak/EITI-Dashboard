@@ -4,8 +4,9 @@ import { filterUnique } from '../../shared/data.format.factory';
 import { GroupControllerV1 } from '../../shared/group-v1';
 import { IGroupMappingV2 } from '../../shared/interfaces';
 import { DataObject, EitiData, TableData } from '../../shared/types';
-import { Bars } from '../../shared/types_graphs';
+import { Bar, Bars } from '../../shared/types_graphs';
 import { convertToCurrencyInTable } from '../../shared/_helpers';
+import { HTMLSource } from '../../shared/html/html-source';
 
 
 export class EbnBarGroupV1 extends GroupControllerV1 {
@@ -28,12 +29,15 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config, index);
     }
 
     html() {
-        return super.html()
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
     init() {}
@@ -53,7 +57,6 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
         const outgoing: Bars  = [];
         const netto : Bars = [];
         
-
         const ebnData = data[dataGroup].filter ( 
             (s) => 
             ["sales","costs","corporate_income_tax","dividends","mor"].indexOf(s.payment_stream) > -1
@@ -66,22 +69,25 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
             const aggregatedStreams : any[] = [];
 
             const yearData = ebnData.filter( s => s.year  === year );
+
+
             const outgoingPayments = yearData.filter( p  =>  
                 p.origin == 'ebn' 
                 && ['costs','corporate_income_tax','dividends','mor'].indexOf(p.payment_stream) > -1 
                 && !p.aggregated
             );
 
+       
+
             const sumIncoming = 1000 * 1000 / 10 * Math.round(10 * yearData
                 .filter( p  => p.payment_stream == 'sales' )
                 .map( p => p.payments_companies) 
                 .reduce((sum, p) => sum + p, 0));
 
-            const sumOutgoing =1000 * 1000 / 10 * Math.round(10 * outgoingPayments
+            const sumOutgoing = 1000 * 1000 / 10 * Math.round(10 * outgoingPayments
                 .map( p => p.payments_companies) 
                 .reduce((sum, p) => sum + p, 0));
      
-
             const sumNetto = sumIncoming - sumOutgoing;
 
             incoming.push({
@@ -146,9 +152,13 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
             const i = incoming.find( (bar) => bar.label == year.toString());
             if (i != undefined) row.push(convertToCurrencyInTable(i.value));
 
-            const o = outgoing.find( (bar) => bar.year == year);
+            const os = outgoing.filter( (bar) => bar.year == year).reduce( (acc: number, b: Bar) => (b.dy != undefined) ? acc + b.dy : acc, 0);
 
-            if (o != undefined && o.dy != undefined) row.push(convertToCurrencyInTable(o.dy));
+            row.push(
+                convertToCurrencyInTable(
+                    os
+                )
+            )
 
             const n = netto.find( (bar) => bar.label == year.toString());
             if (n != undefined) row.push(convertToCurrencyInTable(n.value));
@@ -164,6 +174,7 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
             rows
         };
 
+        console.log(outgoing.filter( p =>p.year == 2022));
      
        return {
            
@@ -178,6 +189,13 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
     populateTable(tableData: TableData) {
 
         super.populateTable(tableData);
+    }
+
+    populateDescription() {
+
+        if (this.config.functionality && this.config.functionality.indexOf('description') > -1) {
+            this.description.draw();
+        }
     }
 
     update(data: DataObject, segment: string, update: boolean) {

@@ -46,7 +46,6 @@ export class PaymentsBarsV1 extends core.GraphControllerV3 {
         if(this.graphEl != null) {
             this.graphEl.style.overflowX= "auto";
             this.graphEl.style.marginBottom = "2rem";
-            // this.graphEl.style.height = "calc(100% - 24px)";
         }
 
         this.scrollingContainer = document.createElement('section');
@@ -59,9 +58,9 @@ export class PaymentsBarsV1 extends core.GraphControllerV3 {
 
         // this.graphEl.style.minWidth = "600px";
 
-        if (this.group.graphs.length - 1 == this.index) {
-         let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
-        }
+        // if (this.group.graphs.length - 1 == this.index) {
+        //  let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
+        // }
 
 
     }

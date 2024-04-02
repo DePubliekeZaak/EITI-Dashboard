@@ -26,7 +26,6 @@ export  class EbnSankeyV1 extends GraphControllerV3  {
 
     scrollingContainer;
 
-
     constructor(
         public slug:  string,
         public page: IPageController, 
@@ -51,7 +50,6 @@ export  class EbnSankeyV1 extends GraphControllerV3  {
 
         const graphHeight = 400;
         if(this.group.element == null ) return;
-        // this.group.element.style.minWidth = "600px";
         this.graphEl = super._html();
 
         this.graphEl.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight + "px" : graphHeight + "px";
@@ -167,7 +165,6 @@ export  class EbnSankeyV1 extends GraphControllerV3  {
     async draw(data: any) {
 
         this.sankey.draw(data.graph);
-        
     }
 
 

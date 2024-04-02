@@ -8,7 +8,7 @@ import { HTMLSource} from "../../shared/html/html-source"
 import { breakpoints } from '@local/styleguide';
 
 
-const graphHeight = 480;
+const graphHeight = window.innerWidth < breakpoints.sm ? 320 : 520;
 
 // can this be a wrapper for multiple graphcontrollers?
 export  class RevenueCirclesV1 extends core.GraphControllerV3  {
@@ -31,7 +31,9 @@ export  class RevenueCirclesV1 extends core.GraphControllerV3  {
 
     pre() {
 
-        this._addMargin(0,40,0,0);
+        const bottom = window.innerWidth < breakpoints.sm ? 30 : 90;
+
+        this._addMargin(120,bottom,0,0);
         this._addPadding(0,0,0,0);
 
         this._addScale('r','log','radius','value');
@@ -40,21 +42,22 @@ export  class RevenueCirclesV1 extends core.GraphControllerV3  {
     html() {
 
         if(this.group.element == null ) return;
-        // this.group.element.style.minWidth = "600px";
 
         this.graphEl = super._html();
-        if(this.graphEl != null) this.graphEl.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight.toString() + "px" : graphHeight.toString() + "px";
         
-
-        let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
-
+        if(this.graphEl == null) return
+            
+        this.graphEl.style.height = (window.innerWidth < breakpoints.sm) 
+            ? graphHeight.toString() + "px" 
+            : graphHeight.toString() + "px";
+ 
 
     }
 
     async init() {
 
         this.config.minRadius = 32;
-        this.config.radiusFactor = window.innerWidth < breakpoints.sm ? .9 : .6;
+        this.config.radiusFactor = window.innerWidth < breakpoints.sm ? 1 : .6;
 
         await super._init();
         if (this.graphEl != null) await super._svg(this.graphEl);

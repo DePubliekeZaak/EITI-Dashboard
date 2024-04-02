@@ -22,13 +22,17 @@ export class ChartCircles {
     circles;
     circlesLabel;
     circlesAmount;
+
     tooltipArray :  string[] = []
+    hovering: boolean
 
 
     constructor(
         private ctrlr
     ) {
+
     }
+
 
     draw(data) {
 
@@ -69,54 +73,69 @@ export class ChartCircles {
         let self = this;
 
         this.circles
-            .attr("r", (d) => this.ctrlr.scales.r.scale(d.value))
-            .on("mouseover", function (event: any, d: any) {
+            .attr("r", (d) => this.ctrlr.scales.r.scale(d.value));
+            // .on("mouseover", function (event: any, d: any) {
 
-                let html = `
-            <!--         <div>` + d.label +  `</div>  -->
-                    <div>` + d.meta.def_nl +  `</div>
-                    <div>GFS code:` + d.meta.code +  `</div>
-                    <div>Bedrag: &euro;` + thousands(d.value) + `</div>
-                `;
+            //     self.hovering = true;
 
-                window.d3.select('.tooltip') 
-                    .html(html)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 5) + "px")
-                    .style("opacity", 1);
+        
 
-                self.tooltipArray.push(d.label);
+            //     // detect if is hovering the element 
+            //     // unless 
+
+            //     if(!this.hovering) {
+
+            //         let html = `
+        
+            //             <div>` + d.meta.def_nl +  `</div>
+            //             <div>GFS code:` + d.meta.code +  `</div>
+            //             <div>Bedrag: &euro;` + thousands(d.value) + `</div>
+            //         `;
+
+            //         window.d3.select('.tooltip')
+            //             .html(html)
+            //             .style("left", (event.pageX + 5) + "px")
+            //             .style("top", (event.pageY - 5) + "px")
+            //             .style("opacity", 1);
+
+            //         self.tooltipArray.push(d.label);
+            //     }
                 
-            })
-            .on("mouseout", function (event, d) {
+            // })
+            // .on("mouseout", function (event, d) {
 
-                // only if has not immerdiately entered a new one 
+               
+            //     // only if has not immediately entered a new one 
 
-                const index = self.tooltipArray.indexOf(d.label);
+
+
+            //     // detect rer-entry!
+
+            //     // const index = self.tooltipArray.indexOf(d.label);
                 
-               if (index > -1) {
-                   self.tooltipArray.splice(index,1)
-               }
+            //     // if (index > -1) {
+            //     //    self.tooltipArray.splice(index,1)
+            //     // }
 
-               setTimeout( () => {
+            //     // setTimeout( () => {
 
-                    if(self.tooltipArray.length == 0) {
-                        window.d3.select('.tooltip')
-                            .transition()
-                            .duration(250)
-                            .style("opacity", 0);
-                    }
+            //     //         if(self.tooltipArray.length == 0) {
+            //     //             window.d3.select('.tooltip')
+            //     //                 .transition()
+            //     //                 .duration(250)
+            //     //                 .style("opacity", 0);
+            //     //         }
 
-                },250);
-            });
+            //     //     },250);
+            // });
 
         this.circlesLabel
-            .attr("dy", (d) => { return "-.7rem" })
+            .attr("dy", (d) => -12)
             .attr("pointer-events","none")
             .text( (d) => { return d.label });
 
         this.circlesAmount
-            .attr("dy", (d) => { return ".7rem" })
+            .attr("dy", (d) => 12)
             .attr("pointer-events","none")
             .html( (d) => { 
 

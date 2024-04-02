@@ -2,7 +2,7 @@ table {
 
     background: white;
     width: calc(100% - 2rem);
-    margin: 0 8rem 3rem 0;
+    margin: 0 0rem 0rem 0;
 
 
 }
@@ -27,6 +27,17 @@ tr td {
 
     &:first-child {
         text-align: left;
+    }
+
+    &.textual {
+        text-align: left;
+    }
+
+    a {
+        display: inline-block;
+        color: rgb(0, 123, 199);
+        text-decoration: none;
+        border-bottom: 1px solid rgb(0, 123, 199);
     }
 }
 

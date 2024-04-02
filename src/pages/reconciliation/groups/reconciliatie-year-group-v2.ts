@@ -2,6 +2,7 @@
 import { bePositive, convertToCurrencyInTable } from '../../shared/_helpers';
 import { filterUnique } from '../../shared/data.format.factory';
 import { GroupControllerV1 } from '../../shared/group-v1';
+import { HTMLSource } from '../../shared/html/html-source';
 import { IGroupMappingV2 } from '../../shared/interfaces';
 import { DataObject, EitiData, EitiReport, TableData } from '../../shared/types';
 import { formatReconData, reconParameterList } from '../reconciliation.data';
@@ -17,12 +18,15 @@ export class ReconciliatieYearGroupV2 extends GroupControllerV1 { //extends Grap
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config,index);
     }
 
     html() {
-        return super.html()
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
     init() { }

@@ -80,9 +80,9 @@ export  class EbnSimpleBarsV1 extends GraphControllerV3  {
 
         this.update(this.group.data, this.segment, false);
 
-        if (this.graphEl != null) {
-            let source = HTMLSource(this.graphEl as HTMLElement,this.page.main.params.language,"NL-EITI");
-         }
+        // if (this.graphEl != null) {
+        //     let source = HTMLSource(this.graphEl as HTMLElement,this.page.main.params.language,"NL-EITI");
+        //  }
 
         return;
     }

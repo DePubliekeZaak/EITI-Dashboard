@@ -3,7 +3,7 @@ body {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: center;
     width: 100%;
 }
@@ -52,114 +52,44 @@ main {
   }
   
   
-  aside {
-
-    display: none;
-    position: fixed;
-    overflow: auto;
-    left: 0;
-    top: 11.5rem;
-    width: 100vw;
-    padding-bottom: 6rem;
-    height: calc(100vh - 11.5rem);
-
-
-    &.is_open {
-      display: block;
-      color: #fff;
-    }
-
-
-    @media(min-width: $breakpoint-lg) {
-
-      display: block;
-      position: relative;
-    }
+ 
   
-    &.selectors {
+  // #eiti-dashboard_popup {
   
-      
-      padding: 2rem 1rem 2rem 1rem;
-      order: 1;
-      width: calc(100% - 0rem);
-      background: $blue;
-     
-      margin: auto;
+  //   background: white;
+  //   padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  //   border: 1px solid black;
+  //   display: none;
+  //   position: fixed;
+  //   overflow-y: auto;
+  //   flex-direction: column;
+  //   justify-content: space-between;
   
-      margin-top: 1rem;
-
-      height: calc(100% - 16.5rem);
+  //   top: 2.5rem;
+  //   left: 2.5rem;
+  //   width: calc(100vw - 5rem);
+  //   height: calc(100vh - 5rem);
   
-      // @media (min-width: $breakpoint-bax) {
-      //   margin-top: 10rem;
-      // }
+  //   line-height : 1.425;
   
-      // h3 {
+  //   a {
+  //     color: black;
+  //     text-decoration: none;
+  //   }
   
-      //   @media (min-width: $breakpoint-md) {
-      //     display: none;
-      //   }
-      // }
+  //   .popup_description span {
+  //     background: rgba(246,212,178,1);
+  //     padding: 0 3px;
+  //   }
   
-      // @media (min-width: $breakpoint-sm) {
-      //   width : auto;
-      //   padding: 2rem;
+  //   @media (min-width : $breakpoint-sm) {
   
-      // }
-  
-      @media (min-width: $breakpoint-lg) {
-        // position: absolute;
-        // left: 0;
-        min-height: 100vh;
-        width: calc(300px - 2rem);
-        overflow: visible;
-        background: transparent;
-        padding: 2rem 2rem 2rem 0rem;
-  
-      }
-  
-      // @media (min-width: $breakpoint-bax) {
-      //   padding: 0;
-      // }
-    }
-  }
-  
-  #eiti-dashboard_popup {
-  
-    background: white;
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-    border: 1px solid black;
-    display: none;
-    position: fixed;
-    overflow-y: auto;
-    flex-direction: column;
-    justify-content: space-between;
-  
-    top: 2.5rem;
-    left: 2.5rem;
-    width: calc(100vw - 5rem);
-    height: calc(100vh - 5rem);
-  
-    line-height : 1.425;
-  
-    a {
-      color: black;
-      text-decoration: none;
-    }
-  
-    .popup_description span {
-      background: rgba(246,212,178,1);
-      padding: 0 3px;
-    }
-  
-    @media (min-width : $breakpoint-sm) {
-  
-      position: absolute;
-      width: 400px;
-      height: auto;
-      max-width: 100%;
-    }
-  }
+  //     position: absolute;
+  //     width: 400px;
+  //     height: auto;
+  //     max-width: 100%;
+  //   }
+  // }
   
   .mobile_nav {
   
@@ -202,48 +132,43 @@ main {
     }
   }
   
-  .img-dashboard-breadcrumbs {
-    list-style: none;
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: center;
-    width: 100%;
-    text-align: center;
-    // text-transform: lowercase;
+  // .img-dashboard-breadcrumbs {
+  //   list-style: none;
+  //   // display: flex;
+  //   // flex-direction: row;
+  //   // justify-content: center;
+  //   width: 100%;
+  //   text-align: center;
+  //   // text-transform: lowercase;
   
-    @media (min-width: $breakpoint-sm) {
-      justify-content: flex-start;
-      text-align: left;
-    }
+  //   @media (min-width: $breakpoint-sm) {
+  //     justify-content: flex-start;
+  //     text-align: left;
+  //   }
   
-      span {
-        color: black;
-        text-decoration: none;
-        line-height: 1.55;
+  //     span {
+  //       color: black;
+  //       text-decoration: none;
+  //       line-height: 1.55;
       
-        // &.is-link {
-        //   border-bottom: 1px solid;
-        // }
+  //     }
   
-      
-      }
+  //     span:nth-child(even):after {
+  //         content: '>';
+  //         margin: 0 .5rem;
+  //         display: inline-block;
+  //         font-size: .8rem;
+  //     } 
   
-      span:nth-child(even):after {
-          content: '>';
-          margin: 0 .5rem;
-          display: inline-block;
-          font-size: .8rem;
-      } 
+  //     h1 {
+  //       display: inline-block;
+  //       font-size: 2.3rem;
+  //       line-height: 1.22;
+  //       padding: 0.3rem 0;
+  //       border-top: 1px solid black;
+  //     }
   
-      h2 {
-        display: inline-block;
-        font-size: 2.3rem;
-        line-height: 1.22;
-        padding: 0.3rem 0;
-        border-top: 1px solid black;
-      }
-  
-  }
+  // }
 
   .company_info {
 
@@ -276,6 +201,11 @@ main {
       flex-direction: column;
       align-items: center;
     }
+  }
+
+  .page_header {
+
+      margin: 2.5rem 0 0 0;
   }
 
   .article_header {

@@ -2,6 +2,7 @@ import { slugify, thousands } from '@local/d3-services';
 import { Dimensions } from '@local/d3_types';
 import { Bars } from '@local/d3_types';
 import { colourArray, colours} from "@local/styleguide";
+import { IGraphControllerV3 } from '../core/graph-v3';
 
 
 const groupHeight = 320;
@@ -20,7 +21,7 @@ export class ChartBarVertical   {
     tooltipArray: string[] = [];
 
     constructor(
-        private ctrlr
+        private ctrlr : IGraphControllerV3
     ){
     }
 
@@ -67,9 +68,10 @@ export class ChartBarVertical   {
 
                 let s = '';
                 if (d.format == 'percentage') {
-                    s = (Math.round(d.value * 10) / 10).toString() + "%";
+                    s = (Math.round(d.value * 10) / 10).toString().replace(".",",") + "%";
                 } else if (d.format == 'miljard') {
-                    s = "&euro;" + thousands(Math.round(d.value)).toString() + ' MLD';
+                    let base = self.ctrlr.page.main.params.language == 'en' ? 'bln' : 'mld';
+                    s = "&euro;" + thousands(Math.round(d.value * 10) / 10).toString() + base;
                 } else if (d.format == 'fte') {
                     s = thousands(Math.round(d.value)).toString() + ' FTE';
                 } else if (d.format == 'miljoen') {

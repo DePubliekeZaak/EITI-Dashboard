@@ -9,7 +9,7 @@ export class HtmlYearSelector {
        
     }
 
-    draw(segment) {
+    draw(segment, groupSlug: string) {
 
         // console.log(this.id);
 
@@ -19,7 +19,9 @@ export class HtmlYearSelector {
 
         let dropdown = document.createElement('select');
         dropdown.id = this.id;
+        dropdown.name= "jaren";
         dropdown.style.alignSelf = 'flex-start';
+        dropdown.setAttribute('aria-describedby', this.id)
 
 
         for ( let year of [2022,2021,2020,2019,2018]) {

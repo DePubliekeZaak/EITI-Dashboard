@@ -7,6 +7,7 @@ import { IGroupMappingV2 } from '../../shared/interfaces';
 import { DataObject, EitiData } from '../../shared/types';
 import { TableData } from '../../shared/types_graphs';
 import { formatReconData } from '../reconciliation.data';
+import { HTMLSource } from '../../shared/html/html-source';
 
 
 export class ReconciliatieIntroGroupV1 extends GroupControllerV1 { 
@@ -25,13 +26,16 @@ export class ReconciliatieIntroGroupV1 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config,index);
     }
 
     html() {
 
-        return super.html()
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
     init() {

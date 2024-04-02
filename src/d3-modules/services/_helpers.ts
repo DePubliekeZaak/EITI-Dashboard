@@ -65,6 +65,14 @@ export function convertToCurrencyInTable(number: number) {
     return (number < 0) ? "(" + toString(-number) + ")" : toString(number)    
 }
 
+
+export function convertToLocale(n: string) {
+
+    let f = parseFloat(n); 
+    
+    return f.toLocaleString('nl-NL');
+}
+
 export function convertToMillions(number: number) {
 
 

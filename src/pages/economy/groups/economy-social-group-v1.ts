@@ -1,5 +1,7 @@
+import { convertToCurrencyInTable } from "@local/d3-services/_helpers";
 import { flattenArray } from "../../shared/_helpers";
 import { GroupControllerV1 } from "../../shared/group-v1";
+import { HTMLSource } from "../../shared/html/html-source";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { DataObject, EitiData, TableData } from "../../shared/types";
 import { Bars } from "../../shared/types_graphs";
@@ -18,13 +20,15 @@ export class EconomySocialGroupV1 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config, index);
     }
 
     html() {
 
-        const graphWrapper = super.html()
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
 
         if (graphWrapper != undefined && this.config.slug == "environmental") {
 
@@ -69,8 +73,6 @@ export class EconomySocialGroupV1 extends GroupControllerV1 {
                         year,
                         format: 'currency',
                     })
-
-             
                 }
                 graphs.push(resource_arr);
         }
@@ -88,20 +90,15 @@ export class EconomySocialGroupV1 extends GroupControllerV1 {
             const lan = this.page.main.params.language;
             const label = lan == 'en' ?  param.label_en : param.label;
 
-            let postfix;
-            if(param.column.indexOf('price')  > -1) {
-                postfix =  (lan == 'en') ? "(million euro)": "(miljoen euro)";
-            } else if (param.column.indexOf('price')  > -1 && param.label.indexOf("Aardgas")) {
-                postfix = (lan == 'en') ? "(billion m3)" : "(miljard m3)"
-            } else {
-                postfix = (lan == 'en') ? "(million kilo)" : "(miljoen kilo)"
-            }
+            let row = [label.toLowerCase()];
 
-            let row = [label.toLowerCase() + " " + postfix];
+            
+
             years.forEach( (d,j) =>  { 
                 if (data[dataGroup] == undefined) return;
-                row = row.concat(Math.round(data[dataGroup][j][param.column]).toString());
+                row = row.concat(convertToCurrencyInTable(Math.round(data[dataGroup][j][param.column])));
             });
+
             rows.push(row);
        });
 

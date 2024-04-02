@@ -1,12 +1,11 @@
+import { convertToCurrencyInTable, thousands } from "@local/d3-services/_helpers";
 import { flattenArray } from "../../shared/_helpers";
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { DataObject, EitiData, TableData } from "../../shared/types";
 import { Bars } from "../../shared/types_graphs";
+import { HTMLSource } from "../../shared/html/html-source";
 
-
-
-// can this be a wrapper for multiple graphcontrollers?
 export class EconomyProdGroupV1 extends GroupControllerV1 { 
 
     graphs = [];
@@ -20,12 +19,16 @@ export class EconomyProdGroupV1 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config,index);
     }
 
     html() {
-        return super.html()
+        
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"CBS");
+        return graphWrapper
     }
     
     async init() {}
@@ -110,17 +113,24 @@ export class EconomyProdGroupV1 extends GroupControllerV1 {
             let prefix = param.column.indexOf('export') > -1 ? "Export" : "Productie";
             let postfix;
             if(param.column.indexOf('price')  > -1) {
-                postfix =  (lan == 'en') ? "(million euro)": "(miljoen euro)";
-            } else if (param.column.indexOf('price')  > -1 && param.label.indexOf("Aardgas")) {
-                postfix = (lan == 'en') ? "(billion m3)" : "(miljard m3)"
+                postfix = ''; //  (lan == 'en') ? "(million euro)": "(miljoen euro)";
+            } else if (param.column.indexOf('volume')  > -1 && param.label.indexOf("Aardgas") > -1) {
+                postfix = (lan == 'en') ? "(m3)" : "(m3)"
             } else {
-                postfix = (lan == 'en') ? "(million kilo)" : "(miljoen kilo)"
+                postfix = (lan == 'en') ? "(kilo)" : "(kilo)"
             }
 
             let row = [prefix + " " + label.toLowerCase() + " " + postfix];
+          
             years.forEach( (d,j) =>  { 
+                
                 if (data[dataGroup] == undefined) return;
-                row = row.concat(Math.round(data[dataGroup][j][param.column]).toString());
+
+                let value = Math.round(data[dataGroup][j][param.column]).toString();
+
+                value = (param.column.indexOf('price') > -1) ? convertToCurrencyInTable(parseFloat(value) * 1000 * 1000) : thousands(parseFloat(value) * 1000 * 1000).toString();
+
+                row = row.concat(value);
             });
             rows.push(row);
        });

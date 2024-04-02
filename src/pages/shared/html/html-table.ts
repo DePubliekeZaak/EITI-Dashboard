@@ -4,7 +4,8 @@ import { TableData } from "@local/d3_types/data";
 export class HTMLTable {
 
 
-    tableContainer;
+    container;
+    scrolltainer;
     table;
     thead;
     tbody;
@@ -22,9 +23,16 @@ export class HTMLTable {
 
         const self = this;
 
-        this.tableContainer = this.ctrlr.page.main.window.document.createElement('section');
-        this.tableContainer.classList.add("graph-container-12");
-        this.tableContainer.classList.add("table-view");
+        this.container = this.ctrlr.page.main.window.document.createElement('section');
+        this.container.classList.add("graph-container-12");
+        this.container.classList.add("table-view");
+        this.container.classList.add("tabpanel");
+        this.container.role = "tabpanel";
+        this.container.id = "panel_" + this.ctrlr.slug + "__table";
+        this.container.setAttribute("aria-labelledby","tab_" + this.ctrlr.slug + "__table");
+
+        this.scrolltainer = this.ctrlr.page.main.window.document.createElement('div');
+        this.scrolltainer.classList.add("scrolltainer");
 
         this.table = this.ctrlr.page.main.window.document.createElement('table');
         this.thead = this.ctrlr.page.main.window.document.createElement('thead');
@@ -33,20 +41,17 @@ export class HTMLTable {
         this.table.appendChild(this.thead)
         this.table.appendChild(this.tbody);
 
-        this.tableContainer.appendChild(this.table);
+        this.scrolltainer.appendChild(this.table);
 
-        this.parentElement.appendChild(this.tableContainer);
+        this.container.appendChild(this.scrolltainer);
 
-        this.hide();
-
-        this.armButton();
+        this.parentElement.appendChild(this.container);
 
     }
 
     draw(data: TableData) {
 
         // is exists .. re-use 
-
         this.thead.innerHTML = "";
         this.tbody.innerHTML = "";
     
@@ -61,7 +66,9 @@ export class HTMLTable {
             tr.appendChild(th)
         }
 
-        this.thead.appendChild(tr);
+        const thead = this.container.querySelector("thead");
+        
+        thead.appendChild(tr);
 
         for (const row of data.rows) {
             
@@ -81,64 +88,11 @@ export class HTMLTable {
        return true;
     }
 
-    armButton() {
-
-        const self = this;
-
-        const btn = this.parentElement.querySelector('button.toggle_view');
-
-        if (btn != null) {
-
-            const graphElements = this.parentElement.querySelectorAll("section.graph-wrapper");
-            const tableElements = this.parentElement.querySelectorAll("section.table-view");
-
-            const possibleLegend = this.parentElement.querySelector(".legend");
-
-            btn.addEventListener("click", function() {
-
-                
-                if (['tabelweergave','table view'].indexOf(btn.innerText ) > -1) {
-
-                    btn.innerText = self.ctrlr.page.main.params.language == 'nl' ? 'grafiekweergave' : 'graph view';
-
-                    for (const el of graphElements) {
-                        el.style.display = 'none';
-                    }
-                    for (const el of tableElements) {
-                        el.style.display = 'flex';
-                    }
-
-                    if(possibleLegend != undefined) {
-                        possibleLegend.style.display = 'none';
-                    }
-
-
-                } else {
-
-                    btn.innerText = self.ctrlr.page.main.params.language == 'nl' ? 'tabelweergave' : 'table view';
-
-                    for (const el of graphElements) {
-                        el.style.display = 'flex';
-                    }
-                    for (const el of tableElements) {
-                        el.style.display = 'none';
-                    }
-
-                    if(possibleLegend != undefined) {
-                        possibleLegend.style.display = 'flex';
-                    }
-                    
-                }
-            });
-        }
-    }
-
-
     hide() {
-        this.tableContainer.style.display = 'none';
+        this.container.style.display = 'none';
     }
 
     show() {
-        this.tableContainer.style.display = 'flex';
+        this.container.style.display = 'flex';
     }
 }

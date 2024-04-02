@@ -3,7 +3,7 @@ import { filterUnique } from "../../shared/data.format.factory";
 import { GroupControllerV1 } from "../../shared/group-v1";
 import { IGroupMappingV2 } from "../../shared/interfaces";
 import { DataObject, EitiData } from "../../shared/types";
-import { Bars, TableData } from "../../shared/types_graphs";
+import { Bars, Definitions, TableData } from "../../shared/types_graphs";
 import { convertToCurrencyInTable } from "../../shared/_helpers";
 
 export class RevenueIntroGroupV1 extends GroupControllerV1 { 
@@ -20,11 +20,14 @@ export class RevenueIntroGroupV1 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-       super(page,config);
+        super(page,config, index);
     }
 
     async init() {}
+
+
 
     prepareData(data: EitiData) : any {
 
@@ -32,23 +35,28 @@ export class RevenueIntroGroupV1 extends GroupControllerV1 {
         if(data[dataGroup] == undefined) return;
     
         const bars: Bars = [];
+        const rows: string[][] = [];
       
-       
         const uniqueYears = filterUnique(data[dataGroup],"year");
         uniqueYears.sort( (a:any,b: any) => parseInt(a) - parseInt(b));
+
+        const companyData = data[dataGroup].filter ( (s) => 
+            s.origin === this.page.main.params.company && 
+            s.project != 'aggregated' && 
+            ["royalties","surface_rental","retributions"].indexOf(s.payment_stream) > -1
+        );
+
     
         for (const year of uniqueYears) { 
 
-            const yearData = data[dataGroup].filter ( (s) => 
-                s.origin === this.page.main.params.company && 
-                s.project != 'aggregated' && 
-                s.year  === year && ["royalties","surface_rental","retributions"].indexOf(s.payment_stream) > -1
+            const yearData = companyData.filter ( (s) => 
+                s.year  === year
             );
 
             const aggregatedStreams : any[] = [];
           
             for (const ustream of filterUnique(yearData,"payment_stream")) {
-    
+
                 const streams = yearData.filter( (s) => s.payment_stream === ustream);
                 const cum_value = streams.reduce( (acc,s) => acc + s.payments_companies,0);
     
@@ -61,7 +69,7 @@ export class RevenueIntroGroupV1 extends GroupControllerV1 {
                     })
                 }
             }
-    
+
             let i = 0;
             let sum = 0;
             for (const stream of aggregatedStreams) {
@@ -73,35 +81,37 @@ export class RevenueIntroGroupV1 extends GroupControllerV1 {
                     year: parseInt(year.toString()),
                     colour: paymentTypes[stream.meta.payment_stream],
                     meta: stream.meta,
-                    value: sum
+                    value: stream.payments_companies,
                 })
-    
+
+            
                 sum = sum + stream.payments_companies
     
                 i++;
             }  
+
+            console.log(bars);
         }
     
-        // const payments = data[dataGroup].filter( p => p.name_nl != undefined);
+        const payments = data[dataGroup].filter( p => p.name_nl != undefined);
     
-        // for (const ustream of filterUnique(payments,"payment_stream")) {
+        for (const ustream of filterUnique(companyData, "payment_stream")) {
     
-        //     const row: string[] = [];
-        //     const report = data[dataGroup].find( (s) => s.payment_stream === ustream);
-        //     if (report != undefined) row.push(
-        //         this.page.main.params.language == 'en' ? report.name_en : report.name_nl
-        //     );
+            const row: string[] = [];
+            const report = companyData.find( (s) => s.payment_stream === ustream);
+            if (report != undefined) row.push(
+                this.page.main.params.language == 'en' ? report.name_en : report.name_nl
+            );
     
-        //     for (const year of uniqueYears) { 
+            for (const year of uniqueYears) { 
     
-        //         const item = data[dataGroup].find( (s) => s.payment_stream === ustream && s.year == year);
-        //         row.push(item != undefined ?  convertToCurrencyInTable(item.payments_companies) : "-")
-        //     }
+                const item = companyData.find( (s) => s.payment_stream === ustream && s.year == year);
+                row.push(item != undefined ?  convertToCurrencyInTable(item.payments_companies) : "-")
+            }
     
-        //     rows.push(row);
-        // }
+            rows.push(row);
+        }
 
-        const rows: string[][] = [];
     
         const table = {
     

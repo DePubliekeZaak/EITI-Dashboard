@@ -22,6 +22,7 @@ export class HtmlMappingSelector {
         dropdown.id = this.id;
         dropdown.style.alignSelf = 'flex-start';
         dropdown.style.maxWidth = '90vw';
+        dropdown.setAttribute('aria-describedby', this.id)
 
         for ( let map of this.config.graphs[0].parameters[index]) {
 

@@ -181,10 +181,8 @@ export class ScaleService implements IScaleService{
                     .range([10,100]);
 
                 break;
-
-
         }
-
+        
         return this.scale;
     }
 

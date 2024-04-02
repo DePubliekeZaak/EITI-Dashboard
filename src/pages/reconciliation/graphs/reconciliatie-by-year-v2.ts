@@ -84,9 +84,9 @@ export class ReconciliatieByYearV2 extends GraphControllerV3 {
 
         this.update(this.group.data,this.segment, false);
 
-        if (this.graphEl != null && this.group.graphs.length - 1 == this.index) {
-            let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
-        }
+        // if (this.graphEl != null && this.group.graphs.length - 1 == this.index) {
+        //     let source = HTMLSource(this.graphEl.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
+        // }
     }
 
     prepareData(data: DataObject) : DataObject {

@@ -81,7 +81,6 @@ export class ReconciliationCompanyV2 extends GraphControllerV3 {
 
         if (this.graphEl != null) super._svg(this.scrollingContainer);
 
-        
         this.zeroLine = new elements.ZeroLine(this,"zero", "black")
         this.chartBar = new elements.ChartBarReconciliationV2(this);
 
@@ -93,12 +92,9 @@ export class ReconciliationCompanyV2 extends GraphControllerV3 {
 
         this.update(this.group.data,this.segment, false);
 
-        if (this.graphEl != null && this.graphEl.parentNode != null && this.graphEl.parentNode.parentNode != null) {
-               let source = HTMLSource(this.graphEl.parentNode.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
-            //    source.style.marginTop = '2rem';
-            
-        }
-
+        // if (this.graphEl != null && this.graphEl.parentNode != null && this.graphEl.parentNode.parentNode != null) {
+        //        let source = HTMLSource(this.graphEl.parentNode.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");  
+        // }
     }
 
     prepareData(data: DataObject) : DataObject {
@@ -131,8 +127,6 @@ export class ReconciliationCompanyV2 extends GraphControllerV3 {
         this.yScale = this.scales.y.set(data.slice.map ( d => d.label));
 
         await super.redraw(data.slice);
-
-        // await this.grid.redraw();
         await this.zeroLine.redraw();
         // redraw data
         await this.chartBar.redraw(data.slice);

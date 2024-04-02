@@ -71,9 +71,8 @@ export class ChartBarVerticalDoublesV1   {
 
                 let s = '';
 
-
-                if (d.format == 'percentage' && this.ctrlr.mapping.slug == 'employment_in_economy') {
-                    s = (Math.round(d.value * 100000) / 100000).toString() + "%";
+                if (d.format == 'percentage' && d.value < 0.01) {
+                    s = (Math.round(d.value * 100 * 1000) / 1000).toString() + "%";
                 } else if (d.format == 'percentage') {
                     s = (Math.round(d.value * 100) / 100).toString() + "%";
                 } else if (d.format == 'miljard') {

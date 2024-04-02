@@ -15,8 +15,6 @@ import { HTMLSource } from '../../shared/html/html-source';
 
 const graphHeight = 330;
 
-
-// can this be a wrapper for multiple graphcontrollers?
 export  class ReconciliatieIntroBarsV1 extends GraphControllerV3 {
 
     chartAxis;
@@ -78,9 +76,6 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV3 {
         this.graphEl.style.position = "relative";
         this.graphEl.style.paddingTop = "3rem";
         this.graphEl.style.marginBottom = "3rem";
-
-        
-        
     }
 
     init() {
@@ -113,18 +108,21 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV3 {
         this.update(this.group.data,this.segment, false);
 
 
-        if (this.graphEl != null && this.graphEl.parentNode != null && this.graphEl.parentNode.parentNode != null) {
-            if (this.group.graphs.length - 2 == this.index * 2) {
-               let source = HTMLSource(this.graphEl.parentNode.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
-               source.style.marginTop = '2rem';
-            }
-        }
+        // if (this.graphEl != null && this.graphEl.parentNode != null && this.graphEl.parentNode.parentNode != null) {
+        //     if (this.group.graphs.length - 2 == this.index * 2) {
+        //        let source = HTMLSource(this.graphEl.parentNode.parentNode as HTMLElement,this.page.main.params.language,"NL-EITI");
+        //        source.style.marginTop = '2rem';
+        //     }
+        // }
     }
 
     prepareData(data: DataObject) : DataObject {
 
         const myData = data.totals[this.index];
-        data.slice = [];
+
+        if(data.bars == undefined) data.bars = [];
+
+        data.bars[this.index] = [];
         const keys = Object.keys(myData).filter( k => ["origin","entity_name","sector","type","year"].indexOf(k) < 0);
 
         for (const key of keys.reverse()) {
@@ -133,7 +131,7 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV3 {
 
             if(map != undefined) {
 
-                data.slice.push({
+                data.bars[this.index].push({
                     type : key,
                     label: this.page.main.params.language == 'en' ? map['label_en'] : map['label'], 
                     value : myData[key],
@@ -149,7 +147,7 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV3 {
 
     async draw(data: any) {
 
-        let year = data.slice[0].year;
+        let year = data.bars[this.index][0].year;
 
         if (year == 'all') {
             year = this.page.main.params.language == 'en' ? 'All years' : 'Alle jaren'
@@ -157,19 +155,24 @@ export  class ReconciliatieIntroBarsV1 extends GraphControllerV3 {
 
         this.header.draw(year);
 
-        await this.chartBar.draw(data);
-        await this.zeroLine.draw(data);
+        await this.chartBar.draw(data.bars[this.index]);
+        await this.zeroLine.draw(data.bars[this.index]);
     }
 
 
     async redraw(data: any, range: number[]) {
 
-        this.scales.x.set(data.slice.map( t=> t.value).concat(0));
-        this.yScale = this.scales.y.set(data.slice.map ( d => slugify(d.label)));
+        this.scales.x.set(data.bars[this.index].map( t => t.value).concat(0));
+
+        this.yScale = this.scales.y.set(data.bars[this.index].map ( d => {
+
+            return slugify(d.label)
+            
+        }));
 
         await super.redraw(data);
         await this.zeroLine.redraw();
-        await this.chartBar.redraw(data);
+        await this.chartBar.redraw(data.bars[this.index]);
     }
 
     

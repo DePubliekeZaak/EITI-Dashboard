@@ -4,6 +4,7 @@ import { DataObject, EitiData, EitiPayments, TableData } from '../../shared/type
 import { convertToCurrencyInTable } from '../../shared/_helpers';
 import { filterUnique } from '../../shared/data.format.factory';
 import { IPageController } from '../../shared/page.controller';
+import { HTMLSource } from '../../shared/html/html-source';
 
 export class ProjectsMapGroupV1 extends GroupControllerV1 { 
         
@@ -17,16 +18,18 @@ export class ProjectsMapGroupV1 extends GroupControllerV1 {
 
 
     constructor(
-        public page: IPageController,
+        public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-        super(page,config)
+        super(page,config,index);
     }
-
 
     html() {
 
-        return super.html();
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
     prepareData(data: EitiData) : any {
@@ -105,11 +108,21 @@ export class ProjectsMapGroupV1 extends GroupControllerV1 {
         }
     }
 
+
+
+
     
     populateTable(tableData: TableData) {
 
         super.populateTable(tableData);
     }
+
+    populateDescription() {
+
+        super.populateDescription() 
+
+    }
+
 
     update(data: DataObject, segment: string, update: boolean) {
 

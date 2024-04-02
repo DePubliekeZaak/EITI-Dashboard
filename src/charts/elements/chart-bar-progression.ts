@@ -61,56 +61,15 @@ export class ChartBarProgression   {
         this.bars
             .attr("x", (d)  => self.ctrlr.scales.x.fn(d.year))
             .attr("width", (d,i) =>  self.ctrlr.scales.x.scale.bandwidth())
-            .attr("y", (d,i) => self.ctrlr.scales.y.fn(d.dy + d.y)) 
+            .attr("y", (d,i) => {
+                
+                
+                return self.ctrlr.scales.y.fn(d.dy + d.y)
+                
+            }) 
             .attr("height", (d) => dimensions.height - self.ctrlr.scales.y.fn(d.dy))
         ;
 
-        this.bars
-            .on("mouseover", function (event: any, d: any) {
-                    
-                let html = '<b>' + d.label +  '</b>';
-
-                const def = self.ctrlr.page.main.params.language == 'en' ? d.meta.def_en : d.meta.def_nl;
-
-                if(def) {
-                    html = html.concat('<div>' + def +  '</div>');
-                }
-                if(d.meta.code !== null) {
-                    html = html.concat('<div>GFS code:' + d.meta.code +  '</div>');
-                }
-                    
-                html = html.concat('<div>&euro;' + thousands(d.dy) + '</div>');
-                
-                window.d3.select('.tooltip') 
-                    .html(html)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 5) + "px")
-                    .style("opacity", 1);
-
-                self.tooltipArray.push(d.label);
-
-            })
-            .on("mouseout", function (event: any, d: any) {
-               
-                // only if has not immerdiately entered a new one 
-
-                const index = self.tooltipArray.indexOf(d.label);
-                
-               if (index > -1) {
-                   self.tooltipArray.splice(index,1)
-               }
-
-               setTimeout( () => {
-
-                    if(self.tooltipArray.length == 0) {
-                        window.d3.select('.tooltip')
-                            .transition()
-                            .duration(250)
-                            .style("opacity", 0);
-                    }
-
-                },250);
-        })
 
         this.barLabels
             .filter( (d,i) => {
@@ -134,7 +93,7 @@ export class ChartBarProgression   {
                 const x = self.ctrlr.scales.x.fn(d.year) + self.ctrlr.scales.x.bandwidth()  / 2;
                 const y = self.ctrlr.scales.y.fn(d.dy + d.y);
                 
-                return 'translate(' + (0 + x) + ',' +
+                return 'translate(' + (0 + x) +  ',' +
                     (0 + y)
                     + ')';
             })

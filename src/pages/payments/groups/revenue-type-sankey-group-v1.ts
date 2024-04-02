@@ -1,10 +1,10 @@
-
-
 import { DataObject, EitiData, EitiPayments, EitiReport, TableData } from '../../shared/types';
 import { filterUnique } from '../../shared/data.format.factory';
 import {  IGroupMappingV2 } from '../../shared/interfaces'
 import { convertToCurrencyInTable } from '../../shared/_helpers';
 import { GroupControllerV1 } from '../../shared/group-v1';
+import { Definition, Definitions } from '../../shared/types_graphs';
+import { HTMLSource } from '../../shared/html/html-source';
 
 export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 { 
 
@@ -20,18 +20,21 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number
     ){
-        super(page,config);
+        super(page,config,index);
     }
 
     html() {
 
-        return super.html();
+        const graphWrapper = super.html();
+        let source = HTMLSource(graphWrapper?.parentElement as HTMLElement,this.page.main.params.language,"NL-EITI");
+        return graphWrapper
     }
 
    prepareData(data: EitiData) : any {
 
-    
+   
 
         const dataGroup = "payments";
         if(data[dataGroup] == undefined) return;
@@ -71,6 +74,7 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
 
         // FOR TABLE
 
+    
     const rows: string[][] = []
 
     const uniqueYears = filterUnique(data[dataGroup],"year");
@@ -82,32 +86,59 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
     const columnSlug = "year";
     const valueKey = "payments_companies"
 
+ 
+    for (const year of uniqueYears.reverse()) {
+
         for (const o of uniqueOrigins) {
 
-            const a = data[dataGroup].filter( (s) => s["aggregated"] && s[rowSlug] === o && s.year === parseInt(this.segment));
+            const a = data[dataGroup].filter( (s) => s["aggregated"] && s[rowSlug] === o && s.year === year);
 
             for (const s of a) {
 
                 const stream = this.page.main.params.language == 'en' ? s["name_en"] : s["name_nl"];
                 const origin = this.page.main.params.language == 'en' ? s["origin_name_en"] : s["origin_name"];
-                const recipient = this.page.main.params.language == 'en' ? s["recipient_name_en"] : s["recipient_name_nl"];
+                const recipient = this.page.main.params.language == 'en' ? s["recipient_name_en"] : s["recipient_name"];
                 
                 const row: string[] = [];
+                row.push(year.toString());
                 row.push(origin);
                 row.push(stream);
                 row.push(recipient);
                 row.push(convertToCurrencyInTable(s["payments_companies"]));
                 rows.push(row);
             }
-
         }
 
-    const headers = this.page.main.params.language == 'en' ? ["Origin","Payment stream","Recipient",this.segment] : ["Origine","Betaalstroom","Ontvanger", this.segment];
+    }
+
+    const headers = this.page.main.params.language == 'en' ? ["Year","Origin","Payment stream","Recipient","Amount"] : ["Jaar","Origine","Betaalstroom","Ontvanger", "Bedrag"];
 
     const table = {
         headers,
         rows
     }
+
+    const definitions: Definitions = [];
+    const uniquePayments = filterUnique(data[dataGroup], "payment_stream").filter( s => s != "sales" && s != "costs");
+
+    for (let payment_type of uniquePayments) {
+        
+        const p = data.payments.find( p => p.payment_stream == payment_type);
+
+        if (p != undefined) {
+
+            definitions.push({
+                name: p.name_nl,
+                name_en: p.name_en,
+                description: p.def_nl,
+                description_en: p.def_en,
+                code: p.code
+            })
+        }
+    }
+
+    definitions.sort( (a: Definition, b : Definition) => a.name.localeCompare(b.name));
+
 
         
     return {
@@ -119,7 +150,8 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
         uniqueStreams_n,
         filteredData,
         filteredData_n,
-        table    
+        table,
+        definitions    
     };
         
    }
@@ -128,6 +160,12 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
 
         super.populateTable(tableData);
    }
+
+   populateDescription() {
+
+        super.populateDescription() 
+
+    }
 
    update(data: DataObject, segment: string, update: boolean) {
 

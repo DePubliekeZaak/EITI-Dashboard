@@ -4,11 +4,10 @@ import { breakpoints } from '@local/styleguide';
 import { EitiData } from '@local/d3_types';
 
 import { DataObject } from '../../shared/types';
-import { core } from '../../../charts';
+import { core, elements } from '../../../charts';
 import { GroupObject, IGraphMappingV2 } from '../../shared/interfaces';
 import { IPageController } from '../../shared/page.controller';
 import { HtmlLegendCustom } from '../../shared/html/html-legend-custom';
-import { ChartBarProgression } from '../../../charts/elements/chart-bar-progression';
 import { HTMLSource } from '../../shared/html/html-source';
 
 const graphHeight = 420;
@@ -75,14 +74,14 @@ export class RevenueBarsV1 extends core.GraphControllerV3  {
     async init() {
 
         this.config.paddingInner = .2;
-        this.config.paddingOuter =  .2;
+        this.config.paddingOuter = .2;
 
         await super._init();
         if (this.graphEl != null) await super._svg(this.graphEl);
 
         this.legend = new HtmlLegendCustom(this.graphEl);
 
-        this.chartBar = new ChartBarProgression(this);
+        this.chartBar = new elements.ChartBarProgression(this);
         await this.update(this.group.data,this.segment, false);
 
         return;
@@ -118,10 +117,8 @@ export class RevenueBarsV1 extends core.GraphControllerV3  {
 
     async redraw(data: any, range: number[]) {
 
-        console.log(data.graph);
-
         this.scales.x.set(data.graph.map ( d => d.year));
-        this.scales.y.set(data.graph.map ( d => d.dy));
+        this.scales.y.set(data.graph.map ( d => d.y + d.dy).concat([0]));
 
         await super.redraw(data.graph);
 

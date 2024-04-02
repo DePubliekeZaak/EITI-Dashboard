@@ -1,0 +1,65 @@
+
+
+
+.tab:focus-visible {
+    background-color: royalblue;
+    color: whitesmoke;
+    outline: 0.2em solid transparent;
+  }
+
+.tabpanel:not(:target):not(.visible) {
+    display: none;
+  }
+
+
+.tab_list ul {
+
+    width: 100%;
+    border-bottom: 1px solid rgb(230, 230, 230);
+    display: flex;
+    flex-direction: row;
+   
+
+    li {
+        border: 1px solid rgb(230, 230, 230);
+        border-bottom: none;
+
+        &:has(a[aria-selected="true"]) {
+            background: $lightBlue-light;
+            color: $eiti-darkblue;
+        }
+    }
+
+    a {
+        display: inline-block;
+        padding: .5rem 1rem;
+        border-bottom: none;
+    }   
+
+    a[aria-selected="true"] {
+        @include bold();
+        color: $eiti-darkblue;
+        // border-color: black;
+    }
+}
+
+.tabpanel {
+
+    padding: 2rem 0;
+    scroll-margin-top: 12rem;
+    // margin-top: -.5rem;
+  
+}
+
+.filter_list  {
+
+    margin-top: -1.5rem;
+    margin-bottom: 2.5rem;
+    width: 100%;
+
+}
+
+
+//   :target {
+//         background: #efefef;
+//     }

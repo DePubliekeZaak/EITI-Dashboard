@@ -36,9 +36,9 @@
 
   &:empty {
       min-height: 200px;
-  background: #efefed;
-  border-radius: 50%;
-  margin-bottom: 2rem;
+      background: #efefed;
+      border-radius: 50%;
+      margin: 3rem 0 0 2rem;
   
   }
 }
@@ -156,9 +156,14 @@
     overflow: visible;
 
 
-      &.table-view {
-        max-height: 800px;
-        overflow: auto;
-      }
+  
+  }
+
+
+  .scrolltainer {
+    
+      max-height: 800px;
+      overflow: auto;
+
   }
   

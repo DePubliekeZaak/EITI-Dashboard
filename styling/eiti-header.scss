@@ -1,11 +1,17 @@
 header {
     position: relative;
-    height: 200px;
+    height: 160px;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+
+    .skip {
+        position: absolute;
+        width: 0;
+        overflow: hidden;
+    }
 
     > div:first-child {
 
@@ -15,8 +21,21 @@ header {
         justify-content: center;
         align-items: flex-start;
 
-        > img {
-            // align-self: center;
+        > a > img {
+          
+            margin-top: 0.75rem;
+            margin-bottom: -0.75rem;
+
+            @media (min-width: $breakpoint-sm) {
+                margin-left: -0.25rem;
+            }
+            @media (min-width: $breakpoint-md) {
+                margin-left: 0rem;
+            }
+
+            @media (min-width: $breakpoint-lg) {
+                margin-left: -0.25rem;
+            }
         }
     }
 
@@ -36,6 +55,12 @@ header {
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
+ 
+
+        button {
+            background: transparent;
+            border: none;
+        }
 
         li#mobile-menu-item-close {
             display: none;
@@ -43,7 +68,7 @@ header {
 
         li#mobile-menu-item-open, li#mobile-menu-item-close {
             margin-right: auto;
-            margin-top: .5rem;
+            margin-top: .875rem;
             margin-left: .75rem;
 
             @media(min-width: $breakpoint-lg) {
@@ -52,7 +77,7 @@ header {
         }
 
         li {
-            color: white;
+            color: black;
         }
     }
 
@@ -61,32 +86,42 @@ header {
 
 #menu-home-link {
     margin-right: auto;
-    color: white;
-    font-weight: bold;
+    color: black;
+
+    margin-left: 0.75rem;
 
     @media (max-width: $breakpoint-bax) {
         display: none;
     }
 
     a {
-        color: white;
-        border-bottom: 1px solid white;
+        color: black;
+        border-bottom: 1px solid black;
+        margin-right: 0.25rem;
 
         &:hover {
             color: $darkblue;
             border-color: $darkblue;
         }
     }
+
+    span {
+        display:inline-block;
+        margin-left: 0.25rem;
+    }
 }
 
 ul#language-selector {
 
-
     display: flex;
     flex-direction: row;
+    margin-right: 1rem;
 
     li {
 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         margin: 0;
         padding: 0;
 
@@ -99,10 +134,20 @@ ul#language-selector {
             content: none;
         }
 
+        button {
 
-        &.active {
-            font-weight: 700;
+            color: black;
+            // border-bottom: 1px solid black;
+            border-radius: 0;
+            line-height: 1;
+            margin: 0 1rem;
+            padding: 0;
+            height: 1.33rem;
+
+            &.active {
+                // font-weight: 700;
+                border-bottom: 1px solid black;
+            }
         }
     }
-    
 }
