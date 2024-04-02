@@ -15,6 +15,8 @@ A page consists of groups. Each group corresponds to a single data table (also d
 
 An important part of the group controller is to reformat the data from the endpoint into data-objects for graphs and table/download. [example](https://github.com/Joera/EITI-Dashboard/blob/55aea751ac179ec98059a53251ac3a2344fc925c/src/pages/payments/groups/payments-group-v1.ts#L36). This tends to be most of the work. I do try generic types. [example](https://github.com/Joera/EITI-Dashboard/blob/55aea751ac179ec98059a53251ac3a2344fc925c/src/pages/payments/groups/payments-group-v1.ts)
 
+Graphs
+
 
 
 
