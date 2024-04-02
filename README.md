@@ -3,7 +3,6 @@ At present there is no boilerplate version. If you would like to re-use the code
 
 The codebase can be seen as a wrapper around d3.js, with added functionality based on best practices and other lessons learned over the years. 
 These learnings mainly involve accessibility for the visually impaired, as well as a large group of people whom prefer to read numbers in tables rather than interprete graphs. 
-When you are reading this there is a good chance that you like or love (making) beautiful and complex graphs. The hard truth is that few people do. 
 
 ### Pages
 The dashboard/dataportal is a single page app, that can run inside another html page, needing a html element and a script tag linking to a file of compiled typescript. 
