@@ -15,7 +15,12 @@ A page consists of groups. Each group corresponds to a single data table (also d
 
 An important part of the group controller is to reformat the data from the endpoint into data-objects for graphs and table/download. [example](https://github.com/Joera/EITI-Dashboard/blob/55aea751ac179ec98059a53251ac3a2344fc925c/src/pages/payments/groups/payments-group-v1.ts#L36). This tends to be most of the work. I do try generic types. [example](https://github.com/Joera/EITI-Dashboard/blob/55aea751ac179ec98059a53251ac3a2344fc925c/src/pages/payments/groups/payments-group-v1.ts)
 
-Graphs
+### Graphs
+A graph consists of the scales, a possible legend, axes and an enclosing html element, that can be given a position and size with clasess and (flexbox or css grid) styles. There is an update pattern, witha draw and a redraw method, of which the redraw method (re) runs after the size of the enclosing html element has been determined. On a browser resize the redraw method runs. Generally widths are fluid while height should be fixed, depending on breakpoints. Responsiveness works well. The graph file [example](https://github.com/Joera/EITI-Dashboard/blob/master/src/pages/payments/graphs/revenue-bars-v1.ts) calls one or more graph elements that contain the d3.js code. [example](https://github.com/Joera/EITI-Dashboard/blob/master/src/eiti-modules/elements/svg/chart-bar-progression.ts) These elements are re-usable. There is consistency between parameters in the page configuration, data-types into the display of colours, labels: currencies, percentages etc.. 
+
+
+
+
 
 
 
