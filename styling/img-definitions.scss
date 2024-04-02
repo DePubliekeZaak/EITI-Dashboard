@@ -1,0 +1,19 @@
+section.definitions-view {
+
+    display: flex;
+    flex-direction: column;
+    max-width: 640px;
+    padding-left: 3rem;
+
+    article.definition {
+
+        margin-bottom: 1.5rem;
+
+        h4 {
+            font-family: RO Sans Bold, sans-serif;
+            font-weight: normal;
+            font-size: 1.125rem;
+            line-height: 1.3;
+        }
+    }
+}

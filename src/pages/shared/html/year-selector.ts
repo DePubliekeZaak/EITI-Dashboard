@@ -1,4 +1,4 @@
-import {colours} from "@local/styleguide";
+import {colours} from "../../../img-modules/styleguide";
 
 export class HtmlYearSelector {
 
@@ -15,7 +15,7 @@ export class HtmlYearSelector {
 
         let selectEl = document.getElementById(this.id);
 
-        if(selectEl) { selectEl.parentNode.removeChild(selectEl) }
+        if(selectEl && selectEl.parentNode) { selectEl.parentNode.removeChild(selectEl) }
 
         let dropdown = document.createElement('select');
         dropdown.id = this.id;

@@ -1,6 +1,6 @@
 // import * as d3 from 'd3';
-import { breakpoints, colours } from '@local/styleguide';
-import { Dimensions, DataPart, GraphData} from "@local/d3_types";
+
+import { breakpoints } from "../../img-modules/styleguide";
 
 
 export class AxisArrow {
@@ -37,8 +37,6 @@ export class AxisArrow {
             .attr('d', window.d3.line()(arrowPoints))
             .attr('stroke', 'black');
 
-
-
         this.ctrlr.svg.layers.axes
             .append("path")
             .attr("class", "arrow_" + this.axis)
@@ -57,7 +55,7 @@ export class AxisArrow {
 
         let self = this;
 
-
+        const position = this.ctrlr.axes[this.axis].config.position;
         const direction = this.ctrlr.scales[this.axis].config.direction;
         const arrowLength = 100;
         let path = ""; 
@@ -67,20 +65,27 @@ export class AxisArrow {
         
         if (direction === 'horizontal' ) {
 
-            x = this.ctrlr.dimensions.width;
-            y = this.ctrlr.dimensions.height + 36;
+            x = this.ctrlr.dimensions.graphWidth;
+            y = this.ctrlr.dimensions.graphHeight + 36;
 
             path = 'M ' + (x - arrowLength) + ' ' + y + ' H ' + x;
 
 
         
-        } else if (direction === 'vertical' ){
+        } else if (direction === 'vertical' && position === 'left' ){
 
-            x = 0;
-            y = 0;
+            x = -45;
+            y = 10;
 
             path = 'M ' + x + ' ' + arrowLength + ' V 0';
-        }
+
+        } else if (direction === 'vertical' && position === 'right' ){
+
+            x = this.ctrlr.dimensions.graphWidth + 45;
+            y = 10;
+
+            path = 'M ' + x + ' ' + arrowLength + ' V 0';
+        } 
 
         
         this.ctrlr.svg.layers.axes.selectAll('path.arrow_' + this.axis)
@@ -92,10 +97,10 @@ export class AxisArrow {
         ;
 
         this.ctrlr.svg.layers.axes.selectAll('text.label_' + this.axis)
-            .attr("x", direction === 'horizontal' ? x - 8 : x + 12)  
-            .attr("y", direction == 'horizontal' ? y + 16 : y + 4)              
+            .attr("x", direction === 'horizontal' ? x - 8 : x - 2)  
+            .attr("y", direction == 'horizontal' ? y + 16 : y - 30)              
             .attr("fill", 'black')
-            .attr("text-anchor", d => direction === 'horizontal' ? "end" : "start" )
+            .attr("text-anchor", d => direction === 'horizontal' || position == 'right' ? "end" : "start" )
         ;
     }
 }

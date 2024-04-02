@@ -11,12 +11,23 @@
 @import 'styleguide/table.scss';
 @import 'styleguide/button.scss';
 
-@import './eiti-dashboard.scss';
+@import './img-dashboard.scss';
+@import './img-aside.scss';
+@import './img-popup.scss';
+@import './img-tabs.scss';
+
+
 @import './eiti-header.scss';
-@import './eiti-layouts-width.scss';
+@import './img-layouts-width.scss';
 @import './eiti-grid.scss';
 @import './eiti-nav.scss';
 @import './eiti-graph-nav.scss';
 @import './eiti-card.scss';
 @import './eiti-graphs.scss';
 
+
+@import './img-legend.scss';
+@import './img-source-attribution.scss';
+@import './img-timeline.scss';
+@import './img-layout.scss';
+@import './img-definitions.scss';

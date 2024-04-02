@@ -1,13 +1,10 @@
-import { IGraphMapping, KeyValue } from "../../d3-modules/_d3_types";
+import {  KeyValue } from "../../charts/core/types";
 
 
 export interface IParamService {
 
     renew() : void,
-    isCompanyPage(): boolean
-    // matchConfig(): IGraphMapping[]
     topic : string
-    company: string
     language: string
 
 }
@@ -16,7 +13,6 @@ export class ParamService implements IParamService {
 
     _params: KeyValue
     _topic: string;
-    _company: string;
     _language: string = 'nl'
     _segment:  string
 //    segment: string;
@@ -33,22 +29,15 @@ export class ParamService implements IParamService {
         let primValue = Object.values(this._params)[0];
 
         if (primValue === 'undefined' || 'language') {
-            this._topic = 'payments'
-            this._company == null;
+            this._topic = 'historie'
             this._segment = '2022'
         }
 
         if (primKey === 'topic') {
             this._topic = primValue.toString();
-            this._company == null;
             this._segment = '2022'
         }
 
-        else if (primKey === 'company') {
-            this._topic = 'company';
-            this._company = Object.values(this._params)[0].toString();
-            this._segment = '2022'
-        }
 
         if(Object.keys(this._params).indexOf('language') > -1) {
             this._language = Object.values(this._params)[Object.keys(this._params).indexOf('language')].toString();
@@ -59,9 +48,6 @@ export class ParamService implements IParamService {
         return this._topic;
     }
 
-    get company() {
-        return this._company;
-    }
 
     get language() {
         return this._language;
@@ -88,10 +74,6 @@ export class ParamService implements IParamService {
         }
     
         return params;
-    }
-
-    isCompanyPage() {
-        return this._topic === 'company';
     }
 
 

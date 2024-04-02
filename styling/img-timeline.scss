@@ -1,0 +1,16 @@
+.timeline_html_div {
+
+    position: relative;
+
+    .html_label {
+
+        max-width: 200px;
+        line-height: 1.25;
+        font-size: .85rem;    
+        position: absolute;
+        background: #eee;
+        border-radius: 5px 5px 0 0;
+        padding:  .25rem 0.5rem
+        
+    }
+}

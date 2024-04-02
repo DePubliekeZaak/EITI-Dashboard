@@ -1,8 +1,12 @@
-import { HtmlFunctionality } from "./html/html-functionality";
+import { HtmlFilters} from "./html/html-filters";
+import { HtmlTabs } from "./html/html-tabs";
 import { HtmlHeader } from "./html/html-header";
 import { HTMLTable } from "./html/html-table";
+import { HTMLDefinitions } from "./html/html-definitions";
+// import { HTMLDescription } from "./html/html-description";
 import { IGroupCtrlr, IGroupMappingV2 } from "./interfaces";
-import { DataObject, EitiData, TableData } from "./types";
+import { DataObject, ImgData, TableData } from "./types";
+import { Definitions } from "./types_graphs";
 
 export class GroupControllerV1 implements IGroupCtrlr {
 
@@ -11,16 +15,21 @@ export class GroupControllerV1 implements IGroupCtrlr {
     segment: string;
 
     htmlHeader;
-    funcList;
+    tabs;
     table;
+    definitions;
+    filter: any;
+    description;
 
     constructor(
         public page: any,
         public config: IGroupMappingV2,
+        public index: number,
     ){
         this.slug = config.slug;
         this.element = page.main.htmlContainer;
         this.segment = config.segment;
+
     }
 
     html(groupEl?: HTMLElement) {
@@ -51,25 +60,48 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
         this.htmlHeader.draw(); 
 
-        if (this.config.functionality && this.config.functionality.length > 0) {
-            this.funcList = new HtmlFunctionality(this,groupWrapper,this.config,this.segment);
-            this.funcList.draw();
+        if (this.config.functionality) {
+            this.tabs = new HtmlTabs(this,groupWrapper,this.config,this.segment, this.index);
+            this.tabs.draw();
         }
+
+        // TAB PANELS
 
         const graphWrapper = document.createElement('section');
         graphWrapper.classList.add('graph-container-12');
         graphWrapper.classList.add('graph-wrapper');
+        graphWrapper.classList.add("tabpanel");
+        graphWrapper.role = "tabpanel";
+        graphWrapper.id = "panel_" + this.slug + "__graph";
+        graphWrapper.setAttribute("aria-labelledby","tab_" + this.slug + "__graph");
+        graphWrapper.tabIndex = 0
 
         groupWrapper.appendChild(graphWrapper);
 
-        if (this.config.functionality && this.config.functionality.indexOf('tableView') > -1) {
+        if (this.config.functionality == undefined) return;
+
+        if (this.config.functionality.length > 0) {   
+            this.filter = new HtmlFilters(this, graphWrapper, this.config, "");
+            this.filter.draw();
+        }
+
+        if (this.config.functionality && this.config.functionality.indexOf('table') > -1) {
             this.table = new HTMLTable(this,groupWrapper);
         }
+
+        if (this.config.functionality && this.config.functionality.indexOf('definitions') > -1) {
+            this.definitions = new HTMLDefinitions(this, groupWrapper);
+        }
+
+        // if (this.config.functionality && this.config.functionality.indexOf('description') > -1) {
+        //     this.description = new HTMLDescription(this,groupWrapper);
+        // }
+
 
         return graphWrapper;
     }
 
-    prepareData(data: EitiData) : DataObject {
+    prepareData(data: ImgData) : any {
 
         
         return data 
@@ -77,10 +109,35 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
     populateTable(tableData: TableData) {
 
-        if (this.config.functionality && this.config.functionality.indexOf('tableView') > -1) {
+        if (this.config.functionality && this.config.functionality.indexOf('table') > -1) {
             this.table.draw(tableData);
         }
    }
+
+   populateDefinitions(definitionData: Definitions) {
+
+        if (this.config.functionality && this.config.functionality.indexOf('definitions') > -1) {
+            this.definitions.draw(definitionData);
+        }
+    }
+
+    populateDescription() {
+
+        if (this.config.functionality && this.config.functionality.indexOf('description') > -1) {
+            this.description.draw();
+        }
+    }
+
+    armTabs() {
+
+        this.tabs.handleInitialState();
+        this.tabs.arm();
+    }
+
+    armDownloads() {
+        this.tabs.armDownload();
+    }
+
 
 
     update(data: DataObject, segment: string, update: boolean) {
@@ -90,13 +147,16 @@ export class GroupControllerV1 implements IGroupCtrlr {
 
         group.data = this.prepareData(this.page.main.data.collection());
 
-        this.funcList.redraw();
+        this.tabs.redraw();
 
         for (const graph of group.graphs) {
             graph.ctrlr.update(group.data, segment, false)
         }
 
         this.populateTable(group.data.table);
+
+        this.populateDefinitions(group.data.definitions);
+
     }  
 
 }

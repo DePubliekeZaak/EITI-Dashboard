@@ -21,7 +21,6 @@ export class DataService implements IDataService{
     async gather(endpoint: string) {
 
         if(this._collection[endpoint] == undefined) {
-
             this._collection[endpoint] = await this.fetch(endpoint);
         }
     }
@@ -32,16 +31,12 @@ export class DataService implements IDataService{
 
                 // @ts-ignore
                 const url = (["netherlands","licences2023"].indexOf(endpoint) > -1) ? './' + endpoint + '.geojson' : DOMAIN + APIBASE + endpoint;
-  
                 const response = await fetch(url);
-
                 if(response.ok) {
                     resolve(response.json())
                 } else {
                     reject()
                 }
-            
         });
-        
     }
 }

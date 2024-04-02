@@ -1,11 +1,9 @@
-import { localTime } from '@local/d3-services';
-// import * as d3 from "d3";
-// import { getMonthFromNumber} from "../../../utils/date-object.utils";
-import { convertToCurrency, convertToMillions } from '@local/d3-services';
-import { Dimensions } from '@local/d3_types';
-import { DataPart } from '@local/d3_types';
-import { breakpoints } from '@local/styleguide';
-
+import { localTime } from './_formats';
+import { convertToCurrency, convertToMillions } from '../../pages/shared/_helpers';
+import { Dimensions } from './types';
+import { DataPart } from '../../pages/shared/types';
+import { breakpoints } from '../../img-modules/styleguide';
+import { Bars } from '../../pages/shared/types_graphs';
 export class AxesService {
 
     axis;
@@ -36,7 +34,7 @@ export class AxesService {
 
             case 'center' :
 
-                this.axisGroup
+                this.axisGroup  
                     .attr('class', 'x-axis');
 
                 this.axis = window.d3.axisBottom(this.ctrlr.scales[this.config.scale]);
@@ -76,16 +74,33 @@ export class AxesService {
         }
     }
 
-    redraw(dimensions: Dimensions, scale: any, data: DataPart[]) {
+    redraw(dimensions: Dimensions, scale: any, data: any[]) {
 
            switch (this.ctrlr.scales[this.config.scale].config.type) {
 
                case 'band' :
 
-                   this.axis
-                       .tickFormat( (d,i) => {
-                          return d // (this.ctrlr.config.extra.axisInMonths) ? getMonthFromNumber(d) : d;
-                       })
+                    if(this.config.format == 'quarters') {
+
+                        this.axis
+                        .tickFormat( d => {
+                            return d.slice(-2) == '01' ? d.slice(0,4) : ""
+                        })
+
+                    // } else if(this.config.format == 'short') {
+
+                    //     this.axis
+                    //     .tickFormat( (d,i) => {        
+                    //         return data.find( a => a.label == d).meta.short
+                    //     })
+
+                    } else {
+
+                        this.axis
+                        .tickFormat( (d,i) => {        
+                            return d
+                        })
+                    }
                    break;
 
                case 'linear' :
@@ -173,13 +188,13 @@ export class AxesService {
                 case 'bottom' :
 
                     this.axisGroup
-                        .attr("transform", "translate(" + 0 + "," + (dimensions.height) + ")")
+                        .attr("transform", "translate(" + 0 + "," + (dimensions.graphHeight) + ")")
                     break;
 
                 case 'belowBottom' :
 
                     this.axisGroup
-                        .attr("transform", "translate(" + 0 + "," + (dimensions.height + 0) + ")")
+                        .attr("transform", "translate(" + 0 + "," + (dimensions.graphHeight + 0) + ")")
                     break;
 
                 case 'top' :
@@ -197,7 +212,7 @@ export class AxesService {
                 case 'right' :
 
                     this.axisGroup
-                        .attr("transform", "translate(" + (dimensions.width + this.ctrlr.config.padding.right) + "," + 0 + ")");
+                        .attr("transform", "translate(" + (dimensions.graphWidth + this.ctrlr.config.padding.right) + "," + 0 + ")");
                     break;
 
                 default :

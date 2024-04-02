@@ -1,4 +1,4 @@
-import { breakpoints } from "@local/styleguide";
+import { breakpoints } from "../../../img-modules/styleguide";
 
 export const HTMLSource = (wrapper: HTMLElement, lan: string, text: string) => { 
 
@@ -20,7 +20,9 @@ export const HTMLSource = (wrapper: HTMLElement, lan: string, text: string) => {
         span.innerText = s + text;
 
         container.appendChild(span);
-        wrapper.appendChild(container);
+        if (wrapper.parentElement == null) return;
+        console.log(wrapper.parentElement);
+        wrapper.parentElement.appendChild(container);
         
         return container;
 }

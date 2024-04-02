@@ -1,24 +1,25 @@
-import { IGraphMapping, KeyValue } from '@local/d3_types';
-import { breakpoints} from '@local/styleguide';
+
+import { breakpoints} from '../../img-modules/styleguide';
 import { IParamService, ParamService } from './param.service';
 import { screenSize } from './screen.factory';
-import { styleParentElement, createSideBar, createNav, createMobileNav, createPopupElement, pageHeader, companyTitle} from './html.factory';
+import { styleParentElement, createSideBar, createMobileNav, createPopupElement, pageHeader } from './html.factory';
 import { DataService, IDataService } from './data.service';
-import { switchTopic, toggleSubMenu, openMenu, closeMenu, armLanguageSelector, switchLanguage } from './interaction.factory';
-import { navItems } from './nav.factory';
+import { switchTopic, toggleSubMenu, openMenu, closeMenu } from './interaction.factory';
+import { INavService, NavService, navItems } from './nav.service';
 
 export interface IDashboardController {
 
     window: Window;
     params: IParamService;
     data: IDataService,
+    nav: INavService;
     htmlContainer: HTMLScriptElement,
     close_btn: HTMLElement,
     open_btn: HTMLElement,
     _reloadHtml: () => void;
     call(segment: string, update: boolean);
     switch: (topic: string, segment: string) => void;
-    switchLanguage: (lan: string) => void;
+    // switchLanguage: (lan: string) => void;
     _toggleSubMenu: () => void
     _screenListener: () => void
 
@@ -28,6 +29,7 @@ export class DashboardController implements IDashboardController {
 
     params;
     data;
+    nav;
     htmlContainer;
     window;
     close_btn;
@@ -38,33 +40,17 @@ export class DashboardController implements IDashboardController {
 
         this.params = new ParamService();
         this.data = new DataService()
+        this.nav = new NavService(this);
         this.init();
     }
 
     async init() {
 
         this.window = window;
-        let selector = null;
-        let segment = '2022';
-        
+        let segment = '2022';     
         this.params.renew();
-
         this._reloadHtml();
-
         await this.call(segment, false);
-
-        const c = this.data.collection();
-
-        this._reloadHtml();
-
-        if (this.params.topic == 'company') { 
-            this._toggleSubMenu();
-        }
-
-        this._armMenuButton();
-        armLanguageSelector(this);
-        this._screenListener();
-
     }
 
     async call(segment: string, update: boolean ): Promise<void> {
@@ -88,7 +74,6 @@ export class DashboardController implements IDashboardController {
 
         closeMenu();
         switchTopic(this,paramKey,paramValue);
-        companyTitle(this);
 
         if (this.params.topic === 'bedrijf') {
             this._toggleSubMenu();
@@ -97,12 +82,12 @@ export class DashboardController implements IDashboardController {
         this._closeMenu();
     }
 
-    switchLanguage(lan: string) : void {
+    // switchLanguage(lan: string) : void {
 
-        this.params.language = lan;
-        switchLanguage(this)
-        this.init();
-    }
+    //     this.params.language = lan;
+    //     switchLanguage(this)
+    //     this.init();
+    // }
 
     _toggleSubMenu() : void {
         toggleSubMenu();
@@ -116,9 +101,8 @@ export class DashboardController implements IDashboardController {
         [].slice.call(document.getElementsByTagName("nav")).forEach( (a) => a.remove());
     
         let aside = createSideBar(this.htmlContainer);
-        aside.insertBefore(createNav(this), aside.childNodes[0]);
-
-        companyTitle(this);
+        aside.appendChild(this.nav.create());
+        //aside.insertBefore(this.nav.create(), aside.childNodes[0]);
     
         createPopupElement();
 
@@ -138,7 +122,6 @@ export class DashboardController implements IDashboardController {
                     self._reloadHtml();
                 }, 100);
             }
-    
         }, false);
     }
 

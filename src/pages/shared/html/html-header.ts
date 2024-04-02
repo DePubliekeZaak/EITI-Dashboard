@@ -20,7 +20,7 @@ export class HtmlHeader {
 
         if(!this.element.classList.contains("graph-view")) {
 
-            this.headerElement.style.borderTop = '2px solid rgb(230, 230, 230)';
+      //      this.headerElement.style.borderTop = '2px solid rgb(230, 230, 230)';
             this.headerElement.style.paddingBottom = '2rem';
             this.headerElement.style.paddingTop = '2rem';
 

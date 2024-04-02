@@ -4,7 +4,11 @@ table {
     width: calc(100% - 2rem);
     margin: 0 8rem 3rem 0;
 
+}
 
+.graph-view table {
+    margin: 0;
+    border: none;
 }
 
 table, th, td {

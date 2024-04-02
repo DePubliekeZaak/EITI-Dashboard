@@ -1,5 +1,5 @@
 import { IParameterMapping } from "../interfaces"
-import { breakpoints, colours } from "@local/styleguide";
+import { breakpoints, colours } from "../../../img-modules/styleguide";
 
 export class HtmlLegendColumn {
 
@@ -17,19 +17,16 @@ export class HtmlLegendColumn {
         legend.style.flexDirection = window.innerWidth < breakpoints.xsm ? 'column' : 'column';
         legend.style.paddingBottom = window.innerWidth < breakpoints.xsm ? this.ctrlr.config.padding.left + 'px' : '0';
         legend.style.justifyContent = 'center';
-        legend.style.width = '100%';
+        legend.style.width = '360px';
 
         this.ctrlr.group.graphs[0].mapping[0].forEach( (map: any,i:  number) => {
-
             let item = this.createDiv();
             item.appendChild(this.createCircle(map));
             item.appendChild(this.createLabel(map));
             legend.appendChild(item);
         });
 
-        this.ctrlr.element.insertBefore(legend,this.ctrlr.element.querySelector('svg'))
-
-
+        this.ctrlr.element.appendChild(legend);
     }
     
 
@@ -45,7 +42,6 @@ export class HtmlLegendColumn {
     }
 
     createCircle(map: IParameterMapping) : HTMLSpanElement {
-
 
         let circle = document.createElement('span');
         circle.style.width = (window.innerWidth > 700) ? '1rem' : '.5rem';
@@ -65,9 +61,7 @@ export class HtmlLegendColumn {
         let label = document.createElement('span');
         const labelText = this.ctrlr.page.main.params.language == 'en' ? map['label_en'] : map['label'];
 
-        if(labelText != undefined) {
-
-           
+        if (labelText != undefined) {
             label.style.fontFamily = "RO Sans Regular";
             label.style.fontSize = (window.innerWidth > 700) ? '.8rem' : '.71em';
             label.style.lineHeight = "1.33";

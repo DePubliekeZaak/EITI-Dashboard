@@ -1,8 +1,8 @@
-import { EitiPayments, GeoJsonFeature } from "@local/d3_types";
-import { EitiReport, Line, Lines } from "@local/d3_types";
+import {  GeoJsonFeature, Line, Lines } from "./types_graphs";
+import { DataPart } from "./types";
 
 
-export const filterUnique = (data: EitiReport[]|EitiPayments[],key: string): (string|number)[] => {
+export const filterUnique = (data: any[],key: string): (string|number)[] => {
 
     const uniques: (string|number)[] = [];
 

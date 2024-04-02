@@ -1,4 +1,4 @@
-import { breakpoints } from "../../eiti-modules/styleguide";
+import { breakpoints } from "../../img-modules/styleguide";
 import { IDashboardController } from "./dashboard.controller";
 
 export const switchTopic = (ctrlr: IDashboardController, paramKey: string, paramValue: string) : void => {
@@ -31,9 +31,9 @@ export const switchTopic = (ctrlr: IDashboardController, paramKey: string, param
    
     ctrlr.call("2022", false);
 
-    if (window.innerWidth > breakpoints.md) {
-        _updateMenuList(paramKey);
-    }
+    // if (window.innerWidth > breakpoints.md) {
+    //     _updateMenuList(paramKey);
+    // }
 
 
     let mobileNav = document.querySelector('.mobile_nav_v2');
@@ -49,26 +49,26 @@ export const switchTopic = (ctrlr: IDashboardController, paramKey: string, param
     }
 }
 
-export const switchLanguage = (ctrlr) => {
+// export const switchLanguage = (ctrlr) => {
 
 
-    let newurl = location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-    const combinator = window.location.search === '' ? "?" : "&";
+//     let newurl = location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+//     const combinator = window.location.search === '' ? "?" : "&";
 
-    const index = newurl.indexOf('language=');
+//     const index = newurl.indexOf('language=');
 
-    if (index > -1) { 
-        newurl = newurl.slice(0, index - 1)
-    }
+//     if (index > -1) { 
+//         newurl = newurl.slice(0, index - 1)
+//     }
 
-    if(ctrlr.params.language == 'en') {
-        newurl = newurl + combinator + 'language=en'
-    } else {
-        newurl = newurl
-    }
+//     if(ctrlr.params.language == 'en') {
+//         newurl = newurl + combinator + 'language=en'
+//     } else {
+//         newurl = newurl
+//     }
     
-    window.history.pushState({path:newurl},'',newurl);
-}
+//     window.history.pushState({path:newurl},'',newurl);
+// }
 
 export const openMenu = (): void => {
     document.getElementsByTagName('aside')[0].classList.add('is_open');
@@ -94,30 +94,30 @@ export const toggleSubMenu = (): void => {
 
 
 
-const _updateMenuList = (topic: string): void => {
+// const _updateMenuList = (topic: string): void => {
 
-}
+// }
 
-export const armLanguageSelector = (ctrlr: IDashboardController) : void => {
+// export const armLanguageSelector = (ctrlr: IDashboardController) : void => {
 
 
-    let options: HTMLElement[] = [].slice.call(document.querySelectorAll("#language-selector li")); 
-    options.forEach( o => o.classList.remove('active'));
+//     let options: HTMLElement[] = [].slice.call(document.querySelectorAll("#language-selector li")); 
+//     options.forEach( o => o.classList.remove('active'));
 
-    const activeIndex = (ctrlr.params.language == 'en') ? 1 : 0;
-    options[activeIndex].classList.add('active'); 
+//     const activeIndex = (ctrlr.params.language == 'en') ? 1 : 0;
+//     options[activeIndex].classList.add('active'); 
 
-    if(options == undefined) return;
+//     if(options == undefined) return;
 
-    for (const option of options) {
+//     for (const option of options) {
 
-        option.style.cursor = 'pointer';
-        option.onclick = () => {
+//         option.style.cursor = 'pointer';
+//         option.onclick = () => {
 
-           options.forEach( o => o.classList.remove('active'));
-           option.classList.add('active');
-           ctrlr.switchLanguage(option.getAttribute('data-language'))
+//            options.forEach( o => o.classList.remove('active'));
+//            option.classList.add('active');
+//            ctrlr.switchLanguage(option.getAttribute('data-language'))
             
-        };
-    }
-}
+//         };
+//     }
+// }

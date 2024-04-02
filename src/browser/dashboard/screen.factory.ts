@@ -1,4 +1,4 @@
-import {breakpoints} from "@local/styleguide";
+import {breakpoints} from "../../img-modules/styleguide";
 
 export const screenSize = (width: number): string => {
 

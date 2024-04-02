@@ -25,6 +25,11 @@ body, svg g {
     letter-spacing: 0px;
   }
 
+  @mixin bold() {
+    font-family: RO Sans Bold, sans-serif;
+    font-weight: normal;
+  }
+
   h2 {
     font-family: RO Sans Bold, sans-serif;
     font-weight: normal;

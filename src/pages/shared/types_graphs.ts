@@ -15,13 +15,18 @@ export type Bar = {
     value : number,
     value2?: number,
     colour: string,
-    format? : string,
+    format?: string,
     type?: string,
     meta?: any,
     year?: number,
     y?: number,
     dy?: number
 }
+
+export interface PeriodBar extends Bar {
+    date: string
+}   
+
 
 export type Bars = Bar[];
 
@@ -54,7 +59,6 @@ export type SankeyNode = {
     name: string,
     label?: string,
     type?: string
-    
 }
 
 export type SankeyLink = {
@@ -81,6 +85,14 @@ export type TableData = {
     rows: string[][]
 }
 
+export type Definition = {
+    name: string,
+    description: string
+}
+
+export type Definitions = Definition[]; 
+
+
 export type IntData  = {
     graph: (Circle|Bar)[]|Sankey,
     graph_2?: (Circle|Bar)[]|Sankey,
@@ -104,6 +116,10 @@ export type GeoJsonCollection = {
     features: GeoJsonFeature[]
 }
 
-export type Pie = {
-    
+export type PiePart = {
+    label: string,
+    value: number,
+    colour: string,
+    accented: boolean,
+    format?: string
 }

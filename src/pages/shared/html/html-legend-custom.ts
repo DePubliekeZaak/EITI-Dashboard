@@ -1,6 +1,5 @@
-import { IParameterMapping } from "@local/d3_types";
-import { breakpoints, colours } from "@local/styleguide";
-import { entities } from "@local/styleguide/colours";
+import { IParameterMapping } from "../../../charts/core/types";
+import { breakpoints, colours } from "../../../img-modules/styleguide";
 
 type LegendItem = {
     colour: string,

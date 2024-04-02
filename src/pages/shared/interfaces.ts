@@ -1,5 +1,5 @@
-import { EitiData } from "@local/d3_types";
-import { DataObject, TableData } from "./types";
+import { DataObject, TableData, ImgData } from "./types";
+import { Definitions } from "./types_graphs";
 
 export interface IParameterMapping {
 
@@ -12,8 +12,9 @@ export interface IParameterMapping {
     short?: string,
     outflow?: any,
     duration?: string,
-    units? : string
-    format? : string
+    units? : string,
+    format? : string,
+    description? : string
 }
 
 export interface IGraphMappingV2 {
@@ -50,17 +51,21 @@ export interface GroupObject {
     splice?: boolean,
     graphs: GraphCtrlr[],
     config: IGroupMappingV2,
-    element: HTMLElement | null,
+    element: HTMLElement | undefined,
     data: any
 }
 
 export interface IGroupCtrlr {
 
+    slug: string,
     page: any,
     segment: string,
     html: () => HTMLElement | undefined,
-    prepareData: (data:EitiData) => DataObject,
-    populateTable: (tableData: TableData) => void
+    prepareData: (data:any) => DataObject,
+    populateTable: (tableData: TableData) => void,
+    populateDefinitions: (definitions: Definitions) => void,
+    populateDescription?: () => void,
+    armTabs: () => void,
     update: (data: DataObject, segment: string, update: boolean) => void
     
 }

@@ -10,15 +10,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@local/charts": "file:src/eiti-modules/charts",
-    "@local/configs": "file:src/configs",
-    "@local/d3_graphs": "file:src/d3-modules/_d3_graphs",
-    "@local/d3_types": "file:src/d3-modules/_d3_types",
-    "@local/d3-services": "file:src/d3-modules/services",
-    "@local/dashboard": "file:src/browser/dashboard",
-    "@local/eiti-services": "file:src/eiti-modules/services",
-    "@local/elements": "file:src/eiti-modules/elements",
-    "@local/styleguide": "file:src/eiti-modules/styleguide",
     "axios": "^0.24.0",
     "d3-sankey": "^0.12.3",
     "d3-selection": "^3.0.0",
@@ -63,8 +54,9 @@
     "wepack-cli": "^0.0.1-security"
   },
   "scripts": {
-    "build:prod": "webpack --env ENV=prod DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/api/",
-    "serve": "webpack serve --env ENV=dev DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/api/"
+    "build:prod": "webpack --env ENV=prod DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/dev/api/",
+    "build:dev": "webpack --env ENV=prod DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/dev/api/",
+    "serve": "webpack serve --env ENV=dev DOMAIN=https://img.de-publieke-zaak.nl APIBASE=/open-data/dev/api/"
   },
   "sideEffects": false
 }

@@ -10,57 +10,65 @@ const config = (env) =>  {
       scaffold: {
         import: "./src/browser/index.ts",
       },
-      payments: {
-        
-        filename: "scripts/payments.bundle.js",
-        import: "./src/pages/payments/index.ts",
+      history: {
+        filename: "scripts/historie.bundle.js",
+        import: "./src/pages/historie/index.ts",
         library: {
-          name: 'payments',
+          name: 'historie',
           type: 'window',
           export: 'default',
         }
       },
-      reconciliation: {
-        filename: "scripts/reconciliation.bundle.js",
-        import: "./src/pages/reconciliation/index.ts",
+      meldingen: {
+        filename: "scripts/aos-en-meldingen.bundle.js",
+        import: "./src/pages/aos-en-meldingen/index.ts",
         library: {
-          name: 'reconciliation',
+          name: 'aos-en-meldingen',
           type: 'window',
           export: 'default',
         }
       },
-      ebn: {
-        filename: "scripts/ebn.bundle.js",
-        import: "./src/pages/ebn/index.ts",
+      vergoedingen: {
+        filename: "scripts/vergoedingen.bundle.js",
+        import: "./src/pages/vergoedingen/index.ts",
         library: {
-          name: 'ebn',
+          name: 'vergoedingen',
           type: 'window',
           export: 'default',
         }
       },
-      economy: {
-        filename: "scripts/economy.bundle.js",
-        import: "./src/pages/economy/index.ts",
+      besluiten: {
+        filename: "scripts/besluiten.bundle.js",
+        import: "./src/pages/besluiten/index.ts",
         library: {
-          name: 'economy',
+          name: 'besluiten',
           type: 'window',
           export: 'default',
         }
       },
-      ubo: {
-        filename: "scripts/ubo.bundle.js",
-        import: "./src/pages/ubo/index.ts",
+      duur: {
+        filename: "scripts/duur.bundle.js",
+        import: "./src/pages/duur/index.ts",
         library: {
-          name: 'ubo',
+          name: 'duur',
           type: 'window',
           export: 'default',
         }
       },
-      company: {
-        filename: "scripts/company.bundle.js",
-        import: "./src/pages/company/index.ts",
+      history_fs: {
+        filename: "scripts/historie-fs.bundle.js",
+        import: "./src/pages/historie-fs/index.ts",
         library: {
-          name: 'company',
+          name: 'historie-fs',
+          type: 'window',
+          export: 'default',
+        }
+      },
+      history_bezwaren: {
+        filename: "scripts/historie-bezwaren.bundle.js",
+        import: "./src/pages/historie-bezwaren/index.ts",
+        library: {
+          name: 'historie-bezwaren',
           type: 'window',
           export: 'default',
         }
@@ -90,7 +98,7 @@ const config = (env) =>  {
     },
     devServer: {
       open:false,
-      port: 3333,
+      port: 4444,
       hot: true,
       client: {
         overlay: true,

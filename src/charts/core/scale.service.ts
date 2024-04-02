@@ -1,5 +1,5 @@
 // import * as d3 from 'd3';
-import { IScale } from '@local/d3_types';
+import { IScale } from './types';
 import { IGraphControllerV3 } from './graph-v3';
 
 export interface IScaleService {
@@ -60,8 +60,8 @@ export class ScaleService implements IScaleService{
 
             case 'time':
 
-                if (min == undefined || max == undefined) return;
-                this.scale = window.d3.scaleTime().domain([new Date(min),new Date(max)]);
+                // if (min == undefined || max == undefined) return;
+                this.scale = window.d3.scaleTime().domain([new Date(data[data.length - 1]),new Date(data[0])]);
                 break;
 
             case 'band':
@@ -113,27 +113,27 @@ export class ScaleService implements IScaleService{
             case 'horizontal':
 
                 this.scale
-                    .range([0, this.ctrlr.dimensions.width]);
+                    .range([0, this.ctrlr.dimensions.graphWidth]);
 
                 break;
 
             case 'horizontal-reverse':
 
                     this.scale
-                        .range([this.ctrlr.dimensions.width,0]);
+                        .range([this.ctrlr.dimensions.graphWidth,0]);
     
                     break;
 
             case 'vertical-reverse':
 
                 this.scale
-                    .range([0,this.ctrlr.dimensions.height]);
+                    .range([0,this.ctrlr.dimensions.graphHeight]);
 
                 break;
 
             case 'vertical':
                 this.scale
-                    .range([this.ctrlr.dimensions.height, 0]);
+                    .range([this.ctrlr.dimensions.graphHeight, 0]);
 
                 break;
 
@@ -145,7 +145,7 @@ export class ScaleService implements IScaleService{
                     return
                 }
 
-                let langsteZijde = this.ctrlr.dimensions.width > this.ctrlr.dimensions.height ? this.ctrlr.dimensions.width : this.ctrlr.dimensions.height;
+                let langsteZijde = this.ctrlr.dimensions.graphWidth > this.ctrlr.dimensions.graphHeight ? this.ctrlr.dimensions.graphWidth : this.ctrlr.dimensions.graphHeight;
 
                 this.scale
                     .range([this.ctrlr.config.minRadius, (langsteZijde / this.dataLength) * this.ctrlr.config.radiusFactor]);
@@ -157,7 +157,7 @@ export class ScaleService implements IScaleService{
                     // let langsteZijde = this.ctrlr.dimensions.width > this.ctrlr.dimensions.height ? this.ctrlr.dimensions.width : this.ctrlr.dimensions.height;
     
                     this.scale
-                        .range([0, this.ctrlr.dimensions.width / 2]);
+                        .range([0, this.ctrlr.dimensions.graphWidth / 2]);
     
                     break;
 

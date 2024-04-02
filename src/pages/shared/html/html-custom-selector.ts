@@ -1,4 +1,4 @@
-import {colours} from "@local/styleguide";
+
 import { SelectorOption } from "../types";
 
 export class HtmlCustomSelector {

@@ -1,4 +1,4 @@
-import {colours} from "@local/styleguide";
+import { colours } from "../../../img-modules/styleguide";
 import { drop } from "lodash";
 
 export class HtmlMappingSelector {
@@ -14,12 +14,12 @@ export class HtmlMappingSelector {
 
     draw(segment, index = 0) {
 
-        let selectEl = document.getElementById(this.id);
+        let selectEl = document.getElementById(this.id + '_' + index);
 
-        if(selectEl) { selectEl.parentNode.removeChild(selectEl) }
+        if(selectEl && selectEl.parentNode != null) { selectEl.parentNode.removeChild(selectEl) }
 
         let dropdown = document.createElement('select');
-        dropdown.id = this.id;
+        dropdown.id = this.id + '_' + index;
         dropdown.style.alignSelf = 'flex-start';
         dropdown.style.maxWidth = '90vw';
 

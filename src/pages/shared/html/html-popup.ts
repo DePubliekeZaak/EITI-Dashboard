@@ -1,4 +1,4 @@
-import { DataPart } from "@local/d3_types";
+import { DataPart } from "../types";
 
 export class HtmlPopup {
 

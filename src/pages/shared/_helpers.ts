@@ -1,4 +1,4 @@
-import { IGraphMapping, IMappingOption } from "@local/d3_types";
+import { IGraphMapping, IMappingOption } from "../../charts/core/types";
 
 var trimColumns =  function(json,neededColumns) {
 
@@ -224,3 +224,23 @@ export const standardDeviation = (arr, usePopulation = false) => {
         stdev
     }
   };
+
+export const toDutchMonths = (number: number) => {
+
+    const months = [
+        "Januari",
+        "Februari",
+        "Maart",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Augustus",
+        "September",
+        "Oktober",
+        "November",
+        "December"
+    ];
+
+    return months[number]
+} 
