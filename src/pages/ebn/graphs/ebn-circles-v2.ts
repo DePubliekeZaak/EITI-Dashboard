@@ -51,10 +51,8 @@ export  class EbnCirclesV2 extends GraphControllerV3  {
 
         this.subheader = new HTMLYear(this,this.graphEl,"center");
 
-        if(window.innerWidth < breakpoints.lg) {
-
+        if (window.innerWidth < breakpoints.lg) {
             this.graphEl.style.overflowX= "auto";
-
         }
 
         this.scrollingContainer = document.createElement('section');
@@ -185,6 +183,7 @@ export  class EbnCirclesV2 extends GraphControllerV3  {
     }
 
     async draw(data: any) {
+
 
         this.subheader.draw(data.grouped[this.index][0].year);
 

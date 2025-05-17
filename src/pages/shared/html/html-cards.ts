@@ -67,6 +67,18 @@ export class HtmlCardsV1 {
                 link.href = m.registry_link;
                 link.target = "_blank";
                 link.innerText = this.ctrlr.page.main.params.language == 'en' ? m.registry_place_en : m.registry_place
+
+                if (m.slug == 'nam') {
+
+                    let span = document.createElement('span');
+                    span.innerHTML = " / ";
+                    container.appendChild(span);
+                    const link = this.insert('a', container) as HTMLLinkElement;
+                    link.href = "https://www.nasdaq.com/market-activity/stocks/xom/institutional-holdings"
+                    link.target = "_blank";
+                    link.innerText = this.ctrlr.page.main.params.language == 'en' ? "Nasdaq" : "Nasdaq"
+
+                }
                 
             }
         }

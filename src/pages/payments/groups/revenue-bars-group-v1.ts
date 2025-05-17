@@ -39,7 +39,7 @@ export class RevenueBarsGroupV1 extends GroupControllerV1 {
 
    prepareData(data: EitiData) : any {
 
-    const dataGroup = "payments";
+    const dataGroup = "payments_aggregated";
     if(data[dataGroup] == undefined) return;
 
     const bars: Bars = [];
@@ -51,12 +51,12 @@ export class RevenueBarsGroupV1 extends GroupControllerV1 {
 
     for (const year of uniqueYears) { 
 
-        const yearData = data[dataGroup].filter ( (s) => s.year  === year && ["sales","costs"].indexOf(s.payment_stream) < 0);
+        const yearData = data[dataGroup].filter ( (s) => s.year  === year);
         const aggregatedStreams : any[] = [];
       
         for (const ustream of filterUnique(yearData,"payment_stream")) {
 
-            const streams = yearData.filter( (s) => s.payment_stream === ustream && s.aggregated == true);
+            const streams = yearData.filter( (s) => s.payment_stream === ustream);
             const cum_value = streams.reduce( (acc,s) => acc + s.payments_companies,0);
 
             if(cum_value > 0) {
@@ -91,17 +91,19 @@ export class RevenueBarsGroupV1 extends GroupControllerV1 {
 
     const payments = data[dataGroup].filter( p => p.name_nl != undefined);
 
-    const uniquePayments = filterUnique(payments, "payment_stream").filter( s => s != "sales" && s != "costs");
+    const uniquePayments = filterUnique(payments, "payment_stream");
+
+    uniqueYears.reverse()
 
     for (const ustream of uniquePayments) {
 
         const row: string[] = [];
-        const report = data[dataGroup].find( (s) => s.payment_stream === ustream && s.aggregated == true);
+        const report = data[dataGroup].find( (s) => s.payment_stream === ustream);
         if (report != undefined) row.push(this.page.main.params.language == 'en' ? report.name_en : report.name_nl);
 
         for (const year of uniqueYears) { 
 
-            const items = data[dataGroup].filter( (s) => s.payment_stream === ustream && s.year == parseInt(year.toString()) && s.aggregated == true);
+            const items = data[dataGroup].filter( (s) => s.payment_stream === ustream && s.year == parseInt(year.toString()));
             const value = items.reduce( (acc,s) => acc + s.payments_companies,0);  
             row.push(items.length > 0 ?  convertToCurrencyInTable(value) : "-")
         }
@@ -117,11 +119,9 @@ export class RevenueBarsGroupV1 extends GroupControllerV1 {
         rows
     };
 
-     
-
     for (let payment_type of uniquePayments) {
         
-        const p = data.payments.find( p => p.payment_stream == payment_type);
+        const p = data[dataGroup].find( p => p.payment_stream == payment_type);
 
         if (p != undefined) {
 
@@ -133,12 +133,9 @@ export class RevenueBarsGroupV1 extends GroupControllerV1 {
                 code: p.code
             })
         }
-        
     }
 
     definitions.sort( (a: Definition, b : Definition) => a.name.localeCompare(b.name));
-
-  
 
     return {
         

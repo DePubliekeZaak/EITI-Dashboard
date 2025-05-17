@@ -15,8 +15,8 @@ export interface IDashboardController {
     data: IDataService,
     nav: INavService;
     htmlContainer: HTMLScriptElement,
-    close_btn: HTMLElement,
     open_btn: HTMLElement,
+    close_btn: HTMLElement,
     _reloadHtml: () => void;
     call(segment: string, update: boolean);
     switch: (topic: string, segment: string) => boolean;
@@ -122,9 +122,22 @@ export class DashboardController implements IDashboardController {
     
         [].slice.call(document.getElementsByTagName("aside")).forEach( (a) => a.remove());
         [].slice.call(document.getElementsByTagName("nav")).forEach( (a) => a.remove());
+
+        const menu = this.nav.create();
+
+        if(window.innerWidth < breakpoints.lg) {
+
+            const nav = document.getElementById("mobile-menu");
+            nav.appendChild(menu);
+
+        } else {
     
-        let aside = createSideBar(this.htmlContainer);
-        aside.insertBefore(this.nav.create(), aside.childNodes[0]);
+            let aside = createSideBar(this.htmlContainer);
+            aside.insertBefore(menu, aside.childNodes[0]);
+
+        }
+
+
         this.nav.update();
 
         companyTitle(this);
@@ -153,8 +166,8 @@ export class DashboardController implements IDashboardController {
 
     _armMenuButton() {
 
-        this.close_btn = document.getElementById('mobile-menu-item-close')
         this.open_btn = document.getElementById('mobile-menu-item-open')
+        this.close_btn = document.getElementById('mobile-menu-item-close')
 
         this.open_btn.addEventListener( ("click"), () =>  {
             this._openMenu();
@@ -163,23 +176,46 @@ export class DashboardController implements IDashboardController {
         this.close_btn.addEventListener( ("click"), () =>  {
             this._closeMenu();
         })
-    }
 
-    _closeMenu() {
-
-        closeMenu();
-        if (window.innerWidth < breakpoints.lg) {
-            this.close_btn.style.display = 'none'; 
-            this.open_btn.style.display = 'block';
-        }
+      
     }
 
     _openMenu() {
 
-        openMenu();
-        if (window.innerWidth < breakpoints.lg) {
-            this.close_btn.style.display = 'block';
-            this.open_btn.style.display = 'none';
-        }
+        const ariaExpanded = this.open_btn.querySelector('button').getAttribute('aria-expanded');
+        const isExpanded = ariaExpanded === 'true';
+        // this.open_btn.classList.toggle('close');
+        console.log(1)
+
+        if (!isExpanded) {
+            console.log(2)
+            openMenu();
+        } // else {
+        //     closeMenu(); 
+        // }
+        this.open_btn.querySelector('button').setAttribute('aria-expanded', !isExpanded);
+        this.close_btn.querySelector('button').setAttribute('aria-expanded', !isExpanded);
+        this.close_btn.style.display = "flex";
+        this.open_btn.style.display = "none";
     }
+
+    _closeMenu() {
+
+        const ariaExpanded = this.close_btn.querySelector('button').getAttribute('aria-expanded');
+        const isExpanded = ariaExpanded === 'true';
+
+        // this.close_btn.classList.toggle('close');
+
+        if (!isExpanded) {
+            // openMenu();
+        } else {
+            closeMenu(); 
+        }
+        this.open_btn.querySelector('button').setAttribute('aria-expanded', !isExpanded);
+        this.close_btn.querySelector('button').setAttribute('aria-expanded', !isExpanded);
+        this.open_btn.style.display = "flex";
+        this.close_btn.style.display = "none";
+    }
+
+  
 }

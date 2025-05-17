@@ -25,8 +25,8 @@ const config : IGroupMappingV2[] = [
         "functionality": ['yearSelect','table','definitions','download'],
         "description": "<p>De deelnemende aardgas-, aardolie- en zoutbedrijven geven op vrijwillige basis inzicht in de betaalstromen tussen deze bedrijven en de Nederlandse overheid. Daar waar mogelijk ziet u de bedragen per individuele vergunning. Een externe accountant heeft gecontroleerd of de cijfers van de overheid en de bedrijven overeenkomen, volgens de vereisten van de EITI-Standaard.</p>",
         "description_en": "<p>The participating natural gas, oil and salt companies voluntarily provide insight into the payment flows between these companies and the Dutch government. Where possible you will see the amounts per individual permit. An external accountant has checked whether the government and company figures correspond, according to the requirements of the EITI Standard.   </p>",
-        "endpoints": ["payments"],
-        "segment": "2022",
+        "endpoints": ["payments_aggregated"],
+        "segment": "2023",
     },
     {
         "slug" : "type_betaalstromen_per_jaar",
@@ -52,8 +52,8 @@ const config : IGroupMappingV2[] = [
         "functionality": ['table','definitions','download'],
         "description": null,
         "description_en": null,
-        "endpoints": ["payments"],
-        "segment": "2022"
+        "endpoints": ["payments_aggregated"],
+        "segment": "2023"
     },
     {
         "slug" : "betalingen_bedrijven",
@@ -81,7 +81,7 @@ const config : IGroupMappingV2[] = [
         "description": null,
         "description_en": null,
         "endpoints": ["reconciliation"],
-        "segment": "2022",
+        "segment": "2023",
     },
     {
         "slug" : "inkomsten_overheid_types",
@@ -107,8 +107,8 @@ const config : IGroupMappingV2[] = [
         "functionality": ['yearSelect','table','definitions','download'],
         "description": null,
         "description_en": null,
-        "endpoints": ["payments"],
-        "segment": "2022",
+        "endpoints": ["payments_aggregated"],
+        "segment": "2023",
     },
     // {
     //     "slug" : "projects_map_group",

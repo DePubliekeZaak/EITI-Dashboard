@@ -189,6 +189,12 @@ export class HtmlFilters {
 
                         this.companySelector = new HtmlCompanySelector(li,this.ctrlr.slug);
                         const selectEl3 = this.companySelector.draw();
+
+                        selectEl3.addEventListener("change", () => {
+                            if ( selectEl3.value != self.ctrlr.segment) {
+                                self.ctrlr.update({}, selectEl3.value, true);
+                            }
+                        });
             
                     break;
             }
@@ -212,7 +218,7 @@ export class HtmlFilters {
             .filter( (e) => e.type === 'company' && e.slug != 'ebn')
             .sort( (a: EitiEntity, b: EitiEntity) =>  a.name.localeCompare(b.name));
 
-            const el = this.companySelector.redraw(this.segment, companies);
+            const el = this.companySelector.redraw(self.ctrlr.segment, companies);
 
             el.addEventListener("change", () => {
 

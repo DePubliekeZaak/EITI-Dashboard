@@ -1,6 +1,7 @@
 import { convertToCurrency } from '@local/d3-services';
 import { bePositive, convertToMillions } from '@local/d3-services/_helpers';
 import * as _ from "lodash";
+import { colours } from '@local/styleguide';
 
 export class ChartCircleGroupsV2 {
 
@@ -86,15 +87,15 @@ export class ChartCircleGroupsV2 {
 
         this.circles = this.circleWrapper
             .filter( d => d.label !== "netto")
-            .filter( d => d.value > 500000)
+            .filter( d => d.value !== 0)
             .append("circle")
             .attr("class","circle")
-            .style("stroke", (d) => d.colour[0])
-            .style("fill", (d) => d.colour[1]);
+            .style("stroke", (d) =>  (d.value > 0) ? d.colour[0] : colours.gray[0])
+            .style("fill", (d) => (d.value > 0) ? d.colour[1] : colours.gray[1])
 
         this.circlesText = this.circleWrapper
             .filter( d => d.label !== "netto")
-            .filter( d => d.value > 0)
+            .filter( d => d.value !== 0)
             .append("text")
             .attr("class","small-label")
             .attr("text-anchor","middle")
@@ -201,17 +202,18 @@ export class ChartCircleGroupsV2 {
 
             this.circles
                 .attr("r", (d) => {
-                    return this.ctrlr.scales.r.fn(d.value)
+                    return this.ctrlr.scales.r.fn(d.value > 0 ? d.value : -d.value);
                 })
                 
                 .on("mouseover", function(event: any, d: any) {
 
                     self.circles
                         .style("fill", (dd: any) => {
-                            return dd.colour[2]
+
+                            return (dd.value > 0) ? dd.colour[2] : colours.gray[1];
                         })
                         .style("stroke", (dd: any) => {
-                            return dd.colour[2]
+                            return (dd.value > 0) ? dd.colour[2] : colours.gray[2];
                         });
 
                     window.d3.select(event.target)
@@ -263,7 +265,7 @@ export class ChartCircleGroupsV2 {
 
         const direction = this.ctrlr.scales.x.config.direction;
 
-        self.center 
+        // self.center 
   
         this.circleWrapper
             .attr("transform", (d,i) => {
@@ -272,6 +274,8 @@ export class ChartCircleGroupsV2 {
 
 
                         const offset = 0; // (d.label == 'sales') ? -100 : 100 
+
+                        // console.log(d.x, d.y)
 
                         return "translate("  + (offset + (self.ctrlr.dimensions.width / 2 ) - d.x) + "," + (d.y ) + ")" 
                     } 

@@ -139,10 +139,8 @@ export class ChartCircles {
             .attr("pointer-events","none")
             .html( (d) => { 
 
-
-                
-                return "&euro;" + thousands(Math.round(d.value)) 
-            });
+            return "&euro;" + thousands(Math.round(d.value)) 
+        });
     }
 
     forceDirect() {

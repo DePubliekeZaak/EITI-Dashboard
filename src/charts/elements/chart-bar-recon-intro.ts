@@ -174,7 +174,7 @@ export class ChartBarReconIntroV1 implements ChartElement {
                 let y: number;
 
                 if (d  == "outcome") {
-                    x =  window.innerWidth < breakpoints.xsm ? self.ctrlr.scales.x.fn((data[0].value)) + 3 : self.ctrlr.scales.x.fn((data[0].value)) - barHeight;
+                    x =  window.innerWidth < breakpoints.xsm ? self.ctrlr.scales.x.fn((data[0].value)) + 3 : self.ctrlr.scales.x.fn((data[0].value)) - barHeight + 20;
                     y = self.ctrlr.scales.y.fn(slugify(data[0].label))
                 } else {
                     x = d == "company" ? this.ctrlr.dimensions.width + 40 : this.ctrlr.dimensions.width + 100;

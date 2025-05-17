@@ -29,6 +29,8 @@ export class HtmlLegendCustom {
         legend.style.flexDirection = window.innerWidth < breakpoints.md ? 'column' : 'row';
         legend.style.justifyContent = 'flex-start';
         legend.style.alignItems = 'flex-start';
+        legend.style.flexWrap = 'wrap';
+      
 
         entities.forEach( (entity: any,i:  number) => {
 
@@ -55,6 +57,7 @@ export class HtmlLegendCustom {
         item.style.flexDirection = 'row';
         item.style.alignItems = 'flex-start';
         item.style.marginRight = (window.innerWidth > breakpoints.md) ? '1rem' : '.5rem';
+        item.style.marginBottom = '1rem';
 
         return item;
     }

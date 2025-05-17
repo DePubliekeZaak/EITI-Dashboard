@@ -73,11 +73,12 @@ export  class UboCardsV1 extends GraphControllerV3  {
     }
 
     async draw(data: any) {
+        
         this.cards.draw(data.graph);
 
         const extra_header = document.createElement("h3");
         extra_header.innerText = this.page.main.params.language == 'en' ? "Other members:" : "Overige leden:"
-
+        extra_header.style.marginBottom = "2rem"
         if (this.element != null) {
             const el = this.element.querySelector(".graph-view")
             if (el!= null) el.appendChild(extra_header);
@@ -95,6 +96,16 @@ export  class UboCardsV1 extends GraphControllerV3  {
 
     
     async update(data: EitiData, segment: string, update: boolean, range?: number[]) {
+
+
+        const container = document.querySelector(".graph-view");
+        console.log("1");
+        if (container != undefined) {
+            console.log("2");
+            container.innerHTML = "";
+        }
+
+
        await super._update(data,segment,update, range);
     } 
 }

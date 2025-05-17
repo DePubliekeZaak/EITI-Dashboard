@@ -9,22 +9,29 @@ export class HtmlYearSelector {
        
     }
 
-    draw(segment, groupSlug: string) {
-
-        // console.log(this.id);
+    draw(segment, groupSlug: string, language: string) {
 
         let selectEl = document.getElementById(this.id);
 
         if(selectEl) { selectEl.parentNode.removeChild(selectEl) }
 
+        let label = document.createElement('label');
+        label.id = this.id + '_label';
+        label.innerText = language = 'en' ? "years" : "jaren";
+        label.style.display = "block";
+        label.style.width = "0";
+        label.style.overflow = "hidden";
+        label.setAttribute("for", this.id + "_select")
+
         let dropdown = document.createElement('select');
-        dropdown.id = this.id;
+        dropdown.id = this.id + "_select";
         dropdown.name= "jaren";
         dropdown.style.alignSelf = 'flex-start';
-        dropdown.setAttribute('aria-describedby', this.id)
+        dropdown.setAttribute('aria-describedby', this.id + '_label');
 
+        const years = (this.id == "ubo_register") ? [2023, 2022] : [2023,2022,2021,2020,2019,2018];
 
-        for ( let year of [2022,2021,2020,2019,2018]) {
+        for ( let year of years) {
 
             let option = document.createElement('option');
             option.label = year.toString();
@@ -38,6 +45,7 @@ export class HtmlYearSelector {
             
         }
 
+        this.element.appendChild(label)
         this.element.appendChild(dropdown)   // insertBefore(dropdown,headerElement.nextSibling);
 
         return dropdown;

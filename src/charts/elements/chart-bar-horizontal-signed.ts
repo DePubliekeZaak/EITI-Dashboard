@@ -12,10 +12,11 @@ interface ChartElement {
     redraw: (data: Bars) => void
 }
 
-export class ChartBarsHorizontal implements ChartElement {
+export class ChartBarsHorizontalSigned implements ChartElement {
 
     bars;
     barLabels;
+    zeroLine;
 
     constructor(
         public ctrlr,
@@ -23,12 +24,21 @@ export class ChartBarsHorizontal implements ChartElement {
 
     draw(data: Bars) {
 
+        this.zeroLine = this.ctrlr.svg.layers.data
+        .append('rect')
+        .attr('height', 1) 
+        .attr('fill','black')
+
         this.bars = this.ctrlr.svg.layers.data.selectAll(".bar")
             .data(data)
             .join("rect")
             .attr("class","bar")
-            .attr("fill", (d,i) => colours[d.colour][1])
-            .attr("stroke", (d,i) => colours[d.colour][0])
+            .attr("fill", (d,i) => {
+                return d.value >= 0 ? colours['green'][1] : colours['orange'][1]
+            })
+            .attr("stroke", (d,i) => {
+                return d.value >= 0 ? colours['green'][0] : colours['orange'][0]
+            })
         ;
 
         this.barLabels = this.ctrlr.svg.layers.data.selectAll(".barLabel")
@@ -41,11 +51,19 @@ export class ChartBarsHorizontal implements ChartElement {
             })
             .style("text-anchor", "middle")
             ;
-    }
+
+      
+    } 
 
     redraw(data: Bars) {
 
         let self = this;
+
+        this.zeroLine
+            .attr('y', (d) => {
+                return self.ctrlr.scales.y.fn(0) 
+            })
+            .attr('width', self.ctrlr.dimensions.width)
 
         this.bars
             .attr("x", (d,i) => self.ctrlr.scales.x.fn(d.label))

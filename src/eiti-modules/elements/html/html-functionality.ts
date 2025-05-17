@@ -63,7 +63,7 @@ export class HtmlFunctionality {
                 case 'yearSelect':
 
                         this.selector = new HtmlYearSelector(li,this.mapping.slug);
-                        selectEl = this.selector.draw(this.segment);
+                        selectEl = this.selector.draw(this.segment, this.ctrlr.main.language);
 
                         selectEl.addEventListener("change", () => {
                             if( selectEl.value != self.ctrlr.segment) {

@@ -58,14 +58,8 @@ export class ReconciliatieYearGroupV2 extends GroupControllerV1 { //extends Grap
                 return bePositive(b[this.segment]) - bePositive(a[this.segment])
            })
 
-
-
            grouped.push(reports.slice(0,4));
         }
-
-        console.log(grouped);
-
-        // table
 
         const rows : any[] = [];
 
@@ -89,6 +83,7 @@ export class ReconciliatieYearGroupV2 extends GroupControllerV1 { //extends Grap
             rows
         };
        
+        grouped.reverse()
 
        return {
             grouped,

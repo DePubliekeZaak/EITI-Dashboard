@@ -1,7 +1,7 @@
 
 import { breakpoints, colours } from '@local/styleguide';
 import { DataObject, EitiData } from '../../shared/types';
-import { GraphControllerV3 } from '../../../charts/core/graph-v3';
+import { GraphControllerV3 } from '../../../../../regenton/svelte/src/lib/datavis/core/graph-v3';
 import { IPageController } from '../../shared/page.controller';
 import { GroupObject, IGraphMappingV2 } from '../../shared/interfaces';
 import { elements } from '../../../charts';
@@ -165,6 +165,8 @@ export  class RevenueTypeSankeyV1 extends GraphControllerV3  {
     // }
 
     prepareData(data: DataObject) : DataObject {
+
+        // console.log(data);
 
         data.nodes = [];
         data.links = [];

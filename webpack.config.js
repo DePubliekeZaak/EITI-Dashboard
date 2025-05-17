@@ -98,7 +98,7 @@ const config = (env) =>  {
     },
     devServer: {
       open:false,
-      port: 3333,
+      port: 3339,
       hot: true,
       historyApiFallback: {
         index: 'index.html'

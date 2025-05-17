@@ -65,7 +65,7 @@
   "scripts": {
     "build:prod": "webpack --env ENV=prod DOMAIN=https://dataportaal.eiti.nl APIBASE=/api/",
     "build:dev": "webpack --env ENV=prod DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/api/",
-    "serve": "webpack serve --env ENV=dev DOMAIN=https://dataportaal.eiti.nl APIBASE=/api/"
+    "serve": "webpack serve --env ENV=dev DOMAIN=https://eiti.de-publieke-zaak.nl APIBASE=/api/"
   },
   "sideEffects": false
 }

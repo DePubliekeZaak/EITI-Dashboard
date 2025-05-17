@@ -11,7 +11,6 @@ import { HTMLSource } from '../../shared/html/html-source';
 
 export class EbnBarGroupV1 extends GroupControllerV1 {
 
-
     scatter;
     funcList;
     htmlHeader;
@@ -60,8 +59,8 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
         const ebnData = data[dataGroup].filter ( 
             (s) => 
             ["sales","costs","corporate_income_tax","dividends","mor"].indexOf(s.payment_stream) > -1
-            && !(s.origin === 'nam' && s.project != "aggregated")
-            && !(s.recipient === 'nam' && s.project != "aggregated")
+            && !(s.origin === 'nam' && s.project == "aggregated") // filter nam groningen geaggreerd eruit
+            && !(s.recipient === 'nam' && s.project == "aggregated") 
         );
 
         for (const year of uniqueYears) { 
@@ -70,17 +69,21 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
 
             const yearData = ebnData.filter( s => s.year  === year );
 
-
             const outgoingPayments = yearData.filter( p  =>  
                 p.origin == 'ebn' 
                 && ['costs','corporate_income_tax','dividends','mor'].indexOf(p.payment_stream) > -1 
                 && !p.aggregated
+                && !(p.recipient === 'nam' && p.project == "aggregated") 
             );
 
-       
+            const incomingPayments = yearData.filter( p  =>  
+                p.recipient == 'ebn' 
+                && ['sales'].indexOf(p.payment_stream) > -1 
+                && !p.aggregated
+            );
 
-            const sumIncoming = 1000 * 1000 / 10 * Math.round(10 * yearData
-                .filter( p  => p.payment_stream == 'sales' )
+            const sumIncoming = 1000 * 1000 / 10 * Math.round(10 * incomingPayments
+                // .filter( p  => p.payment_stream == 'sales' )
                 .map( p => p.payments_companies) 
                 .reduce((sum, p) => sum + p, 0));
 
@@ -106,8 +109,6 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
 
                 const streams = outgoingPayments.filter( (s) => s.payment_stream === ustream);
                 const cum_value = streams.reduce( (acc: number,s) => acc + s.payments_companies, 0);
-
-            
 
                 if(cum_value > 0) {
 
@@ -146,6 +147,51 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
 
         for (const year of uniqueYears) {
 
+            const yearData = ebnData.filter( s => s.year  === year );
+            const costs = yearData.filter( p  =>  
+                p.origin == 'ebn' 
+                && ['costs'].indexOf(p.payment_stream) > -1 
+                && !p.aggregated
+                && !(p.recipient === 'nam' && p.project == "aggregated") 
+            );
+
+            const costs_value = 1000 * 1000 / 10 * Math.round(10 * costs
+                .map( p => p.payments_companies) 
+                .reduce((sum, p) => sum + p, 0));
+
+            const corporate_income_tax = yearData.filter( p  =>  
+                p.origin == 'ebn' 
+                && ['corporate_income_tax'].indexOf(p.payment_stream) > -1 
+                && !p.aggregated
+                && !(p.recipient === 'nam' && p.project == "aggregated") 
+            );
+
+            const corporate_income_tax_value = 1000 * 1000 / 10 * Math.round(10 * corporate_income_tax
+                .map( p => p.payments_companies) 
+                .reduce((sum, p) => sum + p, 0));
+
+            const dividends = yearData.filter( p  =>  
+                p.origin == 'ebn' 
+                && ['dividends'].indexOf(p.payment_stream) > -1 
+                && !p.aggregated
+                && !(p.recipient === 'nam' && p.project == "aggregated") 
+            );
+
+            const dividends_value = 1000 * 1000 / 10 * Math.round(10 * dividends
+                .map( p => p.payments_companies) 
+                .reduce((sum, p) => sum + p, 0));
+
+            const mor = yearData.filter( p  =>  
+                p.origin == 'ebn' 
+                && ['mor'].indexOf(p.payment_stream) > -1 
+                && !p.aggregated
+                && !(p.recipient === 'nam' && p.project == "aggregated") 
+            );
+
+            const mor_value = 1000 * 1000 / 10 * Math.round(10 * mor
+                .map( p => p.payments_companies) 
+                .reduce((sum, p) => sum + p, 0));
+
             const row : string[] = [];
             row.push(year.toString());
 
@@ -160,13 +206,19 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
                 )
             )
 
+            row.push(convertToCurrencyInTable(costs_value));
+            row.push(convertToCurrencyInTable(corporate_income_tax_value));
+            row.push(convertToCurrencyInTable(dividends_value));
+            row.push(convertToCurrencyInTable(mor_value));
+        
+
             const n = netto.find( (bar) => bar.label == year.toString());
             if (n != undefined) row.push(convertToCurrencyInTable(n.value));
 
             rows.push(row);
         }
 
-        const headers = this.page.main.params.language == 'en' ? ["Year","Incoming","Outgoing","Net"] : ["Jaar","Inkomende kasstromen","Uitgaande kasstromen","Netto kasstroom"];
+        const headers = this.page.main.params.language == 'en' ? ["Year","Incoming","Outgoing","Payments for production cost","Corporate income tax","Dividends","Extra Income Scheme (MOR)","Net"] : ["Jaar","Inkomende kasstromen","Uitgaande kasstromen","Betalingen voor kosten capex en vergunningen","Vennootschapsbelasting","Dividenden","Meeropbrengstenregeling","Netto kasstroom"];
 
         const table = {
 
@@ -174,7 +226,6 @@ export class EbnBarGroupV1 extends GroupControllerV1 {
             rows
         };
 
-        console.log(outgoing.filter( p =>p.year == 2022));
      
        return {
            

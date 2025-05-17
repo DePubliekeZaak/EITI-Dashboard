@@ -1,23 +1,23 @@
 aside {
 
-    display: none;
-    position: fixed;
-    overflow: auto;
-    order: 1;
-    left: 0;
-    width: 100vw;
-    height: calc(100% - 16.5rem);
+    // display: none;
+    // position: fixed;
+    // overflow: auto;
+    // order: 1;
+    // left: 0;
+    // width: 100vw;
+    // height: calc(100% - 16.5rem);
 
-    &.is_open {
-      display: block;
-      z-index: 99;
-      color: #fff;
-    }
+    // &.is_open {
+    //   display: block;
+    //   z-index: 99;
+    //   color: #fff;
+    // }
 
-    padding: 2rem 1rem 6rem 1.5rem;
-    background: $eiti-midblue;
-    margin: auto;
-    margin-top: 1rem;
+    // padding: 2rem 1rem 6rem 1.5rem;
+    // background: $eiti-midblue;
+    // margin: auto;
+    // margin-top: 1rem;
 
     @media (min-width: $breakpoint-bax) {
         padding: 2rem 1rem 6rem 1rem;
@@ -36,6 +36,33 @@ aside {
     
   }
 
+nav {
+
+    @media (max-width: $breakpoint-lg) {
+        display: none;
+        position: fixed;
+        overflow: auto;
+        order: 1;
+        top: 10.15rem;
+        left: 0;
+        width: calc(100vw - 2.5rem);
+        height: calc(100% - 16.5rem);
+        padding: 2rem 1rem 6rem 1.5rem;
+        background: $eiti-midblue;
+        margin: auto;
+        margin-top: 1rem;
+    }
+
+    &.is_open {
+   
+      display: flex;
+      z-index: 99;
+      color: #fff;
+    }
+
+   
+}
+
 ul.dashboard_nav {
 
     display: flex;
@@ -46,6 +73,11 @@ ul.dashboard_nav {
         padding: 0 0 0 0.75rem;
         display: inline-block;
 
+        @media (max-width: $breakpoint-lg) {
+            color: white;
+        }
+
+
         &:not([data-slug="company"]):hover {
 
             background: $eiti-midblue;
@@ -55,6 +87,7 @@ ul.dashboard_nav {
         &.active {
             background: $lightBlue-light;
             color: $eiti-darkblue;
+
         }
 
         a {

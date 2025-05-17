@@ -34,7 +34,7 @@ export class BallenbakSimulationV2 {
             .force("collide")
                 .strength(forceStrength)
                 .radius((d : Circle) => {
-                    return self.ctrlr.scales.r.fn(d.value)
+                    return self.ctrlr.scales.r.fn(d.value > 0 ? d.value : -d.value)
                 });
 
         this.s 
@@ -63,7 +63,7 @@ export class BallenbakSimulationV2 {
             
         this.s    
             .force("collide")
-                .radius((d : any) => this.ctrlr.scales.r.fn(d.value) + 2);
+                .radius((d : any) => this.ctrlr.scales.r.fn(d.value > 0 ? d.value : -d.value) + 2);
 
         this.s.alphaTarget(.3).restart;
     }

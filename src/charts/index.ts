@@ -1,8 +1,9 @@
-import { GraphControllerV3 } from './core/graph-v3';
+import { GraphControllerV3 } from '../../../regenton/svelte/src/lib/datavis/core/graph-v3';
 
 import { ChartBars } from './elements/chart-bar';
 import { ChartCircles } from './elements/chart-circles';
 import { ChartBarsHorizontal } from './elements/chart-bar-horizontal';
+import { ChartBarsHorizontalSigned } from './elements/chart-bar-horizontal-signed';
 import { ChartBarProgression } from './elements/chart-bar-progression';
 import { ChartSankeyV1 } from './elements/chart-sankey-v1';
 import { ChartMapV2 } from './elements/chart-map-v2';
@@ -37,6 +38,7 @@ export const elements = {
     AxisArrow,
     ChartBarBells,
     ChartBarsHorizontal,
+    ChartBarsHorizontalSigned,
     ChartBarReconIntroV1,
     ChartBarReconciliationV2,
     ChartBarReconciliationV3,

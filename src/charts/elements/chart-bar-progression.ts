@@ -19,6 +19,7 @@ export class ChartBarProgression   {
     bars;
     barLabels;
     tooltipArray: string[] = [];
+    tooltip;
 
     constructor(
         private ctrlr
@@ -54,6 +55,7 @@ export class ChartBarProgression   {
     redraw(dimensions: Dimensions) {
 
         let self = this;
+        self.tooltip = window.d3.select('.tooltip');
 
         // console.log(this.ctrlr.scales.y.range());
         // console.log(this.ctrlr.scales.y.domain());
@@ -102,6 +104,39 @@ export class ChartBarProgression   {
             
             .attr('opacity', 1)
 
+        let popup = function popup(d) {
+
+                console.log(d);
+            
+                let html = `<div>
+                    <div>${d.label}</div>
+                    ${convertToCurrency(d.dy)}
+                
+                </div>`
+
+                return html;
+
+        }
+
+        this.bars
+            .on("mouseover", function(event: any, d: any) {
+
+                self.tooltip
+                    .html(popup(d))
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY) + "px")
+                    .transition()
+                    .duration(250)
+                    .style("opacity", 1);
+            })
+            .on("mouseout", function(d) {
+
+              
+                self.tooltip
+                    .transition()
+                    .duration(250)
+                    .style("opacity", 0);
+            })
     }
 }
 

@@ -29,7 +29,7 @@ export const navItems = [
         label: 'Mijnbouwsector Nederland',
         label_en: "Dutch mining sector",
         title: 'Mijnbouwsector Nederland',
-        title_en: 'Size mining sector in the Netherlands'
+        title_en: 'Mining sector in the Netherlands'
     },
     {
         slug: 'ubo',

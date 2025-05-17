@@ -150,6 +150,10 @@ export class RevenueBarsV1 extends core.GraphControllerV3  {
             {
                 label: this.page.main.params.language == 'en' ? "State Share" : "Staatsaandeel",
                 colour: "brown"
+            },
+            {
+                label: this.page.main.params.language == 'en' ? "Solidarity Contribution" : "Solidariteitsbijdrage",
+                colour: "violet"
             }
     
         ])
@@ -161,7 +165,7 @@ export class RevenueBarsV1 extends core.GraphControllerV3  {
     async redraw(data: any, range: number[]) {
 
         this.scales.x.set(data.graph.map ( d => d.year));
-        this.scales.y.set(data.graph.map ( d => d.y));
+        this.scales.y.set(data.graph.map ( d => d.y + d.dy));
 
         await super.redraw(data.graph);
 

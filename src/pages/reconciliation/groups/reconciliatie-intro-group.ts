@@ -56,6 +56,8 @@ export class ReconciliatieIntroGroupV1 extends GroupControllerV1 {
   
         const keys = Object.keys(data[dataGroup][0]).filter( k => ["origin","entity_name","sector","type","year"].indexOf(k) < 0);
 
+        uniqueYears.reverse()
+
         for (const year of uniqueYears.filter( y => y != "all")) {
 
             // if (year != 2018) return;

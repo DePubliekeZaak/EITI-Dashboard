@@ -38,18 +38,18 @@ export class RevenueCirclesGroupV1 extends GroupControllerV1 {
 
    prepareData(data: EitiData) : any {
 
-        const dataGroup = "payments";
+        const dataGroup = "payments_aggregated";
         if (data[dataGroup] ==  undefined) return;
 
         const circles: Circles = [];
         const aggregatedStreams: any[] = [];
         const rows : string[][] = [];
 
-        const yearData = data[dataGroup].filter( (stream: EitiPayments) => stream.year === parseInt(this.segment) && ["sales","costs"].indexOf(stream.payment_stream) < 0 );
+        const yearData = data[dataGroup].filter( (stream: EitiPayments) => stream.year === parseInt(this.segment));
         
         for (const ustream of filterUnique( yearData, "payment_stream")) {
 
-            const streams = yearData.filter( (s) => s.payment_stream === ustream && s.aggregated == true);
+            const streams = yearData.filter( (s) => s.payment_stream === ustream);
 
             aggregatedStreams.push({
                 type: streams[0].payment_stream,
@@ -82,7 +82,7 @@ export class RevenueCirclesGroupV1 extends GroupControllerV1 {
 
         const payments = data[dataGroup].filter( p => p.name_nl != undefined);
 
-        const uniquePayments = filterUnique(payments, "payment_stream").filter( s => s != "sales" && s != "costs");
+        const uniquePayments = filterUnique(payments, "payment_stream");
 
         for (const ustream of uniquePayments) {
 
@@ -92,7 +92,7 @@ export class RevenueCirclesGroupV1 extends GroupControllerV1 {
 
             for (const year of uniqueYears) { 
                
-                const items = data[dataGroup].filter( (s) => s.payment_stream === ustream && s.year == parseInt(year.toString()) && s.aggregated == true);
+                const items = data[dataGroup].filter( (s) => s.payment_stream === ustream && s.year == parseInt(year.toString()));
                 const value = items.reduce( (acc,s) => acc + s.payments_companies,0);  
                 row.push(items.length > 0 ?  convertToCurrencyInTable(value) : "-")
             }
@@ -107,8 +107,6 @@ export class RevenueCirclesGroupV1 extends GroupControllerV1 {
 
         const headers = this.page.main.params.language == 'en' ? ["Payment stream"] : ["Betaalstroom"];
 
-        
-
         const table = {
             headers:  headers.concat(uniqueYears.map( y => y.toString())),
             rows
@@ -118,7 +116,7 @@ export class RevenueCirclesGroupV1 extends GroupControllerV1 {
 
         for (let payment_type of uniquePayments) {
             
-            const p = data.payments.find( p => p.payment_stream == payment_type);
+            const p = data[dataGroup].find( p => p.payment_stream == payment_type);
 
             if (p != undefined) {
 

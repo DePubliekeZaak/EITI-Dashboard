@@ -66,10 +66,8 @@ export  class EbnCircleGroupV2 extends GroupControllerV1 {
 
        const items =  []; 
 
-
        for (const year of grouped) {
-
-
+        
             const nam = [];
             const participants = []; 
             for (const company of filterUnique(data[dataGroup],"origin")) {
@@ -91,6 +89,10 @@ export  class EbnCircleGroupV2 extends GroupControllerV1 {
                 }
             }
        }
+
+       grouped.sort((a,b) => {
+            return b[0].year - a[0].year
+       });
 
        const headers = this.page.main.params.language == 'en' ? ["Year","Company","Receipts","Payments"] : ["Jaar","Bedrijf","Ontvangsten","Betalingen"];
 

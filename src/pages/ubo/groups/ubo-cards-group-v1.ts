@@ -34,7 +34,8 @@ export class UboCardsGroupV1 extends GroupControllerV1  {
 
         const circles = [];
         const dataGroup = this.config.endpoints[0].toString();
-        const members_with_ubo = data[dataGroup].filter( (entity: EitiEntity) =>  entity.member && entity.trade_name !== null);
+        const members = data[dataGroup].filter( m => m.year == this.segment)
+        const members_with_ubo = members.filter( (entity: EitiEntity) =>  entity.member && entity.trade_name !== null);
         const other_members = data[dataGroup].filter( (entity: EitiEntity) =>  entity.member && entity.trade_name == null);
         /// TABLE DATA 
 

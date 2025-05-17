@@ -34,19 +34,19 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
 
    prepareData(data: EitiData) : any {
 
-   
-
-        const dataGroup = "payments";
+        const dataGroup = "payments_aggregated";
         if(data[dataGroup] == undefined) return;
 
-        const filteredData: EitiPayments[] = data[dataGroup].filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies > 0 && r.aggregated);
-        const filteredData_n: EitiPayments[] = data[dataGroup].filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies < 0 && r.aggregated);
+        const filteredData: EitiPayments[] = data[dataGroup].filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies > 0);
+        const filteredData_n: EitiPayments[] = data[dataGroup].filter( (r: EitiPayments) => r.year == parseInt(this.segment) && r.payments_companies < 0);
         const uniqueOrigins: string[] = [];
         const uniqueRecipients: string[] = [];
         const uniqueStreams: string[] = [];
         const uniqueOrigins_n: string[] = [];
         const uniqueRecipients_n: string[] = [];
         const uniqueStreams_n: string[] = [];
+
+        // console.log(filteredData)
 
         for (const report of filteredData) {
             if(uniqueOrigins.indexOf(report.origin) < 0) {
@@ -91,7 +91,7 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
 
         for (const o of uniqueOrigins) {
 
-            const a = data[dataGroup].filter( (s) => s["aggregated"] && s[rowSlug] === o && s.year === year);
+            const a = data[dataGroup].filter( (s) => s[rowSlug] === o && s.year === year);
 
             for (const s of a) {
 
@@ -123,7 +123,7 @@ export class RevenueTypeSankeyGroupV1 extends GroupControllerV1 {
 
     for (let payment_type of uniquePayments) {
         
-        const p = data.payments.find( p => p.payment_stream == payment_type);
+        const p = data[dataGroup].find( p => p.payment_stream == payment_type);
 
         if (p != undefined) {
 

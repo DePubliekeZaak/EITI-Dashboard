@@ -34,12 +34,21 @@
         display: inline-block;
         padding: .5rem 1rem;
         border-bottom: none;
+
+        &:focus {
+            background: $lightBlue-light;
+            color: black;
+            @include bold();
+        }
     }   
 
     a[aria-selected="true"] {
         @include bold();
         color: $eiti-darkblue;
+        background: $lightBlue-light;
         // border-color: black;
+
+       
     }
 }
 

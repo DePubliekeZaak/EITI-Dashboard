@@ -18,45 +18,38 @@
 <body id="development">
   <header>
     <div class="container">
-      <a href="#main" class="skip">Direct naar hoofdinhoud</a>
-      <a href="https://eiti.nl" target="_blank" style="text-decoration: none; border: none;">
-        <img width="300" height="124" src="./logo.svg" alt=Logo Extractive Industries Transparency Initiative The Netherlands, ga naar de startpagina van eiti.nl">
-      </a>
+        <div>
+          <a href="https://eiti.nl" target="_blank" style="text-decoration: none; border: none;">
+            <img id="beeldmerk" width="300" height="124" src="./logo.svg" alt="Logo Extractive Industries Transparency Initiative The Netherlands, ga naar de startpagina van eiti.nl">
+          </a>
+          <a href="#main" class="skip">Direct naar hoofdinhoud</a>
+        </div>
     </div>
     <div class="full-width">
       <ul id="nav" class="container">
-        <li id="mobile-menu-item-open">
-          <button id="hamburger" class="hamburger" aria-label="Toon Navigatie Menu" aria-expanded="false" tabindex="0">
-            <svg width="24px" height="24px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 12.32H22" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 18.32H22" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 6.32001H22" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </li>
-        <li id="mobile-menu-item-close">
-          <button id="closeNavMenu" class="closeBtn" aria-label="Hide Navigation Menu">
-            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 20L4 4.00003M20 4L4.00002 20" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </li>
+      
         <li id="menu-home-link"><a href="https://eiti.nl">Home</a> > <span>Dataportaal</span></li>
-
         <li>
           <ul id="language-selector">
             <li><button data-language="nl">Nederlands</button></li>
             <li><button data-language="en">English</button></li>
           </ul>
         </li>
+        <li id="mobile-menu-item-open"> 
+          <button id="hamburger" class="hamburger" aria-label="Toon Navigatie Menu" aria-expanded="false" tabindex="0">
+          <span class="text">Menu</span>
+          </button>
+        </li>
+        <li id="mobile-menu"></li>
+        <li id="mobile-menu-item-close"> 
+          <button id="hamburger" class="close" aria-label="Toon Navigatie Menu" aria-expanded="false" tabindex="0">
+          <span class="text">Menu</span>
+          </button>
+        </li>
       </ul>
     </div>
   </header>
   <main id="main"><div eiti-graph-preset="dashboard"></div></main>
-  <script src="./scripts/scaffold.bundle.js?v=10"></script>
+  <script src="./scripts/scaffold.bundle.js?v=19 "></script>
 </body>
-
-
-
-
 </html>

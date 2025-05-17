@@ -148,6 +148,98 @@
     }
     }
     },
+    "/payments_aggregated": {
+        "get": {
+        "tags": [
+        "payments"
+        ],
+        "parameters": [
+        {
+        "$ref": "#/parameters/rowFilter.payments.payment_stream"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.code"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.name_nl"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.def_nl"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.name_en"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.def_en"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.payments_companies"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.payments_companies_reported"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.year"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.origin"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.project"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.recipient"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.aggregated"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.origin_name"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.origin_sector"
+        },
+        {
+        "$ref": "#/parameters/rowFilter.payments.recipient_name"
+        },
+        {
+        "$ref": "#/parameters/select"
+        },
+        {
+        "$ref": "#/parameters/order"
+        },
+        {
+        "$ref": "#/parameters/range"
+        },
+        {
+        "$ref": "#/parameters/rangeUnit"
+        },
+        {
+        "$ref": "#/parameters/offset"
+        },
+        {
+        "$ref": "#/parameters/limit"
+        },
+        {
+        "$ref": "#/parameters/preferCount"
+        }
+        ],
+        "responses": {
+        "200": {
+        "description": "OK",
+        "schema": {
+        "items": {
+        "$ref": "#/definitions/payments"
+        },
+        "type": "array"
+        }
+        },
+        "206": {
+        "description": "Partial Content"
+        }
+        }
+        }
+    },
     "/payments": {
     "get": {
     "tags": [

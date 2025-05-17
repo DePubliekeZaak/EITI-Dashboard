@@ -86,7 +86,7 @@ export class ReconciliationCompanyGroupV2 extends GroupControllerV1 {
 
         const rows : any[] = [];
 
-        for (let c of myData) {
+        for (let c of formatReconData(data[dataGroup])) {
 
             rows.push([
                 c.entity_name, 

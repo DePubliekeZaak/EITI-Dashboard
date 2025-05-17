@@ -3,7 +3,7 @@ import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import { colours } from '@local/styleguide';
 import { slugify, thousands } from '../../pages/shared/_helpers';
 import { Sankey } from '../../pages/shared/types_graphs';
-import { Dimensions } from '../core/types';
+import { Dimensions } from '../../../../regenton/svelte/src/lib/datavis/core/types';
 
 
 export class ChartSankeyV1 {

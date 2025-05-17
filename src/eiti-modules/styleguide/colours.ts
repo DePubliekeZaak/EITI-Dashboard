@@ -102,7 +102,8 @@ export const paymentTypes = {
     'royalties' :  purple,
     'state_share' : brown,
     'costs': orange,
-    'sales': purple
+    'sales': purple,
+    'solidarity_contribution': violet
 }
 
 export const entities = {

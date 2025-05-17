@@ -24,7 +24,14 @@ export const switchLanguage = (ctrlr) => {
 
 export const setLanguageTag = (language: string) : void => {
 
+    const en = "Logo Extractive Industries Transparency Initiative The Netherlands. Return to the startpage.";
+
+    const nl = "Beeldmerk Extractive Industries Transparency Initiative The Netherlands, ga naar de startpagina van eiti.nl";
+
+    const desc = language = 'en' ? en : nl;
+
     document.querySelector('html').lang = language;
+    document.querySelector('img#beeldmerk').setAttribute('alt',desc)
 }
 
 export const armLanguageSelector = (ctrlr: IDashboardController) : void => {

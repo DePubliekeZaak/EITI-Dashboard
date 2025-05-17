@@ -13,7 +13,7 @@ export const styleParentElement = (): Element | null => {
         if(parentEl != undefined) {
             parentEl.classList.add('container');
             parentEl.style.display = 'flex';
-            parentEl.style.flexDirection = 'row-reverse';
+            parentEl.style.flexDirection = 'row';
             parentEl.style.justifyContent = 'flex-end';
             parentEl.style.alignItems = 'flex-start';   
         }
@@ -27,6 +27,7 @@ export const createSideBar = (container: HTMLElement): HTMLElement => {
     container.classList.add('has_sidebar');
     let aside = document.createElement('aside');
     aside.classList.add('selectors');
+    // console.log(container.parentElement);
     if (container.parentElement != null) container.parentElement.insertBefore(aside, document.querySelector("[eiti-graph-preset='dashboard']"));
     return aside;
 }

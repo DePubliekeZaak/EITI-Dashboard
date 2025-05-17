@@ -8,9 +8,13 @@ header {
     align-items: center;
 
     .skip {
-        position: absolute;
+        position: relative;
         width: 0;
         overflow: hidden;
+
+        &:focus {
+            width: auto;
+        }
     }
 
     > div:first-child {
@@ -21,7 +25,7 @@ header {
         justify-content: center;
         align-items: flex-start;
 
-        > a > img {
+        img#beeldmerk {
           
             margin-top: 0.75rem;
             margin-bottom: -0.75rem;
@@ -36,6 +40,12 @@ header {
             @media (min-width: $breakpoint-lg) {
                 margin-left: -0.25rem;
             }
+        }
+
+        > div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
     }
 
@@ -60,23 +70,62 @@ header {
         button {
             background: transparent;
             border: none;
+
+            span.text {
+                position: absolute !important;
+                height: 0;
+                width: 0;
+                overflow: hidden;
+                clip: rect(1px, 1px, 1px, 1px);
+                white-space: nowrap;
+            }
         }
 
-        li#mobile-menu-item-close {
-            display: none;
-        }
+        // li#mobile-menu-item-close {
+        //     display: none;
+        // }
 
-        li#mobile-menu-item-open, li#mobile-menu-item-close {
-            margin-right: auto;
-            margin-top: .875rem;
-            margin-left: .75rem;
+        li#mobile-menu-item-open {
+        //    margin-right: auto;
+            // margin-top: .875rem;
+            margin-right: .75rem;
+            background-image: url('../public/img/hamburger.svg');
+            background-size: contain; /* Ensure the icon scales correctly */
+            background-repeat: no-repeat; /* Prevent the icon from repeating */
+            background-position: center; /* Center the icon */
 
             @media(min-width: $breakpoint-lg) {
                 display: none;
             }
+
+            // &[aria-expanded="true"] {
+            //     display: none;
+            // }
         }
 
-        li {
+        // li#mobile-menu {
+        //     display: none;
+        // }
+
+        li#mobile-menu-item-close {
+
+                display: none;
+                margin-right: .75rem;
+                background-image: url('../public/img/close.svg');
+                background-size: contain; /* Ensure the icon scales correctly */
+                background-repeat: no-repeat; /* Prevent the icon from repeating */
+                background-position: center; /* Center the icon */
+
+                // &[aria-expanded="true"] {
+                //     display: flex;
+                // }
+    
+                @media(min-width: $breakpoint-lg) {
+                    display: none;
+                }
+            }
+
+        > li {
             color: black;
         }
     }
@@ -131,7 +180,10 @@ ul#language-selector {
         }
 
         &:last-child::after {
-            content: none;
+
+            @media (min-width: $breakpoint-lg) {
+                content: none;
+            }
         }
 
         button {

@@ -111,7 +111,7 @@ const config : IGroupMappingV2[] = [
             },
             {
                 "slug": "ebn_netto",
-                "ctrlr": "EbnSimpleBarsV1",
+                "ctrlr": "EbnSimpleBarsSignedV1",
                 "args" : ["netto"],
                 "parameters": [[
                     {
@@ -206,7 +206,7 @@ const config : IGroupMappingV2[] = [
         }],
         "header": "Per jaar",
         "header_en": "Pro year",
-        "functionality": [],
+        "functionality": ["table","download"],
         "description": null,
         "description_en": null,
         "endpoints": ["payments"],

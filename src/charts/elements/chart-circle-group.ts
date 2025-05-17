@@ -1,6 +1,7 @@
 import { convertToCurrency } from '@local/d3-services';
 import { bePositive, convertToMillions } from '@local/d3-services/_helpers';
-import * as _ from "lodash";
+import { colours } from '@local/styleguide';
+// import * as _ from "lodash";
 
 export class ChartCircleGroupsV1 {
 
@@ -85,15 +86,21 @@ export class ChartCircleGroupsV1 {
 
         this.circles = this.circleGroups
             .filter( d => d.label !== "netto")
-            .filter( d => d.value > 500000)
+            .filter( d => d.value !== 0)
             .append("circle")
             .attr("class","circle")
-            .style("stroke", (d) => d.colour[0])
-            .style("fill", (d) => d.colour[1]);
+            .style("stroke", (d) => {
+                
+                return d.value >= 0 ? d.colour[0] : colours.gray[0]
+            })
+            .style("fill", (d) => {
+                
+                return d.value >= 0 ? d.colour[1] : colours.gray[1]
+            });
 
         this.circlesText = this.circleGroups
             .filter( d => d.label !== "netto")
-            .filter( d => d.value > 0)
+            .filter( d => d.value !== 0)
             .append("text")
             .attr("class","small-label")
             .attr("text-anchor","middle")
@@ -116,8 +123,6 @@ export class ChartCircleGroupsV1 {
     }
 
     redraw(groupedData) {
-
-       
 
         let self = this;
 
@@ -168,8 +173,10 @@ export class ChartCircleGroupsV1 {
             });
 
             this.circles
-                .attr("r", (d) => this.ctrlr.scales.r.fn(d.value))
-                
+                .attr("r", (d) => {
+                    
+                    return  d.value >= 0 ? this.ctrlr.scales.r.fn(d.value) : this.ctrlr.scales.r.fn(-d.value)
+                })       
                 .on("mouseover", function(event: any, d: any) {
 
                     self.tooltip

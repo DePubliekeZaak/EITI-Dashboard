@@ -6,6 +6,7 @@ import { Bars } from "../../shared/types_graphs";
 import { GroupObject, IGraphMappingV2 } from "../../shared/interfaces";
 import { IPageController } from "../../shared/page.controller";
 import { HTMLSource } from "../../shared/html/html-source";
+import { HTMLYear } from "../../shared/html/html-year";
 
 export class ReconciliatieByYearV2 extends GraphControllerV3 {
 
@@ -20,7 +21,8 @@ export class ReconciliatieByYearV2 extends GraphControllerV3 {
     bottomAxis;
     leftAxis;
 
-    scrollingContainer
+    scrollingContainer;
+    yearHeader;
 
   
     constructor(
@@ -39,7 +41,7 @@ export class ReconciliatieByYearV2 extends GraphControllerV3 {
     pre() {
 
         this._addMargin(20,0,0,0);
-        this._addPadding(0,40,280,160);
+        this._addPadding(40,0,280,160);
 
         this._addScale('x','linear','horizontal','value');
         this._addScale('y','band','vertical-reverse','label');
@@ -56,6 +58,9 @@ export class ReconciliatieByYearV2 extends GraphControllerV3 {
         this.graphEl = super._html();
         this.graphEl.style.height = (window.innerWidth < breakpoints.sm) ? graphHeight + "px" : graphHeight + "px";
         this.graphEl.style.overflowX= "auto";
+        this.graphEl.style.position = "relative";
+        this.graphEl.style.marginTop = "3rem";
+        this.graphEl.style.marginBottom = "3rem";
 
 
         this.scrollingContainer = document.createElement('section');
@@ -66,7 +71,12 @@ export class ReconciliatieByYearV2 extends GraphControllerV3 {
         this.scrollingContainer.style.height = "calc(100%)";
         this.scrollingContainer.style.minWidth = "600px";
 
+
         this.graphEl.appendChild(this.scrollingContainer);
+
+        // console.log(this.group.data.grouped[this.index][0].year);
+
+        this.yearHeader = new HTMLYear(this,this.graphEl)
 
     }
 
@@ -127,10 +137,10 @@ export class ReconciliatieByYearV2 extends GraphControllerV3 {
     async draw(data: any) {
 
         if (this.graphEl != null) this.graphEl.style.height = (data.slice.length * 60).toString() + 'px';
-
-        // await this.grid.draw(data)
         await this.chartBar.draw(data.slice);
         await this.zeroLine.draw(data.slice);
+
+        this.yearHeader.draw(data.slice[0].meta.year)
     }
 
 

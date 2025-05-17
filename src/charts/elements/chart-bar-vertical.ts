@@ -2,7 +2,7 @@ import { slugify, thousands } from '@local/d3-services';
 import { Dimensions } from '@local/d3_types';
 import { Bars } from '@local/d3_types';
 import { colourArray, colours} from "@local/styleguide";
-import { IGraphControllerV3 } from '../core/graph-v3';
+import { IGraphControllerV3 } from '../../../../regenton/svelte/src/lib/datavis/core/graph-v3';
 
 
 const groupHeight = 320;
